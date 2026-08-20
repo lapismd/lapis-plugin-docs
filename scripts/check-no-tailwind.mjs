@@ -62,11 +62,11 @@ for (const file of await svelteFiles(sourceRoot)) {
 }
 
 if (findings.length) {
-  console.error("Tailwind utilities remain in Tasks component sources:");
+  console.error("Tailwind utilities remain in Docs component sources:");
   for (const finding of findings) {
     console.error(`- ${finding.file}:${finding.line} ${finding.token}`);
   }
   process.exitCode = 1;
 } else {
-  console.log("No Tailwind utilities found in Tasks component sources.");
+  console.log("No Tailwind utilities found in Docs component sources.");
 }
