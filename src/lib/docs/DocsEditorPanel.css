@@ -1,0 +1,295 @@
+  .docs-editor {
+    display: flex;
+    max-width: none;
+    flex-direction: column;
+    padding-top: 0.1rem;
+  }
+
+  .docs-form {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0;
+    font-size: 0.875rem;
+  }
+
+  .docs-form .cv-form-field:has(.chip-autocomplete) {
+    padding-block: 0.35rem;
+  }
+
+  .docs-form .cv-form-field:has(.chip-autocomplete) > span {
+    padding-top: 0.45rem;
+  }
+
+  .docs-form .cv-form-field:has(.cvstudio-code-editor) {
+    align-items: stretch;
+  }
+
+  .docs-form .cv-form-field:has(.cvstudio-code-editor) > span {
+    padding-top: 0.75rem;
+  }
+
+  .docs-form .cv-form-field:has(.cvstudio-code-editor) .cv-form-field-control {
+    padding-block: 0.45rem;
+  }
+
+  .docs-block-fields > .cv-form-field:has(.docs-block-markdown-editor) {
+    align-items: stretch;
+    padding: 0.55rem 0.65rem 0.7rem 0;
+    box-sizing: border-box;
+  }
+
+  .docs-block-fields > .cv-form-field:has(.docs-block-markdown-editor) > span {
+    padding-top: 0.9rem;
+  }
+
+  .docs-form .cv-form-section-toggle {
+    top: calc(50% - 0.5px);
+  }
+
+  .docs-properties {
+    margin-bottom: 0.35rem;
+  }
+
+  .docs-properties-header {
+    min-width: 0;
+    padding: 0.28rem 0 0.28rem 2.5rem;
+  }
+
+  .docs-properties-header .cv-form-section-title-row {
+    min-width: 0;
+    min-height: 1.5rem;
+    align-items: center;
+  }
+
+  .docs-properties-header textarea.docs-properties-title {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    min-height: 1.5rem;
+    padding-block: 0;
+    color: var(--foreground, #111);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .docs-properties-fields {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--cv-control-column-gap, 1rem);
+    row-gap: 0;
+    margin-left: 2.5rem;
+    padding-left: 1rem;
+  }
+
+  .docs-properties-fields > .cv-form-field,
+  .docs-block-fields > .cv-form-field {
+    grid-column: 1 / -1;
+  }
+
+  @supports (grid-template-columns: subgrid) {
+    .docs-properties-fields > .cv-form-field,
+    .docs-block-fields > .cv-form-field {
+      grid-template-columns: subgrid;
+      column-gap: var(--cv-control-column-gap, 1rem);
+    }
+  }
+
+  .docs-blocks {
+    display: grid;
+    min-width: 0;
+    gap: 1rem;
+    padding: 0.75rem 0 0.35rem 2.5rem;
+  }
+
+  .docs-block-editor {
+    position: relative;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .docs-block-editor .cv-form-section-header {
+    overflow: visible;
+  }
+
+  .docs-block-editor .cv-form-section-title-row {
+    min-height: 1.5rem;
+    align-items: center;
+  }
+
+  .docs-block-editor .cv-form-section-title-row textarea {
+    min-height: 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .docs-block-editor .cv-form-section-actions {
+    align-self: flex-start;
+  }
+
+  .docs-block-fields {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    min-width: 0;
+    column-gap: var(--cv-control-column-gap, 1rem);
+    row-gap: 0;
+    padding: 0.45rem 0 0 1rem;
+  }
+
+  .docs-block-type-badge {
+    display: inline-flex;
+    min-height: 1.2rem;
+    align-items: center;
+    align-self: flex-start;
+    border: 1px solid var(--cv-form-border, var(--kanban-border, var(--border)));
+    border-radius: 0.28rem;
+    color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+    font-size: 0.62rem;
+    font-weight: 650;
+    line-height: 1;
+    margin-top: 0.18rem;
+    padding: 0 0.42rem;
+  }
+
+  .docs-form input,
+  .docs-form textarea {
+    min-width: 0;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 1.45;
+    resize: none;
+  }
+
+  .docs-resource-items {
+    display: grid;
+    min-width: 0;
+    gap: 0.65rem;
+    padding-block: 0.45rem;
+  }
+
+  .docs-resource-item-fields {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+    row-gap: 0;
+  }
+
+  .docs-resource-item-field {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    align-items: start;
+    column-gap: 0.75rem;
+    border-bottom: 1px solid var(--cv-form-border, var(--kanban-border, var(--border)));
+  }
+
+  .docs-resource-item-field > span {
+    color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding-top: 0.42rem;
+  }
+
+  .docs-resource-item-field--notes {
+    grid-column: 1 / -1;
+  }
+
+  .docs-resource-add {
+    display: inline-flex;
+    width: fit-content;
+    min-height: 1.95rem;
+    align-items: center;
+    gap: 0.38rem;
+    border: 1px solid var(--cv-form-border, var(--kanban-border, var(--border)));
+    border-radius: 0.35rem;
+    background: transparent;
+    color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0 0.6rem;
+  }
+
+  .docs-resource-add:hover,
+  .docs-resource-add:focus-visible {
+    color: var(--cv-form-foreground, var(--kanban-foreground, var(--foreground)));
+    outline: 0;
+  }
+
+  .docs-resource-add :global(svg) {
+    width: 0.82rem;
+    height: 0.82rem;
+  }
+
+  .docs-block-markdown-editor {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .docs-block-markdown-editor .application-markdown-editor {
+    --editor-content-surface: var(--editor-pane);
+    --editor-tab-active: var(--editor-pane);
+  }
+
+  .docs-block-fields .docs-block-markdown-editor .carta-toolbar,
+  .docs-block-fields .docs-block-markdown-editor .carta-wrapper,
+  .docs-block-fields .docs-block-markdown-editor .carta-container {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .docs-markdown-editor {
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+    padding: 0.35rem 0 0.75rem;
+  }
+
+  .docs-markdown-editor .application-markdown-editor {
+    --editor-content-surface: var(--editor-pane);
+    --editor-tab-active: var(--editor-pane);
+  }
+
+  .docs-markdown-editor .carta-toolbar-left button.carta-active {
+    border-bottom-color: var(--editor-pane);
+    background: var(--editor-pane);
+    box-shadow: none;
+  }
+
+  .docs-markdown-editor .carta-toolbar-left button.carta-active::after {
+    background: var(--editor-pane);
+    content: none;
+  }
+
+  .docs-markdown-editor .application-markdown-editor,
+  .docs-markdown-editor .carta-editor,
+  .docs-markdown-editor .carta-container,
+  .docs-markdown-editor .carta-wrapper,
+  .docs-markdown-editor .carta-toolbar {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .docs-markdown-editor .carta-toolbar,
+  .docs-markdown-editor .carta-toolbar-right {
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 720px) {
+    .docs-resource-item-fields {
+      grid-template-columns: 1fr;
+    }
+
+    .docs-resource-item-field {
+      grid-template-columns: 1fr;
+      row-gap: 0.1rem;
+    }
+  }

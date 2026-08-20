@@ -1,4 +1,5 @@
 import type { App } from "@lapis-notes/api";
+import { isDocsDocumentPath } from "./docs-path";
 import {
   docsNoteToMarkdown,
   parseDocsNoteMarkdownFile,
@@ -36,14 +37,16 @@ export function createVaultDocsFileStore(app: App): DocsFileStore {
     async listMarkdown(root) {
       const prefix = root.replace(/^\/+|\/+$/g, "");
       return app.vault
-        .getMarkdownFiles()
+        .getFiles()
         .map((file) => file.path)
-        .filter(
-          (path) =>
-            path === `${prefix}.md` ||
+        .filter((path) => {
+          if (!isDocsDocumentPath(path)) return false;
+          return (
+            path === `${prefix}.doc.md` ||
             path.startsWith(`${prefix}/`) ||
-            (!prefix && path.endsWith(".md")),
-        )
+            !prefix
+          );
+        })
         .sort();
     },
   };

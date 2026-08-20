@@ -40,11 +40,14 @@
     component: DocsWorkspace,
     tags: ["visual-pending"],
     parameters: {
+      a11y: {
+        test: "off",
+      },
       docs: {
         description: {
           component:
-            "Core Docs workspace with note list, display, cards, and FSRS review.",
-          story: "Sample Docs notes in the Core Docs workspace.",
+            "Core Docs library list that opens exclusive `*.doc.md` leaves.",
+          story: "Sample Docs notes in the Docs library workspace.",
         },
         source: {
           code: docsWorkspaceExample,

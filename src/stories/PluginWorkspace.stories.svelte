@@ -85,3 +85,43 @@
     </div>
   {/snippet}
 </Story>
+
+<Story
+  name="Document File"
+  args={{ displayMode: "desktop" }}
+  parameters={{
+    docs: {
+      description: {
+        story:
+          "Open a seeded `*.doc.md` file and assert the exclusive `docs-document` TextFileView owns the leaf.",
+      },
+    },
+  }}
+  play={async ({ canvasElement }) => {
+    canvasElement.style.height = "100%";
+    canvasElement.style.maxHeight = "100%";
+    canvasElement.style.overflow = "hidden";
+    await waitForReady(canvasElement);
+    const app = storyApp(canvasElement);
+    const path = "docs/sample-docs/sample-docs-schema-harness.doc.md";
+    expect(app.vault.getFileByPath(path)?.path).toBe(path);
+    expect(app.workspace.determineViewTypeForPath(path)).toBe("docs-document");
+    const leaf = app.workspace.getLeaf(true);
+    await leaf.setViewState({
+      type: "docs-document",
+      state: { file: path },
+      active: true,
+    });
+    await waitFor(() => {
+      expect(leaf.view.getViewType()).toBe("docs-document");
+    });
+  }}
+>
+  {#snippet template(args)}
+    <div class="docs-story-shell-stage">
+      <div class="docs-story-shell-stage__surface">
+        <PluginWorkspaceDemo displayMode={args.displayMode} />
+      </div>
+    </div>
+  {/snippet}
+</Story>

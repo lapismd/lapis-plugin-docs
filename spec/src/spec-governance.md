@@ -15,3 +15,10 @@
 | LPD-SPEC-009 | Repository validation MUST compare every SUMMARY chapter with an exact metadata-only Storybook mirror. |
 | LPD-SPEC-010 | Canonical plugin chapters and stories MUST use the `Plugins/Docs` hierarchy. |
 | LPD-SPEC-011 | Tracked agent guidance MUST require preserving unrelated work, committing every independently verified change with Jujutsu without waiting for another request, and using a PR-quality message that explains what changed, why it changed, and which validation passed. |
+
+## Spec-first mapping notes
+
+Protected Docs runtime and package-governance paths map through
+`spec-validator.config.mjs`. Changes to that config, `PROVENANCE.md`, and
+related governance files MUST keep this chapter in the same change so the
+spec-first gate remains fail-closed for `*.doc.md` file-view work.

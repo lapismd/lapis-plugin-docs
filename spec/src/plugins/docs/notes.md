@@ -11,4 +11,4 @@ structured blocks, freeform body text, cards, tags, aliases, and book metadata.
 | LN-DOC-014 | Notes MUST round-trip through Docs parse and serialize helpers while preserving supported front-matter fields and body Markdown. |
 | LN-DOC-015 | Books MUST derive chapter navigation from index notes that declare `book.chapters`. Chapter next and previous MUST resolve from that order. |
 | LN-DOC-016 | Wiki links, backlinks, and tags MUST be derived from note content and front matter through the Docs graph helpers. |
-| LN-DOC-017 | Package fixtures MUST ship only Core Docs sample notes. Production vault corpora MUST NOT be packaged. |
+| LN-DOC-017 | Package fixtures MUST ship only Core Docs sample notes as `*.doc.md` paths under `docs/`. Production vault corpora MUST NOT be packaged. |

@@ -94,12 +94,12 @@ export default defineConfig(tableRequirements(), {
         },
         {
           pattern:
-            "^(?:src/lib/(?:docs-plugin|docs-view|docs-cards-view|docs-review-view|docs-settings|docs-settings-tab|docs-repository|docs-index)\\.|src/lib/docs-workspace\\.svelte$|src/lib/docs/)",
+            "^(?:src/lib/(?:docs-plugin|docs-view|docs-cards-view|docs-review-view|docs-document-view|docs-document-workspace|docs-path|docs-settings|docs-settings-tab|docs-repository|docs-index)\\.|src/lib/docs-workspace\\.svelte$|src/lib/docs/)",
           chapters: ["spec/src/plugins/docs/runtime.md"],
         },
         {
           pattern:
-            "^(?:package\\.json$|manifest\\.json$|\\.storybook/|src/(?!lib/model/|lib/docs-plugin\\.|lib/docs-view\\.|lib/docs-cards-view\\.|lib/docs-review-view\\.|lib/docs-settings|lib/docs-repository\\.|lib/docs-index\\.|lib/docs-workspace\\.svelte$|lib/docs/))",
+            "^(?:package\\.json$|manifest\\.json$|\\.storybook/|src/(?!lib/model/|lib/docs-plugin\\.|lib/docs-view\\.|lib/docs-cards-view\\.|lib/docs-review-view\\.|lib/docs-document-view\\.|lib/docs-document-workspace\\.|lib/docs-path\\.|lib/docs-settings|lib/docs-repository\\.|lib/docs-index\\.|lib/docs-workspace\\.svelte$|lib/docs/))",
           chapters: ["spec/src/plugins/docs/index.md"],
         },
         {

@@ -28,7 +28,7 @@ export function createDocsProjectionRegistration(
     visibility: "public",
     fields: DOCS_NOTE_PROJECTION_FIELDS,
     source: {
-      extensions: ["md", "markdown"],
+      extensions: ["doc.md"],
       pathPrefix: root,
     },
     project({ file, content }) {

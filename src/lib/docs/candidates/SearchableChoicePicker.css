@@ -1,0 +1,161 @@
+.cv-searchable-choice-picker {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.cv-searchable-choice-trigger {
+  display: inline-flex;
+  min-height: 1.65rem;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.35rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--cv-form-foreground, var(--kanban-foreground, var(--foreground)));
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  outline: 0;
+  padding: 0.45rem 0;
+  text-align: left;
+}
+
+.cv-searchable-choice-trigger:hover,
+.cv-searchable-choice-trigger:focus-visible,
+.cv-searchable-choice-trigger[aria-expanded="true"] {
+  color: var(--cv-form-foreground, var(--kanban-foreground, var(--foreground)));
+  outline: 0;
+}
+
+.cv-searchable-choice-trigger.is-placeholder {
+  color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+}
+
+.cv-searchable-choice-trigger :global(svg) {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: 0 0 auto;
+  color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+}
+
+.cv-searchable-choice-trigger-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cv-searchable-choice-popover {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  z-index: 40;
+  width: min(18rem, 80vw);
+}
+
+.cv-searchable-choice-command {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--cv-form-border, var(--kanban-border, var(--border)));
+  border-radius: 0.45rem;
+  background: var(--cv-form-popover, var(--kanban-card, var(--popover)));
+  box-shadow: 0 1rem 2rem
+    var(--cv-form-shadow, var(--kanban-shadow, rgb(15 23 42 / 12%)));
+}
+
+.cv-searchable-choice-command-input-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--cv-form-border, var(--kanban-border, var(--border)));
+  color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+  padding: 0.35rem 0.5rem;
+}
+
+.cv-searchable-choice-command-input-row svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: 0 0 auto;
+}
+
+.cv-searchable-choice-command-input {
+  min-width: 0;
+  flex: 1 1 auto;
+  border: 0;
+  background: transparent;
+  color: var(--cv-form-foreground, var(--kanban-foreground, var(--foreground)));
+  font: inherit;
+  font-size: 0.8rem;
+  outline: 0;
+  padding: 0;
+}
+
+.cv-searchable-choice-command-input::placeholder {
+  color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+}
+
+.cv-searchable-choice-command-list {
+  max-height: 14rem;
+  overflow: auto;
+  outline: 0;
+}
+
+.cv-searchable-choice-command-group {
+  display: grid;
+  min-width: 0;
+}
+
+.cv-searchable-choice-command-item {
+  display: grid;
+  min-width: 0;
+  gap: 0.1rem;
+  border-bottom: 1px solid var(--cv-form-border, var(--kanban-border, var(--border)));
+  color: inherit;
+  cursor: pointer;
+  padding: 0.45rem 0.55rem;
+  text-align: left;
+  outline: 0;
+}
+
+.cv-searchable-choice-command-item:last-child {
+  border-bottom: 0;
+}
+
+.cv-searchable-choice-command-item:hover,
+.cv-searchable-choice-command-item:focus-visible,
+.cv-searchable-choice-command-item[data-selected] {
+  background: var(
+    --cv-form-selection,
+    color-mix(in srgb, var(--card-color, var(--primary)) 9%, transparent)
+  );
+  outline: 0;
+}
+
+.cv-searchable-choice-command-item.is-active {
+  color: var(--card-color, var(--primary));
+}
+
+.cv-searchable-choice-option-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.cv-searchable-choice-option-value {
+  color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+  font-size: 0.74rem;
+}
+
+.cv-searchable-choice-create-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.cv-searchable-choice-empty {
+  padding: 0.45rem 0.55rem;
+  color: var(--cv-form-muted, var(--kanban-muted, var(--muted-foreground)));
+  font-size: 0.8rem;
+}

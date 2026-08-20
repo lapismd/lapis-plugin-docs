@@ -134,6 +134,15 @@
                 onclick={() => {
                   selectedId = note.id;
                   flipped = false;
+                  if (note.sourcePath) {
+                    const file = app.vault.getFileByPath(note.sourcePath);
+                    if (file) {
+                      const leaf = app.workspace.getLeaf("tab");
+                      void leaf.openFile(file).then(() => {
+                        app.workspace.setActiveLeaf(leaf, { focus: true });
+                      });
+                    }
+                  }
                 }}
               >
                 <span class="docs-workspace__note-title">{note.title}</span>

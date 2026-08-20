@@ -30,12 +30,15 @@
 | LN-DOC-015 | Implemented | Book helpers and sample index note declare chapter order. |
 | LN-DOC-016 | Implemented | Graph helpers extract wiki links, backlinks, and tags. |
 | LN-DOC-017 | Implemented | `sample.ts` ships fixtures only; vault corpus is not packaged. |
-| LN-DOC-018 | Implemented | `docs-index` registers `docs/note` with docs-root filtering. |
+| LN-DOC-018 | Implemented | `docs-index` registers `docs/note` for `doc.md` under the docs root. |
 | LN-DOC-019 | Implemented | View types and commands are registered in `DocsPlugin`. |
-| LN-DOC-020 | Implemented | Docs workspace display uses Mira MarkdownPreview. |
+| LN-DOC-020 | Implemented | `DocsDocumentView` mounts Docs rich display; block Markdown uses Mira preview. |
 | LN-DOC-021 | Implemented | Review flow writes FSRS updates through the docs repository. |
-| LN-DOC-022 | Implemented | `Plugins/Docs/Shell` seeds sample notes and opens the docs leaf. |
-| LN-DOC-023 | Implemented | Cards UI filters to basic and cloze. |
+| LN-DOC-022 | Implemented | `Plugins/Docs/Shell` seeds `*.doc.md` fixtures and covers library plus document leaves. |
+| LN-DOC-023 | Implemented | Cards UI filters to basic and cloze; FlipCardDeck drives review stacks. |
 | LN-DOC-024 | Implemented | `fsrs.ts` and review constants cover queue and ratings. |
 | LN-DOC-025 | Implemented | Cards and review views mount workspace-filling panels. |
-| LN-DOC-026 | Implemented | Card stack motion and flip card live under `src/lib/docs/` with candidate markers. |
+| LN-DOC-026 | Implemented | FlipCardDeck and related candidates live under `src/lib/docs/candidates/`. |
+| LN-DOC-027 | Implemented | `registerExtensions(["doc.md"])` and exclusive `*.doc.md` editor view. |
+| LN-DOC-028 | Implemented | `DocsDocumentView` extends `TextFileView` with debounced vault writes. |
+| LN-DOC-029 | Implemented | `DocsEditorPanel` remaps to design-core forms; missing controls are candidates. |

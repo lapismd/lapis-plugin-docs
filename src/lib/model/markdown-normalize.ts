@@ -848,7 +848,7 @@ export function createDocsNote(
     })(),
     createdAt: input.createdAt ?? timestamp,
     updatedAt: input.updatedAt ?? timestamp,
-    sourcePath: `docs/${id}.md`,
+    sourcePath: `docs/${id}.doc.md`,
   };
 }
 

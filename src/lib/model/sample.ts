@@ -32,7 +32,8 @@ export const SAMPLE_DOCS_CHAPTER_IDS = [
 ] as const satisfies ReadonlyArray<(typeof SAMPLE_DOCS_NOTE_IDS)[number]>;
 
 function sourcePath(id: (typeof SAMPLE_DOCS_NOTE_IDS)[number]) {
-  const filename = id === SAMPLE_DOCS_BOOK_INDEX_ID ? "index.md" : `${id}.md`;
+  const filename =
+    id === SAMPLE_DOCS_BOOK_INDEX_ID ? "index.doc.md" : `${id}.doc.md`;
   return `docs/${SAMPLE_DOCS_BOOK_FOLDER}/${filename}`;
 }
 

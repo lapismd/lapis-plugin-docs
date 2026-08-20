@@ -1,3 +1,12 @@
+export {
+  DOCS_DOCUMENT_VIEW_TYPE,
+  DOCS_EXTENSIONS,
+  DOCS_FILE_GLOB,
+  DOCS_FILENAME_PATTERNS,
+  docsDocumentExtension,
+  isDocsDocumentPath,
+} from "./docs-path";
+export { DocsDocumentView } from "./docs-document-view";
 export { DocsPlugin, DOCS_PLUGIN_ID, default } from "./docs-plugin";
 export {
   DOCS_VIEW_TYPE,

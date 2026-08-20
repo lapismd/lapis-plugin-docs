@@ -1,0 +1,61 @@
+  .docs-link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 0.45rem;
+  }
+
+  .docs-links-panel {
+    max-width: 64rem;
+    margin-top: 1.25rem;
+  }
+
+  .docs-link-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.2rem;
+    border: 0;
+    border-radius: 0.35rem;
+    background: transparent;
+    color: inherit;
+    cursor: default;
+    font: inherit;
+    text-align: left;
+    padding: 0.5rem;
+  }
+
+  .docs-link-card:has(.docs-link-card__target:hover),
+  .docs-link-card:has(.docs-link-card__target:focus-visible) {
+    background: var(--docs-subtle);
+  }
+
+  .docs-link-card__target {
+    display: inline-flex;
+    width: fit-content;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    padding: 0;
+  }
+
+  .docs-link-card__target:hover,
+  .docs-link-card__target:focus-visible {
+    outline: 0;
+  }
+
+  .docs-link-card .application-markdown-preview {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 0.82rem;
+  }
+
+  .docs-link-card .application-markdown-preview :is(.carta-renderer, .carta-viewer) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }

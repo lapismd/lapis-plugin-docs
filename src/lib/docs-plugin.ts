@@ -5,6 +5,12 @@ import {
   type WorkspaceLeaf,
 } from "@lapis-notes/api";
 import { createDocsProjectionRegistration } from "./docs-index";
+import { DocsDocumentView } from "./docs-document-view";
+import {
+  DOCS_DOCUMENT_VIEW_TYPE,
+  DOCS_EXTENSIONS,
+  DOCS_FILENAME_PATTERNS,
+} from "./docs-path";
 import { DocsRepository, createVaultDocsFileStore } from "./docs-repository";
 import {
   cloneDocsPluginSettings,
@@ -56,6 +62,11 @@ export class DocsPlugin extends Plugin {
         }),
     );
     this.registerView(
+      DOCS_DOCUMENT_VIEW_TYPE,
+      (leaf: WorkspaceLeaf) =>
+        new DocsDocumentView(leaf, this.repository, () => this.clock()),
+    );
+    this.registerView(
       DOCS_CARDS_VIEW_TYPE,
       (leaf: WorkspaceLeaf) =>
         new DocsCardsView(leaf, this.repository, () => this.clock(), {
@@ -71,6 +82,14 @@ export class DocsPlugin extends Plugin {
           subscribe: (listener) => this.subscribeSettings(listener),
         }),
     );
+    this.registerEditorView({
+      id: DOCS_DOCUMENT_VIEW_TYPE,
+      viewType: DOCS_DOCUMENT_VIEW_TYPE,
+      label: "Docs",
+      filenamePatterns: [...DOCS_FILENAME_PATTERNS],
+      priority: "exclusive",
+    });
+    this.registerExtensions([...DOCS_EXTENSIONS], DOCS_DOCUMENT_VIEW_TYPE);
     this.addCommand({
       id: "open",
       name: "Open docs",
