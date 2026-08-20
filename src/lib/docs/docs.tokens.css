@@ -1,0 +1,13 @@
+/* DESIGN_CORE_CANDIDATE: Docs domain tokens. Prefer shared design-core docs
+ * family when one exists. */
+:root,
+[data-ui-theme] {
+  --ui-docs-background: var(--ui-background, #fff);
+  --ui-docs-foreground: var(--ui-foreground, #111);
+  --ui-docs-muted: var(--ui-muted, #f4f4f5);
+  --ui-docs-muted-foreground: var(--ui-muted-foreground, #71717a);
+  --ui-docs-border: var(--ui-border, #e4e4e7);
+  --ui-docs-accent: var(--ui-primary, #2563eb);
+  --ui-docs-radius: var(--ui-radius, 0.5rem);
+  --ui-docs-card: var(--ui-card, #fff);
+}

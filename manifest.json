@@ -1,0 +1,11 @@
+{
+  "id": "docs",
+  "name": "Docs",
+  "version": "0.1.0",
+  "minAppVersion": "0.0.1",
+  "description": "Vault-native Docs notes, books, cards, and FSRS review.",
+  "author": "Lapis Notes",
+  "distribution": "first-party-external",
+  "provenance": "official",
+  "enabledByDefault": true
+}

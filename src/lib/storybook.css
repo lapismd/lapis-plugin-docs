@@ -1,0 +1,52 @@
+body.sb-main-fullscreen #storybook-root {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 1.5rem;
+}
+
+.docs-story {
+  overflow: visible !important;
+}
+
+.docs-story .sb-story {
+  box-sizing: border-box;
+  padding: 1rem 2.5rem;
+}
+
+.docs-story-frame {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 24rem;
+  overflow: hidden;
+  border: 1px solid var(--ui-docs-border);
+  border-radius: var(--ui-docs-radius);
+  background: var(--ui-docs-background);
+}
+
+body.sb-main-fullscreen #storybook-root:has(.docs-story-shell-stage) {
+  padding: 0;
+}
+
+.docs-story-shell-stage {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 70rem;
+  height: 100vh;
+  min-height: 42rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  background: var(--ui-docs-muted);
+}
+
+.docs-story-shell-stage__surface {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--ui-docs-border);
+  border-radius: var(--ui-docs-radius);
+  background: var(--ui-docs-background);
+}
