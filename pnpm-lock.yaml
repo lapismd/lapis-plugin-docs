@@ -34,6 +34,9 @@ importers:
 
   .:
     dependencies:
+      '@internationalized/date':
+        specifier: 3.12.2
+        version: 3.12.2
       '@lapis-notes/api':
         specifier: link:../lapis-notes/packages/api
         version: link:../lapis-notes/packages/api

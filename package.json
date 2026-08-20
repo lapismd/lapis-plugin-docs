@@ -58,6 +58,7 @@
     "./styles.css": "./dist/styles.css"
   },
   "dependencies": {
+    "@internationalized/date": "3.12.2",
     "@lucide/svelte": "^0.523.0",
     "ts-fsrs": "^5.4.1",
     "yaml": "^2.9.0"
