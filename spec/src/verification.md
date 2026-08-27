@@ -6,7 +6,7 @@
 | LPD-SPEC-002 | Implemented | `pnpm spec:first` maps protected changes to canonical chapters. |
 | LPD-SPEC-003 | Implemented | `pnpm spec:validate` enforces unique definitions and one verification row per ID. |
 | LPD-SPEC-004 | Implemented | Manifest validation rejects non-portable protocols; `@lapismd/spec-validator` resolves from npm as root validation tooling. |
-| LPD-SPEC-005 | Implemented | `pnpm-workspace.yaml` uses runtime sibling `link:` overrides, omits the published validator override, and pins CodeMirror and Lezer; the package is the only workspace member. |
+| LPD-SPEC-005 | Implemented | `pnpm-workspace.yaml` keeps unpublished first-party host packages development-only, omits the published validator override, and pins CodeMirror and Lezer; the package is the only workspace member. |
 | LPD-SPEC-006 | Implemented | Package scripts and supervisor smoke checks cover the checkout-owned 7040 lane. |
 | LPD-SPEC-007 | Implemented | `AGENTS.md` defines App ownership and the required source audit. |
 | LPD-SPEC-008 | Implemented | The repository taxonomy audit covers every story title under `Plugins/Docs`. |
