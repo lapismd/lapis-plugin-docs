@@ -22,3 +22,9 @@ Protected Docs runtime and package-governance paths map through
 `spec-validator.config.mjs`. Changes to that config, `PROVENANCE.md`, and
 related governance files MUST keep this chapter in the same change so the
 spec-first gate remains fail-closed for `*.doc.md` file-view work.
+
+The shared `@lapismd/spec-validator` package is repository validation tooling,
+not a runtime sibling. Once published, it MUST resolve from npm through the root
+development dependency instead of a `link:`-valued workspace override; this
+exception does not weaken source-first validation for runtime Lapis, Design
+Core, or Mira siblings.
