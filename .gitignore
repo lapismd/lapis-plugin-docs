@@ -9,3 +9,5 @@ AGENTS.override.md
 .cursor/
 *.tgz
 *.tsbuildinfo
+target/
+.local/

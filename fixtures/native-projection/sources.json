@@ -1,0 +1,50 @@
+{
+  "docsRevision": "506ad1450d92aa20be9b12a3223ec456625f4f22",
+  "sourceFiles": {
+    "src/lib/model/book.ts": "c771a84fde70d9c2bf140cc82aa431c14439fd705797078b943246f12bf0f0e6",
+    "src/lib/model/coding-runtime.ts": "ad2b3f9bca0bdc7f6b8788a3744e07ebbccaea96e4de6ffd734e277a687b61e1",
+    "src/lib/model/docs-card-context.ts": "c29af395c85efd236f9ebed31312a5e11afc167544feb6e6258c4d7210af86cb",
+    "src/lib/model/docs-card-preview-stack-motion.ts": "da915a2c77fc084c061738e39b79a1c61748219bd08e3e52d3dda3eb2a1e5d0c",
+    "src/lib/model/docs-media-context.ts": "010ba624782f6aad621528b4e6d487073ab3196fd42e24ebd3ecba8990f0672e",
+    "src/lib/model/docs-note-list.ts": "f159a95b2a22090e34a9097ac16c2221782dc2a875c129df90f7d060f77501d3",
+    "src/lib/model/docs-relative-media.ts": "9505c9dbb5f47bc4ec99042d7b151ba10ab4eb6bdbd8fff6ccb551159ce9102b",
+    "src/lib/model/docs-review-constants.ts": "20940aac1c7d7113f7b2240c9e4ae3cadc541a74b4da8fafa3c3d27a2184f080",
+    "src/lib/model/fsrs.ts": "652bc0c706fa80de3d0d7e1d53438aa2b1fd54a64205c47ac05fece91c6a941e",
+    "src/lib/model/graph.ts": "55c161dee2536ab6b04fb9bf41ad139d08a66c0f34b0164512c15ea3d364a749",
+    "src/lib/model/index.ts": "3f9955fe9d471fa1d84e1d52faf878fe9c8aee5061513dcd2f97ec5d77ce7dbd",
+    "src/lib/model/markdown-normalize.ts": "e37e475eddb03be7b0167a0ed6b480946dab91f2feae929207a598ded55e48e5",
+    "src/lib/model/markdown.ts": "7a265c1e76c8411ba0f271ec5c37ebb2d82547ff77384e9cbda4b904e8b12c58",
+    "src/lib/model/reference-utils.ts": "cd7452900478d66920bd54791941f3fa6433b62af8b37af6fa7209b88b50115d",
+    "src/lib/model/sample.ts": "1a4afc647ab20410eaf1a54699b1ecbb332d275353914f8e6617c3ad727b46bf",
+    "src/lib/model/types.ts": "a47700bb61efa68e07643bdda0a7a8fb3907ace378efc1e154f7b822492f4f2f",
+    "src/lib/model/workspace.ts": "25dffbc7105a0e2423c34087d67e778dca3c66262ca98ef804ee87e8ce6ef0c9",
+    "src/lib/docs-index.ts": "2154f1bb96799cd24ff643a4a58efd2ac55593892eb63a9343b596542b92b01d",
+    "src/lib/docs-settings.ts": "2c7a8be37f8eb4042993a2555699652a08bebe96bf32713249b87a424184f01d"
+  },
+  "retainedHost": {
+    "path": "lapis-notes/packages/api/src/lib/storage/index-projection.ts",
+    "sha256": "666e920aa14c23e7de70edd4a5c4c2618a02510ee81ffec579f4ee9ab03dc250"
+  },
+  "dependencies": {
+    "yaml": "2.9.0",
+    "ts-fsrs": "5.4.1",
+    "svelte": "5.56.9",
+    "esbuild": "0.28.2"
+  },
+  "workerImage": "lapis-desktop-validation:full-8e59d9ea7b2bb4c60578",
+  "workerImageId": "sha256:39e7e95f636c78e694e029afa8da77177d19226ec7fe4fe61e8d841b0a83b98a",
+  "resourceLimit": {
+    "cpus": 4,
+    "memoryGiB": 12,
+    "workers": 1
+  },
+  "retainedHostError": {
+    "path": "lapis-notes/packages/api/src/lib/cache.svelte.ts",
+    "sha256": "7aa9207eda939b4a58fafb926eb423670e142fa06dfcb2f20ebab97eb9cbe937",
+    "publishedError": "error instanceof Error ? error.message : String(error)"
+  },
+  "workerInputs": {
+    "worker-package.json": "b3f027618b0be8378efd87c987a24f8aa0b756c4b44728b8bf7241e3e14b6f53",
+    "worker-pnpm-lock.yaml": "fc047c35464d88246739455f37f71c02747ebd5c0c0642e8cf5a4b5d405e73ab"
+  }
+}

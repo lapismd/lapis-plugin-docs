@@ -79,7 +79,13 @@ export default defineConfig(tableRequirements(), {
       ],
       rules: [
         {
-          pattern: "^src/lib/model/(?:types|markdown|markdown-normalize|sample|index)\\.",
+          pattern:
+            "^(?:crates/|scripts/native-projection/|fixtures/native-projection/|NATIVE-PROJECTION\\.md$)",
+          chapters: ["spec/src/plugins/docs/runtime.md"],
+        },
+        {
+          pattern:
+            "^src/lib/model/(?:types|markdown|markdown-normalize|sample|index)\\.",
           chapters: ["spec/src/plugins/docs/notes.md"],
         },
         {
@@ -104,12 +110,12 @@ export default defineConfig(tableRequirements(), {
         },
         {
           pattern:
-            "^(?:pnpm-|scripts/|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$|README\\.md$)",
+            "^(?:pnpm-|scripts/|\\.gitignore$|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$|README\\.md$)",
           chapters: ["spec/src/spec-governance.md"],
         },
       ],
       protected: [
-        "^(?:package\\.json$|manifest\\.json$|src/|\\.storybook/|pnpm-|scripts/|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$)",
+        "^(?:package\\.json$|manifest\\.json$|src/|crates/|fixtures/native-projection/|NATIVE-PROJECTION\\.md$|\\.storybook/|pnpm-|scripts/|\\.gitignore$|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$)",
       ],
     },
   },

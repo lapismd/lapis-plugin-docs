@@ -1,0 +1,15 @@
+{
+  "name": "lapis-docs-projection-oracle-worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.32.1",
+  "dependencies": {
+    "yaml": "2.9.0",
+    "ts-fsrs": "5.4.1",
+    "svelte": "5.56.9",
+    "esbuild": "0.28.2",
+    "@lapismd/spec-validator": "0.1.0",
+    "prettier": "3.6.2"
+  }
+}

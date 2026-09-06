@@ -1,0 +1,41 @@
+[
+  {
+    "adaptation": "YAML rejection/source location retained; parser-native prose",
+    "id": "frontmatter-malformed-yaml",
+    "native": {
+      "message": "while parsing a flow sequence, expected ',' or ']' at byte 14 line 2 column 1"
+    },
+    "original": {
+      "code": "BAD_INDENT",
+      "message": "Flow sequence in block collection must be sufficiently indented and end with a ] at line 1, column 15:\n\ntitle: [broken\n              ^\n",
+      "name": "YAMLParseError",
+      "string": "YAMLParseError: Flow sequence in block collection must be sufficiently indented and end with a ] at line 1, column 15:\n\ntitle: [broken\n              ^\n"
+    }
+  },
+  {
+    "adaptation": "YAML rejection/source location retained; parser-native prose",
+    "id": "frontmatter-duplicate-yaml",
+    "native": {
+      "message": "duplicated key in mapping at byte 10 line 2 column 1"
+    },
+    "original": {
+      "code": "DUPLICATE_KEY",
+      "message": "Map keys must be unique at line 2, column 1:\n\nid: first\nid: second\n^\n",
+      "name": "YAMLParseError",
+      "string": "YAMLParseError: Map keys must be unique at line 2, column 1:\n\nid: first\nid: second\n^\n"
+    }
+  },
+  {
+    "adaptation": "YAML rejection/source location retained; parser-native prose",
+    "id": "frontmatter-yaml-multi-document",
+    "native": {
+      "message": "Source contains multiple YAML documents at line 3, column 1"
+    },
+    "original": {
+      "code": "MULTIPLE_DOCS",
+      "message": "Source contains multiple documents; please use YAML.parseAllDocuments() at line 3, column 1:\n\n...\nid: second\n^^^^^^^^^^\n",
+      "name": "YAMLParseError",
+      "string": "YAMLParseError: Source contains multiple documents; please use YAML.parseAllDocuments() at line 3, column 1:\n\n...\nid: second\n^^^^^^^^^^\n"
+    }
+  }
+]
