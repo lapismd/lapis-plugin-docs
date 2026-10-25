@@ -103,10 +103,14 @@ const config: StorybookConfig = {
       },
       esbuild: { target: "esnext" },
       optimizeDeps: {
-        exclude: ["@storybook/svelte"],
+        noDiscovery: true,
+        exclude: ["@storybook/svelte", ...linkedSiblingPackages],
         esbuildOptions: { target: "esnext" },
         include: [
           "aria-query",
+          "bits-ui",
+          "@lapismd/design-core > bits-ui",
+          "@internationalized/date",
           "react",
           "react-dom",
           "react-dom/client",
