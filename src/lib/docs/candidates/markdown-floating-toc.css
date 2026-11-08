@@ -1,0 +1,151 @@
+.markdown-floating-toc {
+  position: fixed;
+  top: 50%;
+  right: max(
+    calc(0.8rem + var(--markdown-floating-toc-scrollbar-offset, 1rem)),
+    calc(env(safe-area-inset-right) + var(--markdown-floating-toc-scrollbar-offset, 1rem))
+  );
+  z-index: 35;
+  width: var(--markdown-floating-toc-gutter, 1.45rem);
+  min-height: min(68vh, max(5rem, calc(var(--toc-heading-count, 2) * 0.82rem)));
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+.markdown-floating-toc.is-open {
+  width: calc(14rem + var(--markdown-floating-toc-gutter, 1.45rem) + 0.45rem);
+}
+
+.markdown-floating-toc__rail {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: flex;
+  width: var(--markdown-floating-toc-gutter, 1.45rem);
+  max-height: min(68vh, max(5rem, calc(var(--toc-heading-count, 2) * 0.82rem)));
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.55rem;
+  overflow: hidden;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.72;
+}
+
+.markdown-floating-toc__rail-marker {
+  display: flex;
+  width: var(--markdown-floating-toc-gutter, 1.45rem);
+  height: 0.36rem;
+  align-items: center;
+  justify-content: flex-end;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.markdown-floating-toc__rail-line {
+  width: var(--toc-marker-width, 1rem);
+  height: 0.16rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--kanban-muted, var(--docs-muted, rgb(100 116 139))) 62%, transparent);
+}
+
+.markdown-floating-toc__rail:hover,
+.markdown-floating-toc__rail:focus-within,
+.markdown-floating-toc.is-open .markdown-floating-toc__rail {
+  opacity: 1;
+  outline: 0;
+  transform: translateY(-50%) translateX(-0.08rem);
+}
+
+.markdown-floating-toc__rail-marker:focus-visible {
+  outline: 0;
+}
+
+.markdown-floating-toc__rail-marker:hover .markdown-floating-toc__rail-line,
+.markdown-floating-toc__rail-marker:focus-visible .markdown-floating-toc__rail-line,
+.markdown-floating-toc__rail-line.is-active {
+  width: calc(var(--toc-marker-width, 1rem) + 0.18rem);
+  height: 0.22rem;
+  background: var(--card-color, var(--column-color, var(--kanban-accent, var(--docs-brand, rgb(14 165 233)))));
+}
+
+.markdown-floating-toc__panel {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--markdown-floating-toc-gutter, 1.45rem) + 0.45rem);
+  width: 14rem;
+  max-height: min(60vh, 24rem);
+  overflow: auto;
+  transform: translateY(-50%);
+  border: 1px solid color-mix(in srgb, var(--kanban-border, var(--docs-border, rgb(226 232 240))) 86%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--kanban-card, var(--docs-surface, rgb(255 255 255))) 96%, transparent);
+  box-shadow: 0 18px 45px color-mix(in srgb, var(--kanban-card-foreground, rgb(15 23 42)) 16%, transparent);
+  padding: 0.55rem;
+}
+
+.markdown-floating-toc__eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--kanban-muted, var(--docs-muted));
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.markdown-floating-toc__panel ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.markdown-floating-toc__item {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--kanban-card-foreground, var(--foreground, rgb(15 23 42)));
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  padding: 0.38rem 0.42rem 0.38rem calc(0.42rem + var(--toc-indent, 0rem));
+  text-align: left;
+}
+
+.markdown-floating-toc__item:hover,
+.markdown-floating-toc__item:focus-visible,
+.markdown-floating-toc__item.is-active {
+  outline: 0;
+  background: color-mix(
+    in srgb,
+    var(--card-color, var(--column-color, var(--kanban-accent, var(--docs-brand, rgb(14 165 233))))) 10%,
+    transparent
+  );
+  color: var(--card-color, var(--column-color, var(--kanban-accent, var(--docs-brand, rgb(14 165 233)))));
+}
+
+@media (max-width: 700px) {
+  .markdown-floating-toc {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .markdown-floating-toc__rail {
+    transition: none;
+  }
+}

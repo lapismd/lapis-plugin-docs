@@ -19,6 +19,7 @@
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import DocsBookEditor from "./DocsBookEditor.svelte";
 	import DocsBlockMarkdownEditor from "./DocsBlockMarkdownEditor.svelte";
+	import DocsMarkdownField from "./DocsMarkdownField.svelte";
 	import type {
 		DocsCalloutTone,
 		DocsDocType,
@@ -164,28 +165,18 @@
                 setDraftField("docType", value as DocsDocType)}
             />
           </FormField>
-          <FormField label="Summary">
-            <textarea
-              rows="1"
-              value={draftNote.summary}
-              placeholder="Add Summary"
-              use:autosizeTextarea={draftNote.summary}
-              oninput={(event) =>
-                setDraftField("summary", event.currentTarget.value)}
-            ></textarea>
-          </FormField>
-          <FormField label="Learning goal">
-            <textarea
-              rows="1"
-              value={draftNote.learningGoal}
-              placeholder="Add Learning Goal"
-              use:autosizeTextarea={draftNote.learningGoal}
-              oninput={(event) =>
-                setDraftField(
-                  "learningGoal",
-                  event.currentTarget.value,
-                )}></textarea>
-          </FormField>
+          <DocsMarkdownField
+            label="Summary"
+            value={draftNote.summary}
+            placeholder="Add Summary"
+            onChange={(value) => setDraftField("summary", value)}
+          />
+          <DocsMarkdownField
+            label="Learning goal"
+            value={draftNote.learningGoal}
+            placeholder="Add Learning Goal"
+            onChange={(value) => setDraftField("learningGoal", value)}
+          />
           <FormField label="Aliases" as="div">
             <ChipAutocomplete
               id={`docs-note-aliases-${draftNote.id}`}
@@ -257,15 +248,12 @@
                 />
               </FormField>
               {#if block.type === "text"}
-                <FormField label="Body">
-                  <textarea
-                    rows="1"
-                    value={block.body}
-                    placeholder="Add Body"
-                    use:autosizeTextarea={block.body}
-                    oninput={(event) => patchBlock(block.id, { body: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Body"
+                  value={block.body}
+                  placeholder="Add Body"
+                  onChange={(value) => patchBlock(block.id, { body: value })}
+                />
               {:else if block.type === "markdown"}
                 <FormField label="Body">
                   <DocsBlockMarkdownEditor
@@ -285,15 +273,12 @@
                   />
                 </FormField>
               {:else if block.type === "concept"}
-                <FormField label="Summary">
-                  <textarea
-                    rows="1"
-                    value={block.summary}
-                    placeholder="Add Summary"
-                    use:autosizeTextarea={block.summary}
-                    oninput={(event) => patchBlock(block.id, { summary: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Summary"
+                  value={block.summary}
+                  placeholder="Add Summary"
+                  onChange={(value) => patchBlock(block.id, { summary: value })}
+                />
                 <FormField label="Key points">
                   <textarea
                     rows="1"
@@ -304,15 +289,12 @@
                       patchBlock(block.id, { keyPoints: textToLines(event.currentTarget.value) })}
                   ></textarea>
                 </FormField>
-                <FormField label="Details">
-                  <textarea
-                    rows="1"
-                    value={block.details}
-                    placeholder="Add Details"
-                    use:autosizeTextarea={block.details}
-                    oninput={(event) => patchBlock(block.id, { details: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Details"
+                  value={block.details}
+                  placeholder="Add Details"
+                  onChange={(value) => patchBlock(block.id, { details: value })}
+                />
               {:else if block.type === "procedure"}
                 <FormField label="Steps">
                   <textarea
@@ -324,25 +306,19 @@
                       patchBlock(block.id, { steps: textToLines(event.currentTarget.value) })}
                   ></textarea>
                 </FormField>
-                <FormField label="Notes">
-                  <textarea
-                    rows="1"
-                    value={block.notes}
-                    placeholder="Add Notes"
-                    use:autosizeTextarea={block.notes}
-                    oninput={(event) => patchBlock(block.id, { notes: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Notes"
+                  value={block.notes}
+                  placeholder="Add Notes"
+                  onChange={(value) => patchBlock(block.id, { notes: value })}
+                />
               {:else if block.type === "prompt"}
-                <FormField label="Problem">
-                  <textarea
-                    rows="1"
-                    value={block.problem}
-                    placeholder="Add Problem"
-                    use:autosizeTextarea={block.problem}
-                    oninput={(event) => patchBlock(block.id, { problem: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Problem"
+                  value={block.problem}
+                  placeholder="Add Problem"
+                  onChange={(value) => patchBlock(block.id, { problem: value })}
+                />
                 <FormField label="Requirements">
                   <textarea
                     rows="1"
@@ -353,15 +329,12 @@
                       patchBlock(block.id, { requirements: textToLines(event.currentTarget.value) })}
                   ></textarea>
                 </FormField>
-                <FormField label="Approach">
-                  <textarea
-                    rows="1"
-                    value={block.approach}
-                    placeholder="Add Approach"
-                    use:autosizeTextarea={block.approach}
-                    oninput={(event) => patchBlock(block.id, { approach: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Approach"
+                  value={block.approach}
+                  placeholder="Add Approach"
+                  onChange={(value) => patchBlock(block.id, { approach: value })}
+                />
                 <FormField label="Traps">
                   <textarea
                     rows="1"
@@ -382,15 +355,12 @@
                       patchBlock(block.id, { tests: textToLines(event.currentTarget.value) })}
                   ></textarea>
                 </FormField>
-                <FormField label="Answer">
-                  <textarea
-                    rows="1"
-                    value={block.answer}
-                    placeholder="Add Answer"
-                    use:autosizeTextarea={block.answer}
-                    oninput={(event) => patchBlock(block.id, { answer: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Answer"
+                  value={block.answer}
+                  placeholder="Add Answer"
+                  onChange={(value) => patchBlock(block.id, { answer: value })}
+                />
               {:else if block.type === "code"}
                 <FormField label="Language" align="center" as="div">
                   <SearchableChoicePicker
@@ -438,15 +408,12 @@
                     onChange={(value) => patchBlock(block.id, { tone: value as DocsCalloutTone })}
                   />
                 </FormField>
-                <FormField label="Body">
-                  <textarea
-                    rows="1"
-                    value={block.body}
-                    placeholder="Add Body"
-                    use:autosizeTextarea={block.body}
-                    oninput={(event) => patchBlock(block.id, { body: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Body"
+                  value={block.body}
+                  placeholder="Add Body"
+                  onChange={(value) => patchBlock(block.id, { body: value })}
+                />
               {:else if block.type === "story"}
                 <FormField label="Use for">
                   <textarea
@@ -458,42 +425,30 @@
                       patchBlock(block.id, { useFor: textToLines(event.currentTarget.value) })}
                   ></textarea>
                 </FormField>
-                <FormField label="Situation">
-                  <textarea
-                    rows="1"
-                    value={block.situation}
-                    placeholder="Add Situation"
-                    use:autosizeTextarea={block.situation}
-                    oninput={(event) => patchBlock(block.id, { situation: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
-                <FormField label="Task">
-                  <textarea
-                    rows="1"
-                    value={block.task}
-                    placeholder="Add Task"
-                    use:autosizeTextarea={block.task}
-                    oninput={(event) => patchBlock(block.id, { task: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
-                <FormField label="Action">
-                  <textarea
-                    rows="1"
-                    value={block.action}
-                    placeholder="Add Action"
-                    use:autosizeTextarea={block.action}
-                    oninput={(event) => patchBlock(block.id, { action: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
-                <FormField label="Result">
-                  <textarea
-                    rows="1"
-                    value={block.result}
-                    placeholder="Add Result"
-                    use:autosizeTextarea={block.result}
-                    oninput={(event) => patchBlock(block.id, { result: event.currentTarget.value })}
-                  ></textarea>
-                </FormField>
+                <DocsMarkdownField
+                  label="Situation"
+                  value={block.situation}
+                  placeholder="Add Situation"
+                  onChange={(value) => patchBlock(block.id, { situation: value })}
+                />
+                <DocsMarkdownField
+                  label="Task"
+                  value={block.task}
+                  placeholder="Add Task"
+                  onChange={(value) => patchBlock(block.id, { task: value })}
+                />
+                <DocsMarkdownField
+                  label="Action"
+                  value={block.action}
+                  placeholder="Add Action"
+                  onChange={(value) => patchBlock(block.id, { action: value })}
+                />
+                <DocsMarkdownField
+                  label="Result"
+                  value={block.result}
+                  placeholder="Add Result"
+                  onChange={(value) => patchBlock(block.id, { result: value })}
+                />
                 <FormField label="Metrics">
                   <textarea
                     rows="1"

@@ -4,21 +4,18 @@
   import ChevronsDownUpIcon from "@lucide/svelte/icons/chevrons-down-up";
   import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
   import ClipboardIcon from "@lucide/svelte/icons/clipboard";
-  import PanelLeftIcon from "@lucide/svelte/icons/panel-left";
   import PencilIcon from "@lucide/svelte/icons/pencil";
   import PlusIcon from "@lucide/svelte/icons/plus";
   import PresentationIcon from "@lucide/svelte/icons/presentation";
   import Trash2Icon from "@lucide/svelte/icons/trash-2";
   import UploadIcon from "@lucide/svelte/icons/upload";
 
-  import WorkspaceHistoryControls from "./candidates/WorkspaceHistoryControls.svelte";
   import type { DocsNote, DocsNotePanel } from '../model';
   import type { DisplayMode } from "./docs-workspace-helpers";
 
   let {
     draftNote,
     filenameDraft = $bindable(""),
-    sidebarOpen = false,
     yamlMode = false,
     saving = false,
     activePanel,
@@ -28,7 +25,6 @@
     collapseAllDisabled = false,
     displayMode = $bindable("document"),
     renderedDisplayMarkdown = "",
-    onToggleSidebar = () => {},
     onCommitFilename,
     onYamlModeChange,
     onPanelChange,
@@ -42,7 +38,6 @@
   }: {
     draftNote: DocsNote | null;
     filenameDraft: string;
-    sidebarOpen?: boolean;
     yamlMode?: boolean;
     saving?: boolean;
     activePanel: DocsNotePanel;
@@ -52,7 +47,6 @@
     collapseAllDisabled?: boolean;
     displayMode?: DisplayMode;
     renderedDisplayMarkdown?: string;
-    onToggleSidebar?: () => void | Promise<void>;
     onCommitFilename: () => void | Promise<void>;
     onYamlModeChange: (enabled: boolean) => void;
     onPanelChange: (panel: DocsNotePanel) => void;
@@ -82,24 +76,8 @@
   }
 </script>
 
-<header class="docs-toolbar">
+<div class="docs-toolbar">
   <div class="docs-toolbar__title">
-    <button
-      type="button"
-      class="docs-toolbar__sidebar-toggle"
-      aria-label={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
-      title={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
-      aria-pressed={sidebarOpen}
-      onclick={onToggleSidebar}
-    >
-      <PanelLeftIcon aria-hidden="true" />
-    </button>
-    <WorkspaceHistoryControls
-      --workspace-history-border="var(--docs-border)"
-      --workspace-history-background="var(--docs-surface)"
-      --workspace-history-shadow="var(--docs-shadow)"
-      --workspace-history-hover-background="color-mix(in srgb, var(--docs-subtle) 72%, transparent)"
-    />
     <div>
       {#if draftNote}
         <input
@@ -230,4 +208,4 @@
       <Trash2Icon />
     </button>
   </div>
-</header>
+</div>

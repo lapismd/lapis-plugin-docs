@@ -11,12 +11,14 @@
 		note,
 		chapterNavigation,
 		saving = false,
-		onToggleComplete = () => {}
+		onToggleComplete = () => {},
+		onOpenNote = () => {}
 	}: {
 		note: DocsNote;
 		chapterNavigation: DocsBookChapterNavigation;
 		saving?: boolean;
 		onToggleComplete?: (completed: boolean) => void | Promise<void>;
+		onOpenNote?: (noteId: string) => void;
 	} = $props();
 
 	const completed = $derived(Boolean(note.completedAt));
@@ -27,10 +29,6 @@
 			? `${chapterNavigation.bookTitle} home`
 			: 'Book home'
 	);
-
-	function docsHref(noteId: string) {
-		return `/?workspace=docs&note=${encodeURIComponent(noteId)}&preview=1`;
-	}
 
 	function toggleComplete() {
 		if (saving) return;
@@ -51,24 +49,29 @@
 		<div class="docs-chapter-footer__side docs-chapter-footer__side--prev">
 			<div class="docs-chapter-footer__actions">
 				{#if previousChapter}
-					<a class="docs-chapter-footer__button" href={docsHref(previousChapter.noteId)}>
+					<button
+						type="button"
+						class="docs-chapter-footer__button"
+						onclick={() => onOpenNote(previousChapter.noteId)}
+					>
 						<ArrowLeftIcon aria-hidden="true" />
 						<span>Back lesson</span>
-					</a>
+					</button>
 				{:else}
 					<span class="docs-chapter-footer__button is-disabled" aria-disabled="true">
 						<ArrowLeftIcon aria-hidden="true" />
 						<span>Back lesson</span>
 					</span>
 				{/if}
-				<a
+				<button
+					type="button"
 					class="docs-chapter-footer__button"
-					href={docsHref(chapterNavigation.bookIndexNoteId)}
 					aria-label={homeAriaLabel}
+					onclick={() => onOpenNote(chapterNavigation.bookIndexNoteId)}
 				>
 					<HomeIcon aria-hidden="true" />
 					<span>Home</span>
-				</a>
+				</button>
 			</div>
 			{#if previousChapter}
 				<small>{previousChapter.title}</small>
@@ -94,10 +97,14 @@
 					{/if}
 				</button>
 				{#if nextChapter}
-					<a class="docs-chapter-footer__button" href={docsHref(nextChapter.noteId)}>
+					<button
+						type="button"
+						class="docs-chapter-footer__button"
+						onclick={() => onOpenNote(nextChapter.noteId)}
+					>
 						<span>Next</span>
 						<ArrowRightIcon aria-hidden="true" />
-					</a>
+					</button>
 				{:else}
 					<span class="docs-chapter-footer__button is-disabled" aria-disabled="true">
 						<span>Next</span>
@@ -185,6 +192,7 @@
 		border-radius: 0.45rem;
 		background: color-mix(in srgb, var(--docs-surface, var(--background)) 94%, transparent);
 		color: #4f46e5;
+		font: inherit;
 		font-size: 0.9rem;
 		font-weight: 600;
 		line-height: 1.2;

@@ -180,4 +180,13 @@
   .docs-markdown-preview-expand {
     margin-top: 0.5rem;
   }
+
+  .docs-markdown-preview-root :global(.docs-mira-markdown-preview),
+  .docs-markdown-preview-root :global(.docs-mira-markdown-preview .cm-editor),
+  .docs-markdown-preview-root :global(.docs-mira-markdown-preview .cm-scroller),
+  .docs-markdown-preview-root :global(.docs-mira-markdown-preview .markdown-rendered),
+  .docs-markdown-preview-root :global(.docs-mira-markdown-preview .markdown-preview-view) {
+    background: transparent;
+    color: inherit;
+  }
 </style>

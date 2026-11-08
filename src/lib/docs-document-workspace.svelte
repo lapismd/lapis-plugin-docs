@@ -37,7 +37,7 @@
   let activePanel = $state<DocsNotePanel>("display");
   let reviewScope = $state<DocsReviewScope>("note");
   let previewMode = $state(true);
-  let sidebarOpen = $state(false);
+  let sidebarOpen = $state(true);
   let loading = $state(false);
   let saving = $state(false);
   let error = $state<string | null>(null);

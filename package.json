@@ -65,7 +65,7 @@
   },
   "peerDependencies": {
     "@lapis-notes/api": "^0.2.6",
-    "@lapismd/design-core": "^0.10.0",
+    "@lapismd/design-core": "^0.12.1",
     "@lapismd/mira": "~0.1.4",
     "svelte": "5.56.10"
   },
@@ -87,7 +87,7 @@
     "@lapis-notes/search": "0.1.5",
     "@lapis-notes/ui": "0.1.7",
     "@lapis-notes/workspace": "0.3.4",
-    "@lapismd/design-core": "0.10.1",
+    "@lapismd/design-core": "0.12.1",
     "@lapismd/mira": "0.1.4",
     "@lapismd/spec-validator": "^0.2.0",
     "@lezer/common": "1.5.2",
@@ -119,5 +119,15 @@
     "typescript": "~5.8.3",
     "vite": "6.4.3",
     "vitest": "4.1.10"
+  },
+  "pnpm": {
+    "overrides": {
+      "@lapismd/design-core": "0.12.1"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@lapismd/design-core": "0.12"
+      }
+    }
   }
 }

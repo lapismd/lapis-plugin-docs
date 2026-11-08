@@ -15,12 +15,14 @@
 		book,
 		activeNoteId,
 		chapterNavigation = null,
-		variant = 'toc'
+		variant = 'toc',
+		onOpenNote = () => {}
 	}: {
 		book: DocsBookNavigation;
 		activeNoteId: string;
 		chapterNavigation?: DocsBookChapterNavigation | null;
 		variant?: 'toc' | 'floating';
+		onOpenNote?: (noteId: string) => void;
 	} = $props();
 
 	let floatingOpen = $state(false);
@@ -30,8 +32,8 @@
 	const ringCircumference = 2 * Math.PI * ringRadius;
 	const ringOffset = $derived(ringCircumference * (1 - progressPercent / 100));
 
-	function docsHref(noteId: string) {
-		return `/?workspace=docs&note=${encodeURIComponent(noteId)}&preview=1`;
+	function openNote(noteId: string) {
+		onOpenNote(noteId);
 	}
 
 	function isActive(chapter: DocsBookChapter) {
@@ -83,7 +85,7 @@
 					class:is-complete={chapter.completed}
 				>
 					{#if chapter.resolved}
-						<a href={docsHref(chapter.noteId)} aria-current={isActive(chapter) ? 'page' : undefined}>
+						<button type="button" onclick={() => openNote(chapter.noteId)} aria-current={isActive(chapter) ? 'page' : undefined}>
 							<span class="docs-book-chapters__index">
 								{#if chapter.completed}
 									<CheckIcon aria-hidden="true" />
@@ -95,7 +97,7 @@
 							{#if chapter.summary}
 								<small>{chapter.summary}</small>
 							{/if}
-						</a>
+						</button>
 					{:else}
 						<span class="docs-book-chapters__missing" aria-disabled="true">
 							<span class="docs-book-chapters__index">{chapter.index + 1}</span>
@@ -150,12 +152,13 @@
 					<div class="docs-book-floating__icon"><BookOpenIcon aria-hidden="true" /></div>
 					<div class="docs-book-floating__title">
 						<p>Book</p>
-						<a
-							href={docsHref(book.indexNoteId)}
+						<button
+							type="button"
 							aria-current={activeNoteId === book.indexNoteId ? 'page' : undefined}
+							onclick={() => openNote(book.indexNoteId)}
 						>
 							{book.title}
-						</a>
+						</button>
 						<div class="docs-book-floating__progress">
 							<div
 								class="docs-book-floating__progress-track"
@@ -190,7 +193,7 @@
 							class:is-complete={chapter.completed}
 						>
 							{#if chapter.resolved}
-								<a href={docsHref(chapter.noteId)} aria-current={isActive(chapter) ? 'page' : undefined}>
+								<button type="button" onclick={() => openNote(chapter.noteId)} aria-current={isActive(chapter) ? 'page' : undefined}>
 									<span class="docs-book-chapters__index">
 										{#if chapter.completed}
 											<CheckIcon aria-hidden="true" />
@@ -199,7 +202,7 @@
 										{/if}
 									</span>
 									<strong>{chapter.title}</strong>
-								</a>
+								</button>
 							{:else}
 								<span aria-disabled="true">
 									<span class="docs-book-chapters__index">{chapter.index + 1}</span>
@@ -212,10 +215,13 @@
 				{#if chapterNavigation?.previousChapter || chapterNavigation?.nextChapter}
 					<div class="docs-book-floating__controls" aria-label="Chapter navigation">
 						{#if chapterNavigation.previousChapter}
-							<a href={docsHref(chapterNavigation.previousChapter.noteId)}>
+							<button type="button" onclick={() => {
+								const previous = chapterNavigation?.previousChapter;
+								if (previous) openNote(previous.noteId);
+							}}>
 								<ArrowLeftIcon aria-hidden="true" />
 								<span>Previous</span>
-							</a>
+							</button>
 						{:else}
 							<span aria-disabled="true">
 								<ArrowLeftIcon aria-hidden="true" />
@@ -223,10 +229,13 @@
 							</span>
 						{/if}
 						{#if chapterNavigation.nextChapter}
-							<a href={docsHref(chapterNavigation.nextChapter.noteId)}>
+							<button type="button" onclick={() => {
+								const next = chapterNavigation?.nextChapter;
+								if (next) openNote(next.noteId);
+							}}>
 								<span>Next</span>
 								<ArrowRightIcon aria-hidden="true" />
-							</a>
+							</button>
 						{:else}
 							<span aria-disabled="true">
 								<span>Next</span>
@@ -374,7 +383,7 @@
 		list-style: none;
 	}
 
-	.docs-book-chapters li > a,
+	.docs-book-chapters li > button,
 	.docs-book-chapters__missing {
 		display: grid;
 		grid-template-columns: 2rem minmax(0, 1fr);
@@ -382,24 +391,29 @@
 		padding: 0.7rem;
 		border: 1px solid var(--border);
 		border-radius: 0.45rem;
+		background: transparent;
 		color: inherit;
+		font: inherit;
+		text-align: left;
 		text-decoration: none;
+		cursor: pointer;
+		width: 100%;
 	}
 
-	.docs-book-chapters li.is-active > a,
-	.docs-book-floating__chapters li.is-active > a {
+	.docs-book-chapters li.is-active > button,
+	.docs-book-floating__chapters li.is-active > button {
 		border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
 		background: color-mix(in srgb, var(--primary) 8%, transparent);
 	}
 
-	.docs-book-chapters li.is-complete > a .docs-book-chapters__index,
-	.docs-book-floating__chapters li.is-complete > a .docs-book-chapters__index {
+	.docs-book-chapters li.is-complete > button .docs-book-chapters__index,
+	.docs-book-floating__chapters li.is-complete > button .docs-book-chapters__index {
 		background: color-mix(in srgb, #22c55e 18%, transparent);
 		color: #15803d;
 	}
 
-	.docs-book-chapters li > a:hover,
-	.docs-book-chapters li > a:focus-visible {
+	.docs-book-chapters li > button:hover,
+	.docs-book-chapters li > button:focus-visible {
 		border-color: var(--ring);
 		outline: 0;
 	}
@@ -562,18 +576,21 @@
 		border-radius: 0.45rem;
 	}
 
-	.docs-book-floating__header a {
+	.docs-book-floating__title > button {
 		display: block;
 		min-width: 0;
+		border: 0;
+		background: transparent;
 		color: var(--foreground);
+		font: inherit;
 		font-size: 0.84rem;
 		font-weight: 700;
 		line-height: 1.25;
 		text-decoration: none;
 	}
 
-	.docs-book-floating__header a:hover,
-	.docs-book-floating__header a:focus-visible {
+	.docs-book-floating__title > button:hover,
+	.docs-book-floating__title > button:focus-visible {
 		color: var(--primary);
 		outline: 0;
 	}
@@ -582,7 +599,7 @@
 		gap: 0.15rem;
 	}
 
-	.docs-book-floating__chapters li > a,
+	.docs-book-floating__chapters li > button,
 	.docs-book-floating__chapters li > span {
 		display: grid;
 		grid-template-columns: 1.7rem minmax(0, 1fr);
@@ -591,12 +608,17 @@
 		padding: 0.35rem;
 		border: 1px solid transparent;
 		border-radius: 0.4rem;
+		background: transparent;
 		color: inherit;
+		font: inherit;
+		text-align: left;
 		text-decoration: none;
+		cursor: pointer;
+		width: 100%;
 	}
 
-	.docs-book-floating__chapters li > a:hover,
-	.docs-book-floating__chapters li > a:focus-visible {
+	.docs-book-floating__chapters li > button:hover,
+	.docs-book-floating__chapters li > button:focus-visible {
 		border-color: var(--ring);
 		outline: 0;
 	}
@@ -622,7 +644,7 @@
 		border-top: 1px solid var(--border);
 	}
 
-	.docs-book-floating__controls a,
+	.docs-book-floating__controls button,
 	.docs-book-floating__controls > span {
 		display: inline-flex;
 		align-items: center;
@@ -631,14 +653,17 @@
 		min-height: 1.9rem;
 		border: 1px solid var(--border);
 		border-radius: 0.4rem;
+		background: transparent;
 		color: var(--foreground);
+		font: inherit;
 		font-size: 0.72rem;
+		cursor: pointer;
 		font-weight: 700;
 		text-decoration: none;
 	}
 
-	.docs-book-floating__controls a:hover,
-	.docs-book-floating__controls a:focus-visible {
+	.docs-book-floating__controls button:hover,
+	.docs-book-floating__controls button:focus-visible {
 		border-color: var(--ring);
 		outline: 0;
 	}

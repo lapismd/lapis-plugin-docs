@@ -9,7 +9,7 @@ import { MarkdownPlugin } from "@lapis-notes/markdown";
 import { SearchPlugin } from "@lapis-notes/search";
 
 import { DocsPlugin } from "../lib";
-import { docsNoteToMarkdown, sampleDocsNotes } from "../lib/model";
+import { sampleDocsFixtureVault } from "./sample-docs-fixtures";
 
 function leaf(
   id: string,
@@ -89,9 +89,7 @@ function workspaceLayout() {
 }
 
 export function createPluginWorkspaceSeed(): Record<string, string> {
-  const notes = Object.fromEntries(
-    sampleDocsNotes().map((note) => [note.sourcePath, docsNoteToMarkdown(note)]),
-  );
+  const notes = sampleDocsFixtureVault();
   return {
     ".obsidian/app.json": JSON.stringify(
       {

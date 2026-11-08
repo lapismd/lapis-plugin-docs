@@ -61,7 +61,7 @@
     docs: {
       description: {
         story:
-          "Boot the public Lapis App with DocsPlugin, seed sample Docs notes, and restore a main-area docs leaf.",
+          "Boot the public Lapis App with DocsPlugin, seed the sample-docs book, and restore a main-area docs leaf. Compare with http://localhost:5173/?workspace=docs&note=sample-docs-index&preview=1.",
       },
     },
   }}
@@ -93,7 +93,7 @@
     docs: {
       description: {
         story:
-          "Open a seeded `*.doc.md` file and assert the exclusive `docs-document` TextFileView owns the leaf.",
+          "Open sample-docs-index in preview inside the document leaf. Compare with http://localhost:5173/?workspace=docs&note=sample-docs-index&preview=1.",
       },
     },
   }}
@@ -103,7 +103,7 @@
     canvasElement.style.overflow = "hidden";
     await waitForReady(canvasElement);
     const app = storyApp(canvasElement);
-    const path = "docs/sample-docs/sample-docs-schema-harness.doc.md";
+    const path = "docs/sample-docs/index.doc.md";
     expect(app.vault.getFileByPath(path)?.path).toBe(path);
     expect(app.workspace.determineViewTypeForPath(path)).toBe("docs-document");
     const leaf = app.workspace.getLeaf(true);
@@ -114,6 +114,8 @@
     });
     await waitFor(() => {
       expect(leaf.view.getViewType()).toBe("docs-document");
+      expect(canvasElement.querySelector('[aria-label="Books"]')).toBeTruthy();
+      expect(canvasElement.textContent).toContain("Sample docs");
     });
   }}
 >

@@ -28,7 +28,8 @@
 		chapterNavigation = null,
 		saving = false,
 		onFocusSlideIndexChange = () => {},
-		onToggleChapterComplete = () => {}
+		onToggleChapterComplete = () => {},
+		onOpenNote = () => {}
 	}: {
 		note: DocsNote;
 		focusSlideIndex?: number;
@@ -37,6 +38,7 @@
 		saving?: boolean;
 		onFocusSlideIndexChange?: (index: number) => void;
 		onToggleChapterComplete?: (completed: boolean) => void | Promise<void>;
+		onOpenNote?: (noteId: string) => void;
 	} = $props();
 
 	let documentElement = $state<HTMLElement | null>(null);
@@ -200,6 +202,7 @@
 			book={activeBookNavigation}
 			activeNoteId={note.id}
 			{chapterNavigation}
+			{onOpenNote}
 		/>
 	{/if}
 	<header class="docs-rich-hero" data-display-slide-index="0">
@@ -237,7 +240,7 @@
 	</header>
 
 	{#if bookNavigation?.indexNoteId === note.id && bookNavigation.chapters.length}
-		<DocsBookNavigation variant="toc" book={bookNavigation} activeNoteId={note.id} />
+		<DocsBookNavigation variant="toc" book={bookNavigation} activeNoteId={note.id} {onOpenNote} />
 	{/if}
 
 	{#if outline.length}
@@ -305,6 +308,7 @@
 			{chapterNavigation}
 			{saving}
 			onToggleComplete={onToggleChapterComplete}
+			{onOpenNote}
 		/>
 	{/if}
 </article>

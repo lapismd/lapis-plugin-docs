@@ -1,15 +1,15 @@
 <script lang="ts">
   /**
-   * Block Markdown editor using design-core CodeEditor (Markdown language).
-   * Avoids Carta / @cvstudio; Mira is reserved for rich reading previews.
+   * Block Markdown field. Document-mode MarkdownComposer replaces the
+   * CodeMirror markdown editor for prose and section bodies.
    */
-  import { CodeEditor } from "@lapismd/design-core/forms";
+  import DocsMarkdownField from "./DocsMarkdownField.svelte";
 
   let {
     value = $bindable(""),
     placeholder = "Write with Markdown...",
     ariaLabel = "Markdown block",
-    minRows = 8,
+    minRows: _minRows = 8,
     compact: _compact = true,
     floatingToc: _floatingToc = "off" as const,
     sourcePath: _sourcePath = "",
@@ -26,18 +26,11 @@
   } = $props();
 </script>
 
-<div class="docs-block-markdown-editor" style:--docs-md-min-rows={minRows}>
-  <CodeEditor
-    bind:value
-    language="markdown"
-    {ariaLabel}
-    {placeholder}
-  />
-</div>
-
-<style>
-  .docs-block-markdown-editor {
-    min-width: 0;
-    min-height: calc(var(--docs-md-min-rows, 8) * 1.35rem);
-  }
-</style>
+<DocsMarkdownField
+  {value}
+  label={ariaLabel}
+  {placeholder}
+  onChange={(next) => {
+    value = next;
+  }}
+/>
