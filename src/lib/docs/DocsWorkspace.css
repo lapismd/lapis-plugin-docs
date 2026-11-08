@@ -269,9 +269,12 @@
 }
 
 .docs-toolbar button.docs-collapse-all-button,
-.docs-toolbar button.docs-import-anki-button {
+.docs-toolbar .docs-import-anki-button {
+  display: inline-flex;
   width: 1.9rem;
   min-height: 1.85rem;
+  align-items: center;
+  justify-content: center;
   border-color: var(--docs-border);
   border-radius: 0.4rem;
   background: var(--docs-surface);
@@ -279,12 +282,16 @@
   box-shadow: 0 1px 2px var(--docs-shadow);
 }
 
+.docs-import-anki-input {
+  display: none;
+}
+
 .docs-toolbar button.docs-view-toggle:hover,
 .docs-toolbar button.docs-view-toggle:focus-visible,
 .docs-toolbar button.docs-collapse-all-button:hover,
 .docs-toolbar button.docs-collapse-all-button:focus-visible,
-.docs-toolbar button.docs-import-anki-button:hover,
-.docs-toolbar button.docs-import-anki-button:focus-visible {
+.docs-toolbar .docs-import-anki-button:hover,
+.docs-toolbar .docs-import-anki-button:focus-within {
   outline: 0;
   background: color-mix(in srgb, var(--docs-subtle) 72%, transparent);
 }

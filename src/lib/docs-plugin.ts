@@ -4,12 +4,14 @@ import {
   type PluginManifest,
   type WorkspaceLeaf,
 } from "@lapis-notes/api";
+import { requestDocsDocumentSurface } from "./docs/docs-document-surface";
 import { createDocsProjectionRegistration } from "./docs-index";
 import { DocsDocumentView } from "./docs-document-view";
 import {
   DOCS_DOCUMENT_VIEW_TYPE,
   DOCS_EXTENSIONS,
   DOCS_FILENAME_PATTERNS,
+  isDocsDocumentPath,
 } from "./docs-path";
 import { DocsRepository, createVaultDocsFileStore } from "./docs-repository";
 import {
@@ -53,13 +55,14 @@ export class DocsPlugin extends Plugin {
     this.registerIndexProjection(
       createDocsProjectionRegistration(this.getSettings().docsRoot),
     );
-    this.registerView(
+    this.registerSidebarView(
       DOCS_VIEW_TYPE,
       (leaf: WorkspaceLeaf) =>
         new DocsView(leaf, this.repository, () => this.clock(), {
           get: () => this.getSettings(),
           subscribe: (listener) => this.subscribeSettings(listener),
         }),
+      { side: "left", title: "Docs", icon: "book-open" },
     );
     this.registerView(
       DOCS_DOCUMENT_VIEW_TYPE,
@@ -144,26 +147,48 @@ export class DocsPlugin extends Plugin {
   }
 
   async openDocs(): Promise<void> {
-    await this.revealView(DOCS_VIEW_TYPE);
+    const existing = this.app.workspace.getLeavesOfType(DOCS_VIEW_TYPE)[0];
+    const leaf =
+      existing ?? this.app.workspace.ensureSideLeaf(DOCS_VIEW_TYPE, "left");
+    if (leaf.view.getViewType() !== DOCS_VIEW_TYPE) {
+      await leaf.setViewState({ type: DOCS_VIEW_TYPE, active: true });
+    }
+    this.app.workspace.activateLeaf(leaf, {
+      focusRootHost: false,
+      source: "api",
+      operation: "open-docs",
+    });
+    await this.app.workspace.revealLeaf(leaf);
   }
 
   async openCards(): Promise<void> {
-    await this.revealView(DOCS_CARDS_VIEW_TYPE);
+    await this.focusDocumentPanel("cards");
   }
 
-  async openReview(_scope: "note" | "workspace"): Promise<void> {
-    await this.revealView(DOCS_REVIEW_VIEW_TYPE);
+  async openReview(scope: "note" | "workspace"): Promise<void> {
+    await this.focusDocumentPanel("review", scope);
   }
 
-  private async revealView(type: string): Promise<void> {
-    const leaf =
-      this.app.workspace.getLeavesOfType(type)[0] ??
-      this.app.workspace.getLeaf();
-    if (leaf.view.getViewType() !== type) {
-      await leaf.setViewState({ type, active: true });
-    }
-    this.app.workspace.activeLeaf = leaf;
-    await this.app.workspace.revealLeaf(leaf);
+  private async focusDocumentPanel(
+    panel: "cards" | "review",
+    reviewScope?: "note" | "workspace",
+  ): Promise<void> {
+    const file = this.app.workspace.getActiveFile();
+    const documentLeaf = this.app.workspace
+      .getLeavesOfType(DOCS_DOCUMENT_VIEW_TYPE)
+      .find((leaf) => leaf.view instanceof DocsDocumentView && leaf.view.file);
+    const path =
+      file && isDocsDocumentPath(file.path)
+        ? file.path
+        : documentLeaf?.view instanceof DocsDocumentView
+          ? documentLeaf.view.file?.path
+          : undefined;
+    if (!path) return;
+    requestDocsDocumentSurface(path, {
+      panel,
+      ...(reviewScope ? { reviewScope } : {}),
+    });
+    await this.app.workspace.openLinkText(path, "", false);
   }
 }
 

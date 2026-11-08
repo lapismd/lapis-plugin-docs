@@ -29,32 +29,193 @@ function leaf(
   };
 }
 
-function workspaceLayout() {
+function tabs(
+  id: string,
+  children: Array<ReturnType<typeof leaf> | ReturnType<typeof sidebarGroup>>,
+  options: { stacked?: boolean; currentTab?: number } = {},
+) {
   return {
-    main: {
-      id: "main",
-      type: "split",
-      direction: "vertical",
-      sizes: [100],
-      children: [
-        {
-          id: "docs-tabs",
-          type: "tabs",
-          stacked: false,
-          currentTab: 1,
-          children: [
-            leaf("docs-home", "Docs", "book-open", "docs"),
-            leaf(
-              "sample-docs-index",
-              "index.doc.md",
-              "book-open",
-              "docs-document",
-              { file: SAMPLE_DOCS_INDEX_PATH },
-            ),
-          ],
-        },
-      ],
-    },
+    id,
+    type: "tabs",
+    stacked: options.stacked ?? false,
+    currentTab: options.currentTab ?? 0,
+    children,
+  };
+}
+
+function sidebarGroup(
+  id: string,
+  children: Array<ReturnType<typeof leaf>>,
+) {
+  return {
+    id,
+    type: "sidebar-group",
+    name: "Docs",
+    icon: "book-open",
+    children,
+    collapsed: Object.fromEntries(children.map((child) => [child.id, false])),
+    panelSizes: Object.fromEntries(children.map((child) => [child.id, 100])),
+  };
+}
+
+function docsLeaf(id: string) {
+  return leaf(id, "Docs", "book-open", "docs");
+}
+
+function documentLeaf() {
+  return leaf(
+    "sample-docs-index",
+    "index.doc.md",
+    "book-open",
+    "docs-document",
+    { file: SAMPLE_DOCS_INDEX_PATH },
+  );
+}
+
+function emptyDock(id: string) {
+  return {
+    id,
+    type: "split",
+    direction: "vertical",
+    sizes: [100],
+    children: [],
+    width: "0px",
+  };
+}
+
+export type DocsSidebarPlacement =
+  | "shell"
+  | "middle"
+  | "stacked"
+  | "left"
+  | "right"
+  | "bottom"
+  | "group";
+
+export function docsSidebarLayout(placement: DocsSidebarPlacement = "shell") {
+  const documentTabs = tabs("docs-tabs", [documentLeaf()]);
+  const mainDocument = {
+    id: "main",
+    type: "split",
+    direction: "vertical",
+    sizes: [100],
+    children: [documentTabs],
+  };
+  if (placement === "middle") {
+    return {
+      main: {
+        id: "main",
+        type: "split",
+        direction: "horizontal",
+        sizes: [35, 65],
+        children: [documentTabs, tabs("main-panel-tabs", [docsLeaf("panel-middle")])],
+      },
+      left: emptyDock("left"),
+      right: emptyDock("right"),
+      bottom: { ...tabs("bottom-panel", []), height: "0px" },
+      floating: [],
+      active: "panel-middle",
+    };
+  }
+  if (placement === "stacked") {
+    return {
+      main: {
+        id: "main",
+        type: "split",
+        direction: "horizontal",
+        sizes: [35, 65],
+        children: [
+          documentTabs,
+          tabs(
+            "main-stacked-tabs",
+            [
+              leaf("stacked-workspace", "Workspace", "layout-template", "empty"),
+              docsLeaf("panel-stacked"),
+              leaf("stacked-reference", "Reference", "book-open", "empty"),
+            ],
+            { stacked: true, currentTab: 1 },
+          ),
+        ],
+      },
+      left: emptyDock("left"),
+      right: emptyDock("right"),
+      bottom: { ...tabs("bottom-panel", []), height: "0px" },
+      floating: [],
+      active: "panel-stacked",
+    };
+  }
+  if (placement === "right") {
+    return {
+      main: mainDocument,
+      left: emptyDock("left"),
+      right: {
+        id: "right",
+        type: "split",
+        direction: "vertical",
+        sizes: [100],
+        children: [tabs("right-panel-tabs", [docsLeaf("panel-right")])],
+        width: "22rem",
+      },
+      bottom: { ...tabs("bottom-panel", []), height: "0px" },
+      floating: [],
+      active: "sample-docs-index",
+    };
+  }
+  if (placement === "bottom") {
+    return {
+      main: mainDocument,
+      left: emptyDock("left"),
+      right: emptyDock("right"),
+      bottom: {
+        ...tabs("bottom-panel", [
+          sidebarGroup("docs-bottom-group", [docsLeaf("panel-bottom")]),
+        ]),
+        height: "22rem",
+      },
+      floating: [],
+      active: "sample-docs-index",
+    };
+  }
+  if (placement === "group") {
+    return {
+      main: mainDocument,
+      left: emptyDock("left"),
+      right: {
+        id: "right",
+        type: "split",
+        direction: "vertical",
+        sizes: [100],
+        children: [
+          tabs("right-panel-tabs", [
+            sidebarGroup("docs-sidebar-group", [docsLeaf("panel-grouped")]),
+          ]),
+        ],
+        width: "24rem",
+      },
+      bottom: { ...tabs("bottom-panel", []), height: "0px" },
+      floating: [],
+      active: "sample-docs-index",
+    };
+  }
+  if (placement === "left") {
+    return {
+      main: mainDocument,
+      left: {
+        id: "left",
+        type: "split",
+        direction: "vertical",
+        sizes: [100],
+        children: [tabs("left-panel-tabs", [docsLeaf("panel-left")])],
+        width: "22rem",
+      },
+      right: emptyDock("right"),
+      bottom: { ...tabs("bottom-panel", []), height: "0px" },
+      floating: [],
+      active: "sample-docs-index",
+    };
+  }
+  return {
+    main: mainDocument,
     left: {
       id: "left",
       type: "split",
@@ -67,11 +228,12 @@ function workspaceLayout() {
           stacked: false,
           currentTab: 0,
           children: [
+            docsLeaf("docs-home"),
             leaf("file-explorer", "Files", "folder-closed", "file-explorer"),
           ],
         },
       ],
-      width: "16rem",
+      width: "18rem",
     },
     right: {
       id: "right",
@@ -101,7 +263,9 @@ function workspaceLayout() {
   };
 }
 
-export function createPluginWorkspaceSeed(): Record<string, string> {
+export function createPluginWorkspaceSeed(
+  placement: DocsSidebarPlacement = "shell",
+): Record<string, string> {
   const notes = sampleDocsFixtureVault();
   return {
     ".lapis/app.json": JSON.stringify(
@@ -114,12 +278,14 @@ export function createPluginWorkspaceSeed(): Record<string, string> {
       null,
       2,
     ),
-    ".lapis/workspace.json": JSON.stringify(workspaceLayout(), null, 2),
+    ".lapis/workspace.json": JSON.stringify(docsSidebarLayout(placement), null, 2),
     ...notes,
   };
 }
 
-export async function bootPluginWorkspaceDemo(): Promise<{
+export async function bootPluginWorkspaceDemo(
+  placement: DocsSidebarPlacement = "shell",
+): Promise<{
   app: App;
   dispose: () => Promise<void>;
 }> {
@@ -127,7 +293,7 @@ export async function bootPluginWorkspaceDemo(): Promise<{
   app = new App({
     version: "0.0.1-story",
     configPath: ".lapis/app.json",
-    adapter: new MemoryVaultAdapter(createPluginWorkspaceSeed(), {
+    adapter: new MemoryVaultAdapter(createPluginWorkspaceSeed(placement), {
       name: "Docs Plugin Workspace",
       vaultId: "docs-plugin-workspace",
       clock: 1_700_000_000_000,

@@ -4,6 +4,7 @@
    */
   import type { App } from "@lapis-notes/api";
   import { onDestroy } from "svelte";
+  import { subscribeDocsDocumentSurface } from "./docs/docs-document-surface";
   import DocsWorkspace from "./docs/DocsWorkspace.svelte";
   import type { DocsRepository } from "./docs-repository";
   import {
@@ -85,6 +86,17 @@
     void refreshCatalog();
   });
 
+  $effect(() => {
+    if (!filePath) return;
+    return subscribeDocsDocumentSurface(filePath, (surface) => {
+      activePanel = surface.panel;
+      if (surface.reviewScope) reviewScope = surface.reviewScope;
+      if (surface.panel === "display" || surface.panel === "note") {
+        previewMode = surface.panel !== "note";
+      }
+    });
+  });
+
   async function persistNote(note: DocsNote) {
     saving = true;
     try {
@@ -129,7 +141,11 @@
   // app used in openLinkText callback
 </script>
 
-<div class="docs-document-workspace" data-ui-component="docs-document">
+<div
+  class="docs-document-workspace"
+  data-ui-component="docs-document"
+  data-docs-ready={activeNote ? "true" : "false"}
+>
   <DocsWorkspace
     {workspace}
     activeNote={activeNote}
@@ -166,6 +182,18 @@
     }}
     onSaveNote={persistNote}
     onReviewCard={handleReview}
+    onImportAnkiPackage={async (file) => {
+      if (!repository) return;
+      const { importAnkiPackageFile } = await import("./docs/import-anki-package");
+      await importAnkiPackageFile({
+        app,
+        repository,
+        docsRoot: "docs",
+        file,
+        now: clock(),
+      });
+      await refreshCatalog();
+    }}
   />
 </div>
 

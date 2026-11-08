@@ -6,12 +6,17 @@
   import { onMount } from "svelte";
   import type { App } from "@lapis-notes/api";
 
-  import { bootPluginWorkspaceDemo } from "./create-plugin-workspace-demo";
+  import {
+    bootPluginWorkspaceDemo,
+    type DocsSidebarPlacement,
+  } from "./create-plugin-workspace-demo";
 
   let {
     displayMode = "desktop",
+    placement = "shell",
   }: {
     displayMode?: WorkspaceShellProps["displayMode"];
+    placement?: DocsSidebarPlacement;
   } = $props();
 
   let app = $state<App | null>(null);
@@ -30,7 +35,7 @@
 
   onMount(() => {
     let cancelled = false;
-    const runtimePromise = bootPluginWorkspaceDemo();
+    const runtimePromise = bootPluginWorkspaceDemo(placement);
     void runtimePromise
       .then((runtime) => {
         if (cancelled) return;
@@ -54,6 +59,7 @@
   class="plugin-workspace-demo"
   data-testid="plugin-workspace-demo"
   data-display-mode={displayMode}
+  data-docs-placement={placement}
   data-status={status}
 >
   <span

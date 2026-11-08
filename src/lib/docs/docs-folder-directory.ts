@@ -68,7 +68,6 @@ export function getFolderNotePanels(
   return [
     { id: "note", label: "Note" },
     { id: "cards", label: "Cards", count: docsNoteCardCount(note) },
-    { id: "practice", label: "Practice" },
     { id: "review", label: "Review", count: noteDueCount(workspace, note.id) },
   ];
 }

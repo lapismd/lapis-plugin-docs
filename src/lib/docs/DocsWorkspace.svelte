@@ -76,7 +76,7 @@
     onDeleteNote?: (noteId: string) => void | Promise<void>;
     onReviewCard?: (noteId: string, cardId: string, rating: DocsReviewRating) => void | Promise<void>;
     onSchedulePractice?: (noteId: string, cardId?: string) => void | Promise<void>;
-    onImportAnkiPackage?: () => void | Promise<void>;
+    onImportAnkiPackage?: (file: File) => void | Promise<void>;
     onUploadAttachment?: (noteId: string, file: File) => Promise<string | null>;
     /** Runtime media URL resolver for co-located docs images. */
     resolveMediaUrl?: (relativePath: string) => string | Promise<string>;

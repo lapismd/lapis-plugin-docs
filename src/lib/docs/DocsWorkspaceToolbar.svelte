@@ -54,7 +54,7 @@
     onToggleAllSections?: () => void;
     onAddCard: () => void;
     onSchedulePractice: (noteId: string) => void | Promise<void>;
-    onImportAnkiPackage?: () => void | Promise<void>;
+    onImportAnkiPackage?: (file: File) => void | Promise<void>;
     onCopyRenderedMarkdown?: () => void | Promise<void>;
     onDeleteNote: () => void | Promise<void>;
   } = $props();
@@ -174,16 +174,27 @@
       <span class="docs-save-status" aria-live="polite">Saving…</span>
     {/if}
     {#if onImportAnkiPackage}
-      <button
-        type="button"
+      <label
         class="docs-import-anki-button"
         aria-label="Import Anki package"
         title="Import Anki package"
-        disabled={saving}
-        onclick={() => void onImportAnkiPackage?.()}
       >
         <UploadIcon aria-hidden="true" />
-      </button>
+        <input
+          class="docs-import-anki-input"
+          type="file"
+          accept=".apkg,application/octet-stream"
+          aria-label="Anki package file"
+          disabled={saving}
+          onchange={(event) => {
+            const input = event.currentTarget;
+            if (!(input instanceof HTMLInputElement)) return;
+            const file = input.files?.[0];
+            input.value = "";
+            if (file) void onImportAnkiPackage?.(file);
+          }}
+        />
+      </label>
     {/if}
     {#if activePanel === "cards" && !yamlMode && !previewMode}
       <button type="button" disabled={!draftNote} onclick={onAddCard}>
