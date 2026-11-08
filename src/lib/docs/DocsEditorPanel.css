@@ -180,6 +180,10 @@
     resize: none;
   }
 
+  .docs-form .cv-form-entry-actions:focus-within {
+    background: transparent;
+  }
+
   .docs-resource-items {
     display: grid;
     min-width: 0;
