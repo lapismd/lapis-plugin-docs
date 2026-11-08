@@ -475,8 +475,7 @@
                         onRemove={() => removeResourceItem(block.id, block.items, itemIndex)}
                       >
                         <div class="docs-resource-item-fields">
-                          <label class="docs-resource-item-field">
-                            <span>Title</span>
+                          <FormField label="Title">
                             <input
                               value={item.title}
                               placeholder="Add title"
@@ -485,9 +484,8 @@
                                   title: event.currentTarget.value
                                 })}
                             />
-                          </label>
-                          <label class="docs-resource-item-field">
-                            <span>URL</span>
+                          </FormField>
+                          <FormField label="URL">
                             <input
                               value={item.url}
                               placeholder="Add URL"
@@ -497,9 +495,8 @@
                                   url: event.currentTarget.value
                                 })}
                             />
-                          </label>
-                          <label class="docs-resource-item-field">
-                            <span>Kind</span>
+                          </FormField>
+                          <FormField label="Kind">
                             <input
                               value={item.kind}
                               placeholder="Add kind"
@@ -508,20 +505,21 @@
                                   kind: event.currentTarget.value
                                 })}
                             />
-                          </label>
-                          <label class="docs-resource-item-field docs-resource-item-field--notes">
-                            <span>Notes</span>
-                            <textarea
-                              rows="1"
-                              value={item.notes}
-                              placeholder="Add notes"
-                              use:autosizeTextarea={item.notes}
-                              oninput={(event) =>
-                                patchResourceItem(block.id, block.items, itemIndex, {
-                                  notes: event.currentTarget.value
-                                })}
-                            ></textarea>
-                          </label>
+                          </FormField>
+                          <div class="docs-resource-item-notes">
+                            <FormField label="Notes">
+                              <textarea
+                                rows="1"
+                                value={item.notes}
+                                placeholder="Add notes"
+                                use:autosizeTextarea={item.notes}
+                                oninput={(event) =>
+                                  patchResourceItem(block.id, block.items, itemIndex, {
+                                    notes: event.currentTarget.value
+                                  })}
+                              ></textarea>
+                            </FormField>
+                          </div>
                         </div>
                       </EntryActions>
                     {/each}
