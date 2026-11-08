@@ -84,13 +84,28 @@
   }
 
   .docs-properties-fields > .cv-form-field,
-  .docs-block-fields > .cv-form-field {
+  .docs-block-fields > .cv-form-field,
+  .docs-properties-fields > .docs-markdown-field,
+  .docs-block-fields > .docs-markdown-field {
+    grid-column: 1 / -1;
+  }
+
+  .docs-properties-fields > .docs-markdown-field,
+  .docs-block-fields > .docs-markdown-field {
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+
+  .docs-properties-fields > .docs-markdown-field > .cv-form-field,
+  .docs-block-fields > .docs-markdown-field > .cv-form-field {
     grid-column: 1 / -1;
   }
 
   @supports (grid-template-columns: subgrid) {
     .docs-properties-fields > .cv-form-field,
-    .docs-block-fields > .cv-form-field {
+    .docs-block-fields > .cv-form-field,
+    .docs-properties-fields > .docs-markdown-field > .cv-form-field,
+    .docs-block-fields > .docs-markdown-field > .cv-form-field {
       grid-template-columns: subgrid;
       column-gap: var(--cv-control-column-gap, 1rem);
     }

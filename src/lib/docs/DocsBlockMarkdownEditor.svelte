@@ -29,6 +29,7 @@
 <DocsMarkdownField
   {value}
   label={ariaLabel}
+  showLabel={false}
   {placeholder}
   onChange={(next) => {
     value = next;
