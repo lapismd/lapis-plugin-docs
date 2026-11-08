@@ -339,7 +339,7 @@
   gap: var(--docs-rich-header-gap);
 }
 
-.docs-rich-block:has(> .docs-rich-block__header) > .docs-markdown-preview-root .docs-mira-markdown-preview {
+.docs-rich-block:has(> .docs-rich-block__header) > .docs-markdown-preview-root {
   padding-inline-start: calc(var(--docs-rich-header-icon) + var(--docs-rich-header-gap));
 }
 
