@@ -54,4 +54,15 @@
   .docs-markdown-field :global(.cm-content) {
     background: transparent;
   }
+
+  .docs-markdown-field :global(.ui-markdown-composer[data-presentation="document"]) {
+    --_composer-avatar-width: 0px;
+    --_composer-avatar-gap: 0px;
+    --_composer-editor-padding: 0px;
+    --ui-markdown-composer-editor-padding: 0px;
+  }
+
+  .docs-markdown-field :global(.ui-markdown-composer__avatar) {
+    display: none;
+  }
 </style>
