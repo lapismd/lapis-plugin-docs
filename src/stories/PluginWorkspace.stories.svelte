@@ -5,6 +5,7 @@
 
   import PluginWorkspaceDemo from "./PluginWorkspaceDemo.svelte";
   import { PluginWorkspaceExample } from "./PluginWorkspace.example-sources";
+  import { SAMPLE_DOCS_INDEX_PATH } from "./sample-docs-fixtures";
 
   const { Story } = defineMeta({
     title: "Plugins/Docs/Shell",
@@ -61,7 +62,7 @@
     docs: {
       description: {
         story:
-          "Boot the public Lapis App with DocsPlugin, seed the sample-docs book, and restore a main-area docs leaf. Compare with http://localhost:5173/?workspace=docs&note=sample-docs-index&preview=1.",
+          "Boot the public Lapis App with DocsPlugin. The seeded workspace opens docs/sample-docs/index.doc.md and keeps the right sidebar closed. Compare with http://localhost:5173/?workspace=docs&note=sample-docs-index&preview=1.",
       },
     },
   }}
@@ -73,8 +74,12 @@
     const app = storyApp(canvasElement);
     expect(app.plugins.isPluginEnabled("docs")).toBe(true);
     expect(app.workspace.getLeavesOfType("docs")).toHaveLength(1);
-    expect(app.workspace.activeLeaf?.view.getViewType()).toBe("docs");
-    expect(await canvas.findByText("Sample docs schema harness")).toBeVisible();
+    expect(app.workspace.getLeavesOfType("docs-document")).toHaveLength(1);
+    expect(app.workspace.activeLeaf?.view.getViewType()).toBe("docs-document");
+    expect(app.workspace.rightSplit.collapsed).toBe(true);
+    expect(
+      await canvas.findByText(/Open chapters from the book navigation/),
+    ).toBeVisible();
   }}
 >
   {#snippet template(args)}
@@ -93,7 +98,7 @@
     docs: {
       description: {
         story:
-          "Open sample-docs-index in preview inside the document leaf. Compare with http://localhost:5173/?workspace=docs&note=sample-docs-index&preview=1.",
+          "The seeded workspace opens docs/sample-docs/index.doc.md with the right sidebar closed. Compare with http://localhost:5173/?workspace=docs&note=sample-docs-index&preview=1.",
       },
     },
   }}
@@ -103,19 +108,18 @@
     canvasElement.style.overflow = "hidden";
     await waitForReady(canvasElement);
     const app = storyApp(canvasElement);
-    const path = "docs/sample-docs/index.doc.md";
+    const path = SAMPLE_DOCS_INDEX_PATH;
     expect(app.vault.getFileByPath(path)?.path).toBe(path);
     expect(app.workspace.determineViewTypeForPath(path)).toBe("docs-document");
-    const leaf = app.workspace.getLeaf(true);
-    await leaf.setViewState({
-      type: "docs-document",
-      state: { file: path },
-      active: true,
-    });
+    expect(app.workspace.rightSplit.collapsed).toBe(true);
+    const leaf = app.workspace.activeLeaf;
     await waitFor(() => {
-      expect(leaf.view.getViewType()).toBe("docs-document");
-      expect(canvasElement.querySelector('[aria-label="Books"]')).toBeTruthy();
-      expect(canvasElement.textContent).toContain("Sample docs");
+      expect(leaf?.view.getViewType()).toBe("docs-document");
+      expect(canvasElement.querySelector(".docs-display-view .docs-reading-anchor")).toBeTruthy();
+      expect(canvasElement.querySelector(".docs-canvas")).toBeNull();
+      expect(canvasElement.textContent).toContain(
+        "Open chapters from the book navigation",
+      );
     });
   }}
 >

@@ -9,7 +9,11 @@ import { MarkdownPlugin } from "@lapis-notes/markdown";
 import { SearchPlugin } from "@lapis-notes/search";
 
 import { DocsPlugin } from "../lib";
-import { sampleDocsFixtureVault } from "./sample-docs-fixtures";
+import { createStoryMarkdownRenderer } from "./render-story-markdown";
+import {
+  SAMPLE_DOCS_INDEX_PATH,
+  sampleDocsFixtureVault,
+} from "./sample-docs-fixtures";
 
 function leaf(
   id: string,
@@ -37,8 +41,17 @@ function workspaceLayout() {
           id: "docs-tabs",
           type: "tabs",
           stacked: false,
-          currentTab: 0,
-          children: [leaf("docs-home", "Docs", "book-open", "docs")],
+          currentTab: 1,
+          children: [
+            leaf("docs-home", "Docs", "book-open", "docs"),
+            leaf(
+              "sample-docs-index",
+              "index.doc.md",
+              "book-open",
+              "docs-document",
+              { file: SAMPLE_DOCS_INDEX_PATH },
+            ),
+          ],
         },
       ],
     },
@@ -84,14 +97,14 @@ function workspaceLayout() {
       height: "0px",
     },
     floating: [],
-    active: "docs-home",
+    active: "sample-docs-index",
   };
 }
 
 export function createPluginWorkspaceSeed(): Record<string, string> {
   const notes = sampleDocsFixtureVault();
   return {
-    ".obsidian/app.json": JSON.stringify(
+    ".lapis/app.json": JSON.stringify(
       {
         "editor.defaultViewForNewTabs": "editing",
         "editor.alwaysFocusNewTabs": true,
@@ -101,7 +114,7 @@ export function createPluginWorkspaceSeed(): Record<string, string> {
       null,
       2,
     ),
-    ".obsidian/workspace.json": JSON.stringify(workspaceLayout(), null, 2),
+    ".lapis/workspace.json": JSON.stringify(workspaceLayout(), null, 2),
     ...notes,
   };
 }
@@ -110,9 +123,10 @@ export async function bootPluginWorkspaceDemo(): Promise<{
   app: App;
   dispose: () => Promise<void>;
 }> {
-  const app = new App({
+  let app!: App;
+  app = new App({
     version: "0.0.1-story",
-    configPath: ".obsidian/app.json",
+    configPath: ".lapis/app.json",
     adapter: new MemoryVaultAdapter(createPluginWorkspaceSeed(), {
       name: "Docs Plugin Workspace",
       vaultId: "docs-plugin-workspace",
@@ -120,7 +134,7 @@ export async function bootPluginWorkspaceDemo(): Promise<{
     }),
     appDatabase: new MemoryAppDatabase("docs-plugin-workspace"),
     workspaceShell: { application: { name: "Lapis Notes" } },
-    markdownRenderer: async () => {},
+    markdownRenderer: createStoryMarkdownRenderer(() => app),
   });
   const disposeApplicationCompatibility = installApplicationCompatibility(app);
 

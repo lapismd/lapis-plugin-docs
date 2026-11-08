@@ -453,8 +453,8 @@
 	.docs-book-floating {
 		/* Center on the same axis as the TOC rail / chapter scroll ring. */
 		--docs-book-floating-size: 2.35rem;
-		position: fixed;
-		top: 5.75rem;
+		position: absolute;
+		top: 0.85rem;
 		right: max(
 			calc(
 				0.8rem + var(--markdown-floating-toc-scrollbar-offset, 1rem) +

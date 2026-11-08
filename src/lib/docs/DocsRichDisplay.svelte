@@ -3,6 +3,7 @@
 	import Rows3Icon from '@lucide/svelte/icons/rows-3';
 	import TargetIcon from '@lucide/svelte/icons/target';
 	import MarkdownFloatingToc from './candidates/MarkdownFloatingToc.svelte';
+	import { pinReadingChrome } from './pin-reading-chrome';
 	import type {
 		DocsBookChapterNavigation,
 		DocsBookNavigation as DocsBookNavigationModel,
@@ -189,22 +190,21 @@
 </script>
 
 <article class="docs-rich-document" bind:this={documentElement}>
-	<MarkdownFloatingToc root={documentElement} />
-	{#if showReadingChrome}
-		<DocsChapterScrollRing
-			{chapterScrollPercent}
-			documentRoot={documentElement}
-		/>
-	{/if}
-	{#if activeBookNavigation?.chapters.length}
-		<DocsBookNavigation
-			variant="floating"
-			book={activeBookNavigation}
-			activeNoteId={note.id}
-			{chapterNavigation}
-			{onOpenNote}
-		/>
-	{/if}
+	<div class="docs-reading-anchor" use:pinReadingChrome>
+		<MarkdownFloatingToc root={documentElement} />
+		{#if showReadingChrome}
+			<DocsChapterScrollRing {chapterScrollPercent} />
+		{/if}
+		{#if activeBookNavigation?.chapters.length}
+			<DocsBookNavigation
+				variant="floating"
+				book={activeBookNavigation}
+				activeNoteId={note.id}
+				{chapterNavigation}
+				{onOpenNote}
+			/>
+		{/if}
+	</div>
 	<header class="docs-rich-hero" data-display-slide-index="0">
 		<div class="docs-rich-hero__eyebrow">
 			<BookOpenIcon aria-hidden="true" />

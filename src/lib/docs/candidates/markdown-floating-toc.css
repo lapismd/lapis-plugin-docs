@@ -1,5 +1,5 @@
 .markdown-floating-toc {
-  position: fixed;
+  position: absolute;
   top: 50%;
   right: max(
     calc(0.8rem + var(--markdown-floating-toc-scrollbar-offset, 1rem)),

@@ -7,8 +7,9 @@ registers a `docs/note` projection, a main-area Docs library, exclusive
 `docs-document` file views, note reading modes, cards, and FSRS review. Coding
 practice is out of scope.
 
-Reusable leaf controls come from public Design Core APIs. Markdown reading and
-editing presentation consume public Mira exports. Near-miss shared UI such as
+Reusable leaf controls come from public Design Core APIs. Markdown reading uses
+the host `MarkdownRenderer` when the app provides one, and otherwise public Mira
+preview with Mira editor extensions. Near-miss shared UI such as
 flip-card decks MUST be owned in this package and marked as design-core
 migration candidates.
 
@@ -19,7 +20,7 @@ migration candidates.
 | LN-DOC-001 | The standalone repository MUST ship `@lapis-notes/lapis-plugin-docs` as a versioned first-party external package whose runtime manifest id is `docs`, distribution is `first-party-external`, provenance is `official`, and `enabledByDefault` is `true`. |
 | LN-DOC-002 | `DocsPlugin` MUST extend the public API `Plugin` surface. `onload` MUST register the docs projection, main-area `docs` library view, exclusive `docs-document` file view, note/cards/review surfaces, `docs:open`, ribbon, and Docs settings governed by LN-DOC-012. |
 | LN-DOC-003 | Production and Storybook source MUST receive `App` explicitly or from API context and MUST NOT read or assign `globalThis.app`. |
-| LN-DOC-004 | The package MUST own Core Docs workspace components and native `--ui-docs-*` CSS. Reusable leaf controls MUST come from public `@lapismd/design-core` exports. Structured Docs reading MUST keep Docs rich display CSS; block Markdown MAY use public `@lapismd/mira` exports. |
+| LN-DOC-004 | The package MUST own Core Docs workspace components and native `--ui-docs-*` CSS. Reusable leaf controls MUST come from public `@lapismd/design-core` exports. Structured Docs reading MUST keep Docs rich display CSS. Block Markdown MUST use the host `MarkdownRenderer` when the app provides one, and otherwise MAY use public `@lapismd/mira` preview with extensions from public `@lapismd/mira-editor`. |
 | LN-DOC-005 | The published runtime MUST NOT depend on `/Users/stevejuma/code/cv`, `@cvstudio/*`, Carta, or coding-practice host services. Package Storybook MAY depend on `@lapis-notes/workspace`, File Explorer, Search, and Markdown for shell stories. |
 | LN-DOC-006 | Package Storybook MUST run on port 7040, fail `pnpm test:storybook` on axe violations, and keep changed visual stories `visual-pending`. |
 | LN-DOC-007 | Desktop and web hosts MUST register and load this plugin. They MUST NOT register Docs workspace views, commands, or ribbon items themselves. |

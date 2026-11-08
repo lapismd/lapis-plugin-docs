@@ -3,12 +3,9 @@
 	import './DocsCardsReview.css';
 	import AlertCircleIcon from '@lucide/svelte/icons/alert-circle';
 	import PlusIcon from '@lucide/svelte/icons/plus';
-	import { onDestroy, untrack } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import type { Snippet } from 'svelte';
-	import PanelLeftIcon from '@lucide/svelte/icons/panel-left';
 	import { normalizeDateOnly as normalizeTaskDateOnly } from "@lapismd/design-core/forms";
-	import * as ColumnCanvas from "@lapismd/design-core/shadcn/column-canvas";
-	import DocsBooksColumn from './DocsBooksColumn.svelte';
 	import DocsCardsPanel from './DocsCardsPanel.svelte';
 	import DocsDisplayPanel from './DocsDisplayPanel.svelte';
 	import DocsEditorPanel from './DocsEditorPanel.svelte';
@@ -105,7 +102,6 @@
     activeCodingCardId = null,
     reviewScope = "note",
     previewMode = false,
-    sidebarOpen = true,
     activeFolderTag = null,
     folderDisplayMode = "panel",
     folderPanelCollapsed = false,
@@ -136,28 +132,6 @@
     onUndoReview,
     onKeepReview,
   }: Props = $props();
-
-  const canvas = ColumnCanvas.createColumnCanvasController({
-    columns: {
-      books: {
-        defaultWidth: 260,
-        minWidth: 200,
-        maxWidth: 360,
-        pathLevel: 0,
-        collapsible: true,
-        collapsed: untrack(() => !sidebarOpen),
-        resizable: true,
-      },
-      reading: {
-        defaultWidth: 480,
-        minWidth: 240,
-        maxWidth: null,
-        pathLevel: 0,
-        collapsible: false,
-        resizable: false,
-      },
-    },
-  });
 
   setDocsMediaResolver((relativePath) => resolveMediaUrl(relativePath));
   let draftNote = $state<DocsNote | null>(null);
@@ -709,56 +683,30 @@
       onCollapsedChange={onFolderPanelCollapsedChange}
     />
   {/if}
-  <ColumnCanvas.Root controller={canvas} class="docs-canvas" aria-label="Docs">
-    <ColumnCanvas.Column id="books" columnTitle="Books" sticky>
-      <ColumnCanvas.Body>
-        <DocsBooksColumn
-          books={workspace?.books ?? []}
-          {notes}
-          activeNoteId={activeNoteId ?? draftNote?.id ?? null}
-          onOpenNote={onActiveNoteChange}
-        />
-      </ColumnCanvas.Body>
-    </ColumnCanvas.Column>
-    <ColumnCanvas.Column id="reading" columnTitle={draftNote?.title || "Document"}>
-      <ColumnCanvas.Header>
-        <ColumnCanvas.Toggle
-          columnId="books"
-          columnTitle="Books"
-          aria-label="Toggle books"
-        >
-          {#snippet icon(_state)}
-            <PanelLeftIcon aria-hidden="true" />
-          {/snippet}
-        </ColumnCanvas.Toggle>
-        <div class="docs-column-header-fill">
-          <DocsWorkspaceToolbar
-            {draftNote}
-            bind:filenameDraft
-            {yamlMode}
-            {saving}
-            {activePanel}
-            {previewMode}
-            showCollapseAll={activePanel === "note" && !yamlMode}
-            hasCollapsedSections={hasCollapsedEditSections}
-            collapseAllDisabled={!hasEditCollapseTarget}
-            bind:displayMode
-            {renderedDisplayMarkdown}
-            onCommitFilename={commitFilename}
-            onYamlModeChange={setYamlMode}
-            onPanelChange={onActivePanelChange}
-            {onPreviewModeChange}
-            onToggleAllSections={toggleAllEditSections}
-            onAddCard={addCard}
-            {onSchedulePractice}
-            {onImportAnkiPackage}
-            onCopyRenderedMarkdown={copyRenderedMarkdown}
-            onDeleteNote={deleteDraftNote}
-          />
-        </div>
-      </ColumnCanvas.Header>
-      <ColumnCanvas.Body>
   <div class="docs-main">
+    <DocsWorkspaceToolbar
+      {draftNote}
+      bind:filenameDraft
+      {yamlMode}
+      {saving}
+      {activePanel}
+      {previewMode}
+      showCollapseAll={activePanel === "note" && !yamlMode}
+      hasCollapsedSections={hasCollapsedEditSections}
+      collapseAllDisabled={!hasEditCollapseTarget}
+      bind:displayMode
+      {renderedDisplayMarkdown}
+      onCommitFilename={commitFilename}
+      onYamlModeChange={setYamlMode}
+      onPanelChange={onActivePanelChange}
+      {onPreviewModeChange}
+      onToggleAllSections={toggleAllEditSections}
+      onAddCard={addCard}
+      {onSchedulePractice}
+      {onImportAnkiPackage}
+      onCopyRenderedMarkdown={copyRenderedMarkdown}
+      onDeleteNote={deleteDraftNote}
+    />
     {#if showLoadingState}
       {#if loadingState}
         {@render loadingState()}
@@ -887,7 +835,4 @@
       {/if}
     {/if}
   </div>
-      </ColumnCanvas.Body>
-    </ColumnCanvas.Column>
-  </ColumnCanvas.Root>
 </div>
