@@ -116,6 +116,8 @@
           {index}
           total={draftNote.cards.length}
           open={cardOpenById[card.id] !== false}
+          editable={cardOpenById[card.id] !== false}
+          titleToggleable={cardOpenById[card.id] === false}
           removeLabel={`Remove card ${card.id}`}
           onTitleChange={(prompt) =>
             updateCard(card.id, (item) => ({ ...item, prompt }))}

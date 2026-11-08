@@ -143,7 +143,8 @@
           index={0}
           total={1}
           open={propertiesOpen}
-          editable
+          editable={propertiesOpen}
+          titleToggleable={!propertiesOpen}
           movable={false}
           removable={false}
           titleLabel="Note title"
@@ -224,6 +225,8 @@
             {index}
             total={draftNote.blocks.length}
             open={blockOpenById[block.id] !== false}
+            editable={blockOpenById[block.id] !== false}
+            titleToggleable={blockOpenById[block.id] === false}
             removeLabel={`Remove block ${block.id}`}
             onTitleChange={(title) => updateBlockTitle(block.id, title)}
             onToggle={() =>
