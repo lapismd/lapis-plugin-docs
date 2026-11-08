@@ -120,13 +120,13 @@
 }
 
 .docs-toolbar {
-  min-height: 3.75rem;
+  min-height: calc(1.9rem + 0.5rem);
   flex-wrap: nowrap;
   justify-content: space-between;
   border-bottom: 1px solid var(--docs-border);
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0.55rem 0.75rem;
+  padding: 0.25rem 0.75rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
