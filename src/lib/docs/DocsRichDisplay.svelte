@@ -191,10 +191,12 @@
 
 <article class="docs-rich-document" bind:this={documentElement}>
 	<div class="docs-reading-anchor" use:pinReadingChrome>
-		<MarkdownFloatingToc root={documentElement} />
-		{#if showReadingChrome}
-			<DocsChapterScrollRing {chapterScrollPercent} />
-		{/if}
+		<div class="docs-reading-edge">
+			{#if showReadingChrome}
+				<DocsChapterScrollRing {chapterScrollPercent} />
+			{/if}
+			<MarkdownFloatingToc root={documentElement} />
+		</div>
 		{#if activeBookNavigation?.chapters.length}
 			<DocsBookNavigation
 				variant="floating"

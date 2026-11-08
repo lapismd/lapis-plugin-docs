@@ -47,4 +47,4 @@
 | LN-DOC-030   | Implemented | The approved private crate passes all 155 frozen native registration/projection scenarios; 12 host matching cases remain a separate TypeScript gate. Notes consumer integration remains pending.                       |
 | LN-DOC-031   | Implemented | The frozen unchanged-TypeScript Docker oracle verifies 167 cases: 122 accepted outcomes and 45 intentional parser rejections; `fixtures/native-projection/sources.json` records retained source and dependency hashes. |
 | LN-DOC-032   | Implemented | The unpublished pure crate accepts no host handles, preserves typed YAML and passes the frozen Unicode/scalar/domain corpus with locked native gates.                                                                  |
-| LN-DOC-033   | Implemented | Document reading is the body shell. Outline and book progress stay on the body's right edge, and chapter opens stay in the leaf.                                                                                      |
+| LN-DOC-033   | Implemented | Document reading is the body shell. The progress ring sits just above the outline rail on the body's right edge, and chapter opens stay in the leaf. |

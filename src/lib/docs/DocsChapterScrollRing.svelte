@@ -41,18 +41,7 @@
 
 <style>
 	.docs-chapter-scroll-ring {
-		position: absolute;
-		top: calc(50% - 3.4rem);
-		right: max(
-			calc(
-				0.8rem + var(--markdown-floating-toc-scrollbar-offset, 1rem) +
-					(var(--markdown-floating-toc-gutter, 1.45rem) - 2.35rem) / 2
-			),
-			calc(
-				env(safe-area-inset-right) + var(--markdown-floating-toc-scrollbar-offset, 1rem) +
-					(var(--markdown-floating-toc-gutter, 1.45rem) - 2.35rem) / 2
-			)
-		);
+		position: relative;
 		z-index: 36;
 		display: grid;
 		width: 2.35rem;

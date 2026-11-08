@@ -5,6 +5,43 @@
   pointer-events: none;
 }
 
+.docs-reading-edge {
+  position: absolute;
+  top: 50%;
+  right: max(
+    calc(0.8rem + var(--markdown-floating-toc-scrollbar-offset, 1rem)),
+    calc(env(safe-area-inset-right) + var(--markdown-floating-toc-scrollbar-offset, 1rem))
+  );
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.docs-reading-edge > .markdown-floating-toc {
+  position: relative;
+  top: auto;
+  right: auto;
+  height: auto;
+  min-height: 0;
+  transform: none;
+}
+
+.docs-reading-edge .markdown-floating-toc__rail {
+  position: relative;
+  top: auto;
+  right: auto;
+  margin-left: auto;
+  transform: none;
+}
+
+.docs-reading-edge .docs-chapter-scroll-ring {
+  margin-right: calc((var(--markdown-floating-toc-gutter, 1.45rem) - 2.35rem) / 2);
+}
+
 .docs-display-view {
   position: relative;
   min-height: 0;
