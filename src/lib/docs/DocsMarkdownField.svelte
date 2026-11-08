@@ -46,12 +46,24 @@
 <style>
   .docs-markdown-field {
     min-width: 0;
-    min-height: 6.5rem;
+  }
+
+  .docs-markdown-field :global(.ui-markdown-composer__editor.mira) {
+    height: auto;
+    min-height: 1.4rem;
+  }
+
+  .docs-markdown-field :global(.mira__body) {
+    flex: none;
+    height: auto;
+    min-height: 0;
   }
 
   .docs-markdown-field :global(.cm-editor),
   .docs-markdown-field :global(.cm-scroller),
   .docs-markdown-field :global(.cm-content) {
+    height: auto;
+    min-height: 0;
     background: transparent;
   }
 
@@ -60,6 +72,12 @@
     --_composer-avatar-gap: 0px;
     --_composer-editor-padding: 0px;
     --ui-markdown-composer-editor-padding: 0px;
+    --ui-markdown-composer-min-height: 1.4rem;
+    --ui-markdown-composer-document-min-height: 1.4rem;
+  }
+
+  .docs-markdown-field :global(.ui-markdown-composer[data-presentation="document"] .ui-markdown-composer__input-row) {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .docs-markdown-field :global(.ui-markdown-composer__avatar) {
