@@ -39,6 +39,33 @@ describe("Docs npm release", () => {
     expect(pkg.files).toContain("manifest.json");
   });
 
+  it("keeps the release version pins aligned with package.json", () => {
+    const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
+    const config = readFileSync(
+      new URL("../spec-validator.config.mjs", import.meta.url),
+      "utf8",
+    );
+    const governance = readFileSync(
+      new URL("../spec/src/spec-governance.md", import.meta.url),
+      "utf8",
+    );
+    const index = readFileSync(
+      new URL("../spec/src/plugins/docs/index.md", import.meta.url),
+      "utf8",
+    );
+    expect(manifest.version).toBe(pkg.version);
+    expect(readme).toContain(
+      `Package version: \`@lapis-notes/lapis-plugin-docs@${pkg.version}\`.`,
+    );
+    expect(config).toContain(`version: "${pkg.version}"`);
+    expect(governance).toContain(
+      `Validator package version pin: \`${pkg.version}\`.`,
+    );
+    expect(index).toContain(
+      `Release package and runtime manifest version: \`${pkg.version}\`.`,
+    );
+  });
+
   it("rejects a non-registry dependency or a different runtime id", () => {
     expect(() =>
       validateIdentity(

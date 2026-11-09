@@ -219,14 +219,44 @@ export async function version(root = process.cwd()) {
     throw Error("Canonical release version declaration missing");
   await writeFile(
     chapter,
-    text.replace(
+    replaceVersionMarker(
+      text,
       marker,
       `Release package and runtime manifest version: \`${pkg.version}\`.`,
+      "Canonical release version declaration",
     ),
+  );
+  await writeVersionMarker(
+    join(root, "spec-validator.config.mjs"),
+    /version: "\d+\.\d+\.\d+"/,
+    `version: "${pkg.version}"`,
+    "Validator package version pin",
+  );
+  await writeVersionMarker(
+    join(root, "spec/src/spec-governance.md"),
+    /Validator package version pin: `\d+\.\d+\.\d+`\./,
+    `Validator package version pin: \`${pkg.version}\`.`,
+    "Governance package version pin",
+  );
+  await writeVersionMarker(
+    join(root, "README.md"),
+    /Package version: `@lapis-notes\/lapis-plugin-docs@\d+\.\d+\.\d+`\./,
+    `Package version: \`@lapis-notes/lapis-plugin-docs@${pkg.version}\`.`,
+    "README package version",
   );
   run("pnpm", ["install", "--lockfile-only", "--ignore-pnpmfile"], {
     cwd: root,
   });
+}
+
+async function writeVersionMarker(path, marker, replacement, label) {
+  const text = await readFile(path, "utf8");
+  await writeFile(path, replaceVersionMarker(text, marker, replacement, label));
+}
+
+function replaceVersionMarker(text, marker, replacement, label) {
+  if (!marker.test(text)) throw Error(`${label} missing`);
+  return text.replace(marker, replacement);
 }
 
 function sourceRevision(root) {

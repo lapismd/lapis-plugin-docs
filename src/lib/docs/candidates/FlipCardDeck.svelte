@@ -47,6 +47,7 @@
 		indexControlTarget = 0,
 		frontActionLabel = 'Show Answer',
 		backActionLabel = 'Show Question',
+		frontHeader,
 		front,
 		back,
 		backActions
@@ -63,6 +64,7 @@
 		indexControlTarget?: number;
 		frontActionLabel?: string;
 		backActionLabel?: string;
+		frontHeader?: Snippet<[unknown, FlipCardDeckContext]>;
 		front: Snippet<[unknown, FlipCardDeckContext]>;
 		back: Snippet<[unknown, FlipCardDeckContext]>;
 		backActions?: Snippet<[unknown, FlipCardDeckContext]>;
@@ -469,6 +471,11 @@
 					>
 						{#if peek}
 							<article class="flip-card-deck__face flip-card-deck__face--front flip-card-deck__face--peek">
+								{#if frontHeader}
+									<div class="flip-card-deck__face-header">
+										{@render frontHeader(item, context)}
+									</div>
+								{/if}
 								<div class="flip-card-deck__face-scroll">
 									{@render front(item, context)}
 								</div>
@@ -476,6 +483,11 @@
 						{:else}
 							<div class="flip-card-deck__flip-inner">
 							<article class="flip-card-deck__face flip-card-deck__face--front" aria-hidden={context.revealed} inert={context.revealed}>
+									{#if frontHeader}
+										<div class="flip-card-deck__face-header">
+											{@render frontHeader(item, context)}
+										</div>
+									{/if}
 									<div class="flip-card-deck__face-scroll flip-card-deck__face-scroll--front">
 										{@render front(item, context)}
 									</div>
@@ -739,6 +751,11 @@
 
 	.flip-card-deck__face[aria-hidden='true'] {
 		pointer-events: none;
+	}
+
+	.flip-card-deck__face-header {
+		flex: 0 0 auto;
+		min-width: 0;
 	}
 
 	.flip-card-deck__face-scroll {
