@@ -4,24 +4,172 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: docs-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The same pinned lapis-ci image Tasks and Notebook use, with native lanes
+  # inside the isolated job container.
+  COREPACK_HOME: /tmp/lapis-docs-corepack
+  PLAYWRIGHT_BROWSERS_PATH: /tmp/lapis-docs-browsers
 
 jobs:
+  image-pin:
+    runs-on: ubuntu-latest
+    outputs:
+      reference: ${{ steps.image.outputs.reference }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Resolve the pinned CI image
+        id: image
+        run: |
+          set -euo pipefail
+          reference="$(jq -er '.base | select(.image and (.digest | test("^sha256:[a-f0-9]{64}$"))) | .image + "@" + .digest' .ci/images.json)"
+          echo "reference=$reference" >> "$GITHUB_OUTPUT"
+
+  build-cache:
+    needs: image-pin
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: ${{ needs.image-pin.outputs.reference }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user=1001:1001 --init --cap-drop=ALL --cpus=4 --memory=7g --shm-size=2g
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/ci-setup
+      - name: Build the package
+        run: pnpm build
+
+  quality:
+    needs: [image-pin, build-cache]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: ${{ needs.image-pin.outputs.reference }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user=1001:1001 --init --cap-drop=ALL --cpus=4 --memory=7g --shm-size=2g
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/ci-setup
+      - name: Install the pinned Jujutsu bootstrap
+        run: node scripts/validation/install-tools.mjs --ci
+      - name: Select the exact CI source revision
+        run: |
+          jj git init --colocate .
+          jj --ignore-immutable edit "$GITHUB_SHA"
+      - run: pnpm validation:check
+      - run: pnpm spec:check
+      - name: Run quality checks
+        run: pnpm check
+
+  unit:
+    needs: [image-pin, build-cache]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: ${{ needs.image-pin.outputs.reference }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user=1001:1001 --init --cap-drop=ALL --cpus=4 --memory=7g --shm-size=2g
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/ci-setup
+      - name: Run all unit tests
+        run: pnpm test
+
+  package:
+    needs: [image-pin, build-cache]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: ${{ needs.image-pin.outputs.reference }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user=1001:1001 --init --cap-drop=ALL --cpus=4 --memory=7g --shm-size=2g
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/ci-setup
+      - name: Build and audit the public package
+        run: pnpm build
+      - run: pnpm exec publint
+
+  storybook-static:
+    needs: [image-pin, build-cache]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: ${{ needs.image-pin.outputs.reference }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user=1001:1001 --init --cap-drop=ALL --cpus=4 --memory=7g --shm-size=2g
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/ci-setup
+      - run: pnpm build-storybook
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
+
+  storybook-interaction:
+    needs: [image-pin, build-cache]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    container:
+      image: ${{ needs.image-pin.outputs.reference }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user=1001:1001 --init --cap-drop=ALL --cpus=4 --memory=7g --shm-size=2g
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/ci-setup
+        with:
+          browsers: "true"
+      - run: pnpm validation:smoke
+      - name: Run interaction and accessibility shard
+        run: pnpm test:storybook -- --shard=${{ matrix.shard }}/3
+
   validate:
+    name: Validation lanes
+    if: always()
+    needs:
+      [
+        image-pin,
+        build-cache,
+        quality,
+        unit,
+        package,
+        storybook-static,
+        storybook-interaction,
+      ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.32.1
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm spec:check
-      - run: pnpm check
-      - run: pnpm test
-      - run: pnpm build
-      - run: pnpm publint
-      - run: pnpm test:storybook
-      - run: pnpm build-storybook
+      - uses: actions/checkout@v7
+      - name: Aggregate all blocking lanes
+        env:
+          CI_JOB_RESULTS: ${{ toJSON(needs) }}
+        run: node scripts/aggregate-ci.mjs

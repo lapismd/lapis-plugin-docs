@@ -5,7 +5,8 @@ plugin runtime. A Docs note is a `*.doc.md` Markdown file with YAML front matter
 under a configurable vault root. The filesystem is authoritative. The plugin
 registers a `docs/note` projection, a movable Docs sidebar tree, exclusive
 `docs-document` file views, note reading modes, cards, and FSRS review. Coding
-practice is out of scope.
+practice is out of scope. Hosted CI uses the same pinned image and blocking
+lanes as Tasks and Notebook.
 
 Reusable leaf controls come from public Design Core APIs. Markdown reading uses
 the host `MarkdownRenderer` when the app provides one, and otherwise public Mira

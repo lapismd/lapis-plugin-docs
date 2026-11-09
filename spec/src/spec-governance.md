@@ -17,6 +17,7 @@
 | LPD-SPEC-011 | Tracked agent guidance MUST require preserving unrelated work, committing every independently verified change with Jujutsu without waiting for another request, and using a PR-quality message that explains what changed, why it changed, and which validation passed.                                                                                                             |
 | LPD-SPEC-012 | Native crate sources, parity harnesses and frozen oracle inputs MUST be protected by the spec-first map. New native code MUST remain Docs-owned and MUST NOT bypass the standalone specification gate or the required public API confirmation.                                                                                                                                      |
 | LPD-SPEC-013 | Native projection qualification MUST use a committed Cargo lockfile and pass locked tests, formatting and strict Clippy. The retained TypeScript oracle MUST remain unchanged; YAML diagnostic adaptations MUST record original/native details separately. Build caches and temporary worker evidence MUST remain ignored.                                                          |
+| LPD-SPEC-014 | Hosted CI MUST use the pinned `ghcr.io/lapismd/lapis-ci` image shared with Tasks and Notebook, select the exact CI revision with Jujutsu, and block on quality, unit, package, static Storybook, and sharded interaction lanes. The aggregate job MUST fail unless every lane succeeds. Storybook publication from `main` MUST upload the static build to GitHub Pages. |
 
 ## Spec-first mapping notes
 
@@ -38,3 +39,8 @@ metadata; this preparation cannot close package tooling intake.
 Native source qualification is distinct from npm presentation/build intake and
 from Notes consumer admission. The Rust crate adds no npm dependency, changes
 no TypeScript runtime source and does not close those separate host gates.
+
+Hosted CI follows the Tasks and Notebook lane split inside that shared image.
+Quality selects the pushed revision before `validation:check`, `spec:check`,
+and `check`. Unit, package audit, static Storybook, and three interaction
+shards run beside it, and the aggregate job fails closed.

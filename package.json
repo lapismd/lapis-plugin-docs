@@ -33,7 +33,9 @@
     "spec:validate": "spec-validator validate",
     "storybook": "WATCHPACK_POLLING=250 node scripts/storybook-run.mjs --no-open --config-dir .storybook",
     "storybook:stop": "bash scripts/storybook-stop.sh",
-    "storybook:restart": "bash scripts/storybook-restart.sh"
+    "storybook:restart": "bash scripts/storybook-restart.sh",
+    "validation:check": "vitest run --project unit scripts/ci.test.mjs",
+    "validation:smoke": "node scripts/validation/smoke.mjs"
   },
   "files": [
     "dist",
