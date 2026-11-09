@@ -1,7 +1,10 @@
 <script lang="ts">
+  import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
   import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
   import PlusIcon from "@lucide/svelte/icons/plus";
   import UploadIcon from "@lucide/svelte/icons/upload";
+  import { Button } from "@lapismd/design-core/shadcn/button";
+  import * as DropdownMenu from "@lapismd/design-core/shadcn/dropdown-menu";
   import {
     docsNoteCardCount,
     docsNoteMatchesTagFolder,
@@ -91,6 +94,14 @@
   const activeOutgoing = $derived(
     workspace?.graph.links.filter((link) => link.sourceNoteId === activeNoteId) ?? [],
   );
+  const sortOptions: Array<{ value: DocsNoteSortMode; label: string }> = [
+    { value: "updated-desc", label: "Updated" },
+    { value: "title-asc", label: "Title" },
+    { value: "created-desc", label: "Created" },
+  ];
+  const sortLabel = $derived(
+    sortOptions.find((option) => option.value === sortMode)?.label ?? "Title",
+  );
   const tabs: Array<{ id: DocsSidebarView; label: string }> = [
     { id: "docs", label: "Docs" },
     { id: "folders", label: "Folders" },
@@ -172,11 +183,29 @@
 
   <div class="docs-sidebar__toolbar">
     <input class="docs-sidebar__search" placeholder="Filter notes" bind:value={query} />
-    <select class="docs-sidebar__select" aria-label="Sort notes" bind:value={sortMode}>
-      <option value="updated-desc">Updated</option>
-      <option value="title-asc">Title</option>
-      <option value="created-desc">Created</option>
-    </select>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        {#snippet child({ props })}
+          <Button
+            {...props}
+            variant="outline"
+            size="sm"
+            class="docs-sidebar__sort"
+            aria-label="Sort notes"
+          >
+            {sortLabel}
+            <ChevronDownIcon aria-hidden="true" />
+          </Button>
+        {/snippet}
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content>
+        <DropdownMenu.RadioGroup bind:value={sortMode}>
+          {#each sortOptions as option (option.value)}
+            <DropdownMenu.RadioItem value={option.value}>{option.label}</DropdownMenu.RadioItem>
+          {/each}
+        </DropdownMenu.RadioGroup>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   </div>
   <div class="docs-sidebar__filters">
     <button
