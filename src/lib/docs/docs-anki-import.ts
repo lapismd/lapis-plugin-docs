@@ -470,7 +470,6 @@ function docsCardFromAnki(input: {
     prompt,
     answer,
     tags: uniqueList(['anki', input.deckTag, ...input.importTags, ...input.note.tags]),
-    sourceRefs: [],
     blockRefs: [],
     reviews: []
   };

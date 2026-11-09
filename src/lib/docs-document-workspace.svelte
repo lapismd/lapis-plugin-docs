@@ -4,6 +4,7 @@
    */
   import type { App } from "@lapis-notes/api";
   import { onDestroy } from "svelte";
+  import { docsPanelAfterPreviewToggle } from "./docs/docs-folder-directory";
   import {
     requestDocsDocumentSurface,
     subscribeDocsDocumentSurface,
@@ -183,7 +184,7 @@
     }}
     onPreviewModeChange={(enabled) => {
       previewMode = enabled;
-      activePanel = enabled ? "display" : "note";
+      activePanel = docsPanelAfterPreviewToggle(activePanel, enabled);
     }}
     onSaveNote={persistNote}
     onReviewCard={handleReview}

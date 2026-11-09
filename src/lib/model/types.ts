@@ -219,7 +219,6 @@ export type DocsCard = {
   prompt: string;
   answer: string;
   tags: string[];
-  sourceRefs: string[];
   blockRefs: string[];
   fsrs?: DocsFsrsState;
   reviews: DocsReviewLog[];

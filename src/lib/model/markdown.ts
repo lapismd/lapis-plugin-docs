@@ -174,7 +174,6 @@ function serializeCard(card: DocsCard) {
     prompt: card.prompt,
     answer: card.answer,
     tags: card.tags,
-    sourceRefs: card.sourceRefs,
     blockRefs: card.blockRefs,
     ...(card.type === "coding" && card.exercise
       ? { exercise: serializeCodingExercise(card.exercise) }

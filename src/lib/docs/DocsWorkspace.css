@@ -89,7 +89,8 @@
 
 .docs-workspace button svg,
 .docs-toolbar__title svg,
-.docs-alert svg {
+.docs-alert svg,
+.docs-toolbar .docs-import-anki-button svg {
   width: 0.95rem;
   height: 0.95rem;
   flex: none;

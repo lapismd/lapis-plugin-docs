@@ -46,8 +46,6 @@ cards:
       - code/java/samples
       - algorithms/two-pointer
       - algorithms
-    sourceRefs:
-      - "[^detail]"
     blockRefs:
       - coding-two-sum
     exercise:

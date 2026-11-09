@@ -508,6 +508,12 @@
   padding: 1rem;
 }
 
+.docs-rich-block pre:has(> .mira-code-block) {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
 .docs-rich-block code {
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
   font-size: 0.86rem;

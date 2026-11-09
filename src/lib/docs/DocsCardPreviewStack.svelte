@@ -10,11 +10,8 @@
 		DocsCardStackMode,
 		DocsReviewRating
 	} from '../model';
-	import type { ReferenceIndex } from '@lapismd/design-core/forms';
-
 	let {
 		items,
-		sourceReferenceIndex,
 		previewAnswerOpenById = $bindable({}),
 		ariaLabel = 'Card previews',
 		mode = 'browse',
@@ -23,7 +20,6 @@
 		onReviewCard
 	}: {
 		items: DocsCardStackItem[];
-		sourceReferenceIndex: ReferenceIndex;
 		previewAnswerOpenById: Record<string, boolean>;
 		ariaLabel?: string;
 		mode?: DocsCardStackMode;
@@ -103,7 +99,6 @@
 				card={stackItem.card}
 				noteSourcePath={stackItem.noteSourcePath}
 				noteBlocks={stackItem.noteBlocks ?? []}
-				{sourceReferenceIndex}
 				showExtras={context.revealed}
 			/>
 		</div>

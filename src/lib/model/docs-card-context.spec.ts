@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  docsBlockIdFromRef,
+  docsBlockReferenceIndex,
+  docsBlockRefMarker,
+  docsBlockSnippet,
   resolveCardBlockRefs,
-  resolveCardSourceRefs,
 } from "./docs-card-context";
 import type { DocsNote, DocsRevisionBlock } from "./types";
-import type { ReferenceIndex } from "./reference-utils";
 
 function noteWithBlocks(blocks: DocsRevisionBlock[]): Pick<DocsNote, "blocks"> {
   return { blocks };
@@ -34,88 +36,29 @@ describe("resolveCardBlockRefs", () => {
   });
 });
 
-describe("resolveCardSourceRefs", () => {
-  const index: ReferenceIndex = {
-    references: [
-      {
-        id: "highlight",
-        ref: "[^highlight]",
-        marker: "[^highlight]",
-        path: "/cv/sections/0/entries/0/highlights/0",
-        type: "Highlight",
-        label: "Reduced deployment risk",
-        excerpt: "Reduced deployment risk",
-        duplicate: false,
-      },
-    ],
-    duplicates: {},
-  };
+describe("docsBlockReferenceIndex", () => {
+  const blocks: DocsRevisionBlock[] = [
+    {
+      id: "concept-a",
+      type: "concept",
+      title: "Desirable difficulty",
+      summary: "Revision should feel effortful enough to force retrieval.",
+      keyPoints: ["Prompt before rereading."],
+      details: "The harness links cards to block ids.",
+    },
+  ];
 
-  it("resolves canonical marker refs and reports unresolved or duplicate entries", () => {
-    const resolved = resolveCardSourceRefs(["[^highlight]", "[^missing]"], index);
-    expect(resolved.resolved).toHaveLength(1);
-    expect(resolved.resolved[0]?.ref).toBe("[^highlight]");
-    expect(resolved.unresolved).toEqual([
-      { ref: "[^missing]", reason: "unresolved", duplicateCount: 0 },
-    ]);
-  });
-
-  it("reports duplicate marker refs separately", () => {
-    const duplicateIndex: ReferenceIndex = {
-      references: [
-        {
-          id: "dup",
-          ref: "[^dup]",
-          marker: "[^dup]",
-          path: "/cv/a",
-          type: "Entry",
-          label: "First",
-          excerpt: "First",
-          duplicate: true,
-        },
-        {
-          id: "dup",
-          ref: "[^dup]",
-          marker: "[^dup]",
-          path: "/cv/b",
-          type: "Entry",
-          label: "Second",
-          excerpt: "Second",
-          duplicate: true,
-        },
-      ],
-    duplicates: {
-        "[^dup]": [
-          {
-            id: "dup",
-            ref: "[^dup]",
-            marker: "[^dup]",
-            path: "/cv/a",
-            type: "Entry",
-            label: "First",
-            excerpt: "First",
-            duplicate: true,
-          },
-          {
-            id: "dup",
-            ref: "[^dup]",
-            marker: "[^dup]",
-            path: "/cv/b",
-            type: "Entry",
-            label: "Second",
-            excerpt: "Second",
-            duplicate: true,
-          },
-        ],
-      },
-    };
-
-    const result = resolveCardSourceRefs(["[^dup]"], duplicateIndex);
-    expect(result.resolved).toHaveLength(0);
-    expect(result.unresolved[0]).toMatchObject({
-      ref: "[^dup]",
-      reason: "duplicate",
-      duplicateCount: 2,
+  it("builds a picker entry whose excerpt is a short snippet of the block", () => {
+    const index = docsBlockReferenceIndex(blocks);
+    expect(index.references).toHaveLength(1);
+    expect(index.references[0]).toMatchObject({
+      id: "concept-a",
+      ref: "[^concept-a]",
+      label: "Desirable difficulty",
+      type: "Concept",
     });
+    expect(index.references[0]?.excerpt).toContain("force retrieval");
+    expect(docsBlockSnippet(blocks[0]!).length).toBeLessThanOrEqual(140);
+    expect(docsBlockIdFromRef(docsBlockRefMarker("concept-a"))).toBe("concept-a");
   });
 });

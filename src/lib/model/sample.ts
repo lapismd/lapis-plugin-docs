@@ -235,7 +235,7 @@ const schemaHarnessBlocks: DocsRevisionBlock[] = [
       '  subgraph Authoring["Authoring surface"]',
       "    direction TB",
       "    A([Open note]):::entry --> B[Edit structured blocks]",
-      "    B --> C[Attach cards and source refs]",
+      "    B --> C[Attach cards and block refs]",
       "    C --> D{Valid schema?}",
       "  end",
       "",
@@ -299,7 +299,7 @@ const schemaHarnessBlocks: DocsRevisionBlock[] = [
         "Block",
         "text, concept, procedure, prompt, code, mermaid code, table, callout, story, resources",
       ],
-      ["Card", "type, status, sourceRefs, blockRefs, fsrs, reviews"],
+      ["Card", "type, status, blockRefs, fsrs, reviews"],
     ],
   },
   {
@@ -373,7 +373,6 @@ function schemaHarnessNote() {
           answer:
             "It forces retrieval with enough friction to expose weak memory without adding irrelevant noise.",
           tags: ["sample", "learning/revision/memory", "memory"],
-          sourceRefs: ["[^highlight]"],
           blockRefs: ["concept-desirable-difficulty"],
         },
         {
@@ -408,7 +407,6 @@ function schemaHarnessNote() {
           answer:
             "Version checks let readers detect stale cached records even when an invalidation event was missed.",
           tags: ["sample", "systems/cache/invalidation", "systems"],
-          sourceRefs: ["[^summary]"],
           blockRefs: ["prompt-cache-invalidation", "code-fsrs-helper"],
         },
         {
@@ -432,7 +430,6 @@ function schemaHarnessNote() {
         prompt: "Which sample card should stay out of the review queue?",
         answer: "The suspended harness card.",
         tags: ["sample", "learning/revision/suspended", "suspended"],
-        sourceRefs: ["[^section]"],
         blockRefs: ["callout-critical"],
       }),
     ],
@@ -507,7 +504,6 @@ const sampleDocsChapterNotes: DocsNote[] = [
       prompt: "What pointer move keeps a sorted two-sum search correct?",
       answer: "Move the low or high pointer based on the current sum.",
       tags: ["sample", "algorithms/two-pointer", "coding-drill"],
-      sourceRefs: ["[^section]"],
       blockRefs: ["coding-two-sum"],
     }),
     ["algorithms/two-pointer"],
@@ -536,7 +532,6 @@ const sampleDocsChapterNotes: DocsNote[] = [
         answer:
           "When bounded bursts are acceptable and smoother average throughput matters.",
         tags: ["sample", "systems/design/rate-limiting", "system-design"],
-        sourceRefs: ["[^highlight]"],
         blockRefs: ["design-rate-limiter"],
       },
       {
@@ -579,7 +574,6 @@ const sampleDocsChapterNotes: DocsNote[] = [
       prompt: "What action anchors the stakeholder conflict story?",
       answer: "Mapping responsibilities and documenting ownership tradeoffs.",
       tags: ["sample", "interview/behavioral/stories", "behavioral"],
-      sourceRefs: ["[^stories/story_acme_platform]"],
       blockRefs: ["story-conflict"],
     }),
     ["interview/behavioral/stories"],
@@ -602,7 +596,6 @@ const sampleDocsChapterNotes: DocsNote[] = [
       answer:
         "In the markdown body, while still preserving typed metadata and cards.",
       tags: ["sample", "notes/freeform", "freeform"],
-      sourceRefs: ["[^text]"],
       blockRefs: ["freeform-note"],
     }),
     ["notes/freeform"],
@@ -658,7 +651,6 @@ function sampleDocsIndexNote(): DocsNote {
         prompt: "What does the sample docs index fixture map?",
         answer: "It maps sample note ids to the harness areas they exercise.",
         tags: ["sample", "resources/docs/index", "index"],
-        sourceRefs: ["[^section]"],
         blockRefs: ["index-links"],
       }),
     ],

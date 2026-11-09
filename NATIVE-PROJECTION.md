@@ -134,7 +134,7 @@ host acceptance or migration completion is claimed by the frozen oracle.
 ## Oracle preparation evidence
 
 The pinned Docker worker froze and independently regenerated 167 scenarios:
-122 accepted outputs and 45 intentional parser rejections. All 19 retained
+122 accepted outputs and 45 intentional parser rejections. All 18 retained
 Docs source hashes and the actual host matching module were checked before
 bundling. Four quoted/plain/block/JSON cases preserve literal U+0085 bytes.
 The unknown-tag case retains the original parser's non-failing warning.

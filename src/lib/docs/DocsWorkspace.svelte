@@ -13,7 +13,7 @@
 	import DocsReviewPanel from './DocsReviewPanel.svelte';
 	import DocsWorkspaceToolbar from './DocsWorkspaceToolbar.svelte';
 
-	import { YamlEditor, type ReferenceIndex, type YamlReviewDiff } from '@lapismd/design-core/forms';
+	import { YamlEditor, type YamlReviewDiff } from '@lapismd/design-core/forms';
 	import * as ScrollArea from "@lapismd/design-core/shadcn/scroll-area";
 
 	import { fsrsCardFromState, fsrsStateFromCard } from '../model/fsrs';
@@ -75,12 +75,10 @@
     onSaveNote?: (note: DocsNote) => void | Promise<void>;
     onDeleteNote?: (noteId: string) => void | Promise<void>;
     onReviewCard?: (noteId: string, cardId: string, rating: DocsReviewRating) => void | Promise<void>;
-    onSchedulePractice?: (noteId: string, cardId?: string) => void | Promise<void>;
     onImportAnkiPackage?: (file: File) => void | Promise<void>;
     onUploadAttachment?: (noteId: string, file: File) => Promise<string | null>;
     /** Runtime media URL resolver for co-located docs images. */
     resolveMediaUrl?: (relativePath: string) => string | Promise<string>;
-    sourceReferenceIndex?: ReferenceIndex;
     loadingState?: Snippet;
     emptyState?: Snippet<[() => void]>;
     codingPractice?: Snippet<[DocsNote, DocsCard | null, (card: DocsCard) => void]>;
@@ -90,10 +88,6 @@
     onKeepReview?: (id: string) => void;
   };
 
-  const emptySourceReferenceIndex: ReferenceIndex = {
-    references: [],
-    duplicates: {},
-  };
   let {
     workspace,
     activeNote = null,
@@ -119,11 +113,9 @@
     onSaveNote = () => {},
     onDeleteNote = () => {},
     onReviewCard = () => {},
-    onSchedulePractice = () => {},
     onImportAnkiPackage,
     onUploadAttachment,
     resolveMediaUrl = serverDocsMediaUrl,
-    sourceReferenceIndex = emptySourceReferenceIndex,
     loadingState,
     emptyState,
     codingPractice,
@@ -139,7 +131,7 @@
   let filenameDraft = $state("");
   let blockOpenById = $state<Record<string, boolean>>({});
   let cardOpenById = $state<Record<string, boolean>>({});
-  let cardReferenceAddOpenById = $state<Record<string, boolean>>({});
+  let cardBlockAddOpenById = $state<Record<string, boolean>>({});
   let propertiesOpen = $state(false);
   let displayMode = $state<DisplayMode>("document");
   let reviewAnswerOpenById = $state<Record<string, boolean>>({});
@@ -212,9 +204,6 @@
   );
   const draftDirty = $derived(
     Boolean(draftNote && draftSerialized !== selectedSerialized),
-  );
-  const blockSuggestions = $derived(
-    draftNote?.blocks.map((block) => block.id) ?? [],
   );
   const renderedDocumentMarkdown = $derived(
     draftNote ? renderDocsNoteMarkdown(draftNote) : "",
@@ -522,7 +511,6 @@
           prompt: "",
           answer: "",
           tags: [],
-          sourceRefs: [],
           blockRefs: [],
           reviews: [],
         },
@@ -711,7 +699,6 @@
       {onPreviewModeChange}
       onToggleAllSections={toggleAllEditSections}
       onAddCard={addCard}
-      {onSchedulePractice}
       {onImportAnkiPackage}
       onCopyRenderedMarkdown={copyRenderedMarkdown}
       onDeleteNote={deleteDraftNote}
@@ -740,7 +727,6 @@
         dueCards={activeReviewQueue}
         {reviewScope}
         getNoteBlocks={getNoteBlocks}
-        {sourceReferenceIndex}
         bind:reviewAnswerOpenById
         {onReviewCard}
       />
@@ -800,10 +786,8 @@
           {draftNote}
           {previewMode}
           bind:cardOpenById
-          bind:cardReferenceAddOpenById
+          bind:cardBlockAddOpenById
           {tagSuggestions}
-          {sourceReferenceIndex}
-          {blockSuggestions}
           {cardDueAt}
           {updateCardDue}
           {updateCard}

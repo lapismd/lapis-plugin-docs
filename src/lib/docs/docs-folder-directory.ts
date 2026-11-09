@@ -79,6 +79,18 @@ export function resolveDocsSidebarPanelSelection(
   return panel === "note" ? "display" : panel;
 }
 
+/**
+ * The toolbar preview toggle edits cards in place. Note and display still
+ * trade places with that same control.
+ */
+export function docsPanelAfterPreviewToggle(
+  activePanel: DocsNotePanel,
+  previewMode: boolean,
+): DocsNotePanel {
+  if (activePanel === "cards") return "cards";
+  return previewMode ? "display" : "note";
+}
+
 /** Keep the Note row highlighted while preview (display) or edit (note) is active. */
 export function isDocsSidebarPanelActive(
   activePanel: DocsNotePanel,

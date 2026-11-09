@@ -80,6 +80,13 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* The leading icon is centered in an icon-sm button; shift the row by that inset. */
+  .docs-markdown-field :global(.ui-markdown-composer__actions) {
+    margin-inline-start: calc(
+      (var(--ui-button-icon-size, calc(var(--spacing) * 4)) - (var(--spacing) * 8)) / 2
+    );
+  }
+
   .docs-markdown-field :global(.ui-markdown-composer__avatar) {
     display: none;
   }

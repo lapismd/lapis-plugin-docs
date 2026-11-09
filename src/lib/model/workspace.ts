@@ -90,7 +90,6 @@ export function docsSummariesToStubNotes(summaries: DocsNoteSummary[]): DocsNote
       prompt: "",
       answer: "",
       tags: [],
-      sourceRefs: [],
       blockRefs: [],
       reviews: [],
     })),

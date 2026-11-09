@@ -111,14 +111,15 @@ export {
 } from "./docs-note-list";
 export {
   cardHasBackMatter,
+  docsBlockIdFromRef,
+  docsBlockPlainText,
+  docsBlockReferenceIndex,
+  docsBlockRefMarker,
+  docsBlockSnippet,
   resolveCardBlockRefs,
-  resolveCardSourceRefs,
   type CardBlockRefResolution,
-  type CardSourceRefResolution,
   type MissingCardBlockRef,
   type ResolvedCardBlockRef,
-  type ResolvedCardSourceRef,
-  type UnresolvedCardSourceRef,
 } from "./docs-card-context";
 export {
   DOCS_MEDIA_SENTINEL_PREFIX,
@@ -134,14 +135,6 @@ export {
   setDocsMediaResolver,
   type DocsMediaResolver,
 } from "./docs-media-context";
-export {
-  duplicateReferenceCount,
-  normalizeReferenceList,
-  normalizeReferenceRef,
-  resolveReferenceTarget,
-  type ReferenceIndex,
-  type ReferenceTarget,
-} from "./reference-utils";
 export {
   CARD_STACK_MOTION,
   CARD_STACK_KICK,

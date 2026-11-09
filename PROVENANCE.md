@@ -15,6 +15,8 @@ Lapis associates Core Docs notes with exclusive `*.doc.md` leaves
 - block Markdown editing → public `@lapismd/design-core/forms` `CodeEditor`
 - FormField / YamlEditor / ChipAutocomplete / EntryActions / ReferencePicker /
   SegmentedControl / DatePicker / ScrollArea → public `@lapismd/design-core`
+- Card block refs use the design-core `ReferencePicker`, with each option
+  showing the block title and a short content snippet.
 - In-plugin `DESIGN_CORE_CANDIDATE` ports under `src/lib/docs/candidates/`:
   - `FlipCardDeck.svelte`
   - `TagEditor.svelte`
@@ -23,9 +25,6 @@ Lapis associates Core Docs notes with exclusive `*.doc.md` leaves
   - `StructuredTable.svelte` / `StructuredTableEditor.svelte`
   - `MarkdownFloatingToc.svelte`
   - `WorkspaceHistoryControls.svelte`
-- reference helpers → in-plugin `model/reference-utils.ts`
-  (`DESIGN_CORE_CANDIDATE`)
-
 No runtime or build dependency on `/Users/stevejuma/code/cv` or `@cvstudio/*`.
 The production vault corpus under `data/docs` is not shipped; fixtures come from
 `sample.ts` only. Coding practice remains excluded.

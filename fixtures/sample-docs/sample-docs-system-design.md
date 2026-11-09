@@ -41,8 +41,6 @@ cards:
       - sample
       - systems/design/rate-limiting
       - system-design
-    sourceRefs:
-      - "[^highlight]"
     blockRefs:
       - design-rate-limiter
     fsrs:

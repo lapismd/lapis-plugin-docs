@@ -1,17 +1,15 @@
 <script lang="ts">
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import { DatePicker } from "@lapismd/design-core/forms";
-	import ChipAutocomplete from "@lapismd/design-core/forms/ChipAutocomplete.svelte";
 	import TagEditor from "./candidates/TagEditor.svelte";
 	import * as ScrollArea from "@lapismd/design-core/shadcn/scroll-area";
+	import DocsBlockRefPicker from "./DocsBlockRefPicker.svelte";
 	import DocsCardPreviewStack from "./DocsCardPreviewStack.svelte";
 	import DocsMarkdownField from "./DocsMarkdownField.svelte";
 	import {
 		FormField,
 		FormSectionHeader,
-		ReferencePicker,
-		SegmentedControl,
-		type ReferenceIndex
+		SegmentedControl
 	} from "@lapismd/design-core/forms";
 	import { slugifyDocsId } from '../model/markdown';
 	import type { DocsCard, DocsCardStatus, DocsCardType, DocsNote } from '../model';
@@ -20,10 +18,8 @@
 		draftNote,
 		previewMode = false,
 		cardOpenById = $bindable({}),
-		cardReferenceAddOpenById = $bindable({}),
+		cardBlockAddOpenById = $bindable({}),
 		tagSuggestions,
-		sourceReferenceIndex,
-		blockSuggestions,
 		cardDueAt,
 		updateCardDue,
 		updateCard,
@@ -34,10 +30,8 @@
 		draftNote: DocsNote;
 		previewMode?: boolean;
 		cardOpenById: Record<string, boolean>;
-		cardReferenceAddOpenById: Record<string, boolean>;
+		cardBlockAddOpenById: Record<string, boolean>;
 		tagSuggestions: string[];
-		sourceReferenceIndex: ReferenceIndex;
-		blockSuggestions: string[];
 		cardDueAt: (card: DocsCard) => string | undefined;
 		updateCardDue: (cardId: string, dateOnly: string | undefined) => void;
 		updateCard: (cardId: string, updater: (card: DocsCard) => DocsCard) => void;
@@ -96,7 +90,6 @@
   {#if previewMode}
     <DocsCardPreviewStack
       items={previewStackItems}
-      {sourceReferenceIndex}
       mode="browse"
       initialIndex={previewInitialIndex}
       bind:previewAnswerOpenById
@@ -193,45 +186,19 @@
                   updateCard(card.id, (item) => ({ ...item, tags }))}
               />
             </FormField>
-            <FormField label="Source refs" as="div">
-              <p class="docs-card-field-help">
-                CV or evidence markers shown as source context on the card back after you reveal the answer.
-              </p>
-              <ReferencePicker
-                refs={card.sourceRefs}
-                referenceIndex={sourceReferenceIndex}
-                addOpen={cardReferenceAddOpenById[card.id] === true}
-                addLabel="Add Reference"
-                addHeading="Reference"
-                searchPlaceholder="Search CV reference markers..."
-                unresolvedLabel="Unresolved marker"
-                unresolvedDescription="Keep this reference or remove it after updating CV markers."
-                duplicateMessage="Duplicate markers are hidden until each marker id appears only once."
-                onAddOpenChange={(open) =>
-                  (cardReferenceAddOpenById = {
-                    ...cardReferenceAddOpenById,
-                    [card.id]: open,
-                  })}
-                onChange={(sourceRefs) =>
-                  updateCard(card.id, (item) => ({
-                    ...item,
-                    sourceRefs,
-                  }))}
-              />
-            </FormField>
             <FormField label="Block refs" as="div">
               <p class="docs-card-field-help">
                 Note blocks rendered on the card back after you reveal the answer.
               </p>
-              <ChipAutocomplete
-                id={`docs-card-block-refs-${draftNote.id}-${card.id}`}
-                showLabel={false}
-                embedded
-                uppercase={false}
-                value={card.blockRefs}
-                suggestions={blockSuggestions}
-                label="Block refs"
-                placeholder="Add block id..."
+              <DocsBlockRefPicker
+                blocks={draftNote.blocks}
+                refs={card.blockRefs}
+                addOpen={cardBlockAddOpenById[card.id] === true}
+                onAddOpenChange={(open) =>
+                  (cardBlockAddOpenById = {
+                    ...cardBlockAddOpenById,
+                    [card.id]: open,
+                  })}
                 onChange={(blockRefs) =>
                   updateCard(card.id, (item) => ({
                     ...item,
