@@ -430,6 +430,12 @@
 		font-weight: 700;
 	}
 
+	.docs-book-chapters li > button:has(small) .docs-book-chapters__index,
+	.docs-book-chapters__missing:has(small) .docs-book-chapters__index {
+		grid-row: 1 / span 2;
+		align-self: center;
+	}
+
 	.docs-book-chapters__index :global(svg) {
 		width: 0.85rem;
 		height: 0.85rem;
