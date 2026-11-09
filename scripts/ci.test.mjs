@@ -122,6 +122,17 @@ describe("Docs CI gates", () => {
     expect(workflow.jobs.package.steps.map((step) => step.run)).toEqual(
       expect.arrayContaining(["pnpm release:prepare"]),
     );
+    const notify = workflow.jobs["notify-dependencies"];
+    expect(notify.needs).toEqual(["publish"]);
+    expect(notify.if).toBe("always() && needs.publish.result == 'success'");
+    expect(notify.uses).toMatch(
+      /^lapismd\/dependency-automation\/\.github\/workflows\/notify\.yml@[a-f0-9]{40}$/,
+    );
+    expect(notify.with["automation-ref"]).toBe(notify.uses.split("@")[1]);
+    expect(notify.with["source-sha"]).toBe("${{ github.sha }}");
+    expect(notify.secrets["app-private-key"]).toBe(
+      "${{ secrets.LAPIS_DEPENDENCY_APP_PRIVATE_KEY }}",
+    );
   });
 
   it("publishes the static Storybook from main the way Notebook does", () => {
