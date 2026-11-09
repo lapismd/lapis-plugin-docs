@@ -55,15 +55,19 @@
 		return chapter.resolved && chapter.noteId === activeNoteId;
 	}
 
-	async function openChapterSearch() {
-		searchOpen = true;
-		await tick();
-		searchInput?.focus();
-	}
-
 	function closeChapterSearch() {
 		searchOpen = false;
 		chapterQuery = '';
+	}
+
+	async function toggleChapterSearch() {
+		if (searchOpen) {
+			closeChapterSearch();
+			return;
+		}
+		searchOpen = true;
+		await tick();
+		searchInput?.focus();
 	}
 
 	function onChapterSearchKeydown(event: KeyboardEvent) {
@@ -83,7 +87,6 @@
 			</div>
 			<div class="docs-book-toc__search" class:is-open={searchOpen}>
 				{#if searchOpen}
-					<SearchIcon aria-hidden="true" />
 					<Input
 						bind:ref={searchInput}
 						class="docs-book-toc__search-input"
@@ -93,29 +96,19 @@
 						bind:value={chapterQuery}
 						onkeydown={onChapterSearchKeydown}
 					/>
-					<Button
-						type="button"
-						variant="ghost"
-						size="icon-sm"
-						class="docs-book-toc__search-toggle"
-						aria-label="Close chapter search"
-						onclick={closeChapterSearch}
-					>
-						<XIcon aria-hidden="true" />
-					</Button>
-				{:else}
-					<Button
-						type="button"
-						variant="ghost"
-						size="icon-sm"
-						class="docs-book-toc__search-toggle"
-						aria-label="Search chapters"
-						aria-expanded={false}
-						onclick={openChapterSearch}
-					>
-						<SearchIcon aria-hidden="true" />
-					</Button>
 				{/if}
+				<Button
+					type="button"
+					variant="ghost"
+					size="icon-sm"
+					class="docs-book-toc__search-toggle"
+					aria-label={searchOpen ? "Hide chapter search" : "Search chapters"}
+					aria-expanded={searchOpen}
+					aria-pressed={searchOpen}
+					onclick={toggleChapterSearch}
+				>
+					<SearchIcon aria-hidden="true" />
+				</Button>
 			</div>
 			<div
 				class="docs-book-progress-ring"
@@ -377,18 +370,18 @@
 		max-width: 18rem;
 	}
 
-	.docs-book-toc__search > :global(svg) {
-		flex: 0 0 auto;
-		width: 0.95rem;
-		height: 0.95rem;
-		color: var(--muted-foreground);
-	}
-
 	.docs-book-toc :global(button.docs-book-toc__search-toggle) {
 		width: 2rem;
 		height: 2rem;
 		flex: 0 0 auto;
 		border-radius: 0.5rem;
+	}
+
+	.docs-book-toc__search.is-open :global(button.docs-book-toc__search-toggle),
+	.docs-book-toc__search.is-open :global(button.docs-book-toc__search-toggle:hover),
+	.docs-book-toc__search.is-open :global(button.docs-book-toc__search-toggle:focus-visible) {
+		background: color-mix(in srgb, var(--primary) 16%, var(--background));
+		color: var(--primary);
 	}
 
 	.docs-book-toc :global(input.docs-book-toc__search-input) {
