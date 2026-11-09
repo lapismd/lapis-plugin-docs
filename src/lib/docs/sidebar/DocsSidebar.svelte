@@ -1,10 +1,16 @@
 <script lang="ts">
+  import BrainIcon from "@lucide/svelte/icons/brain";
   import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
   import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+  import ClockIcon from "@lucide/svelte/icons/clock";
+  import HashIcon from "@lucide/svelte/icons/hash";
   import PlusIcon from "@lucide/svelte/icons/plus";
   import UploadIcon from "@lucide/svelte/icons/upload";
+  import XIcon from "@lucide/svelte/icons/x";
   import { Button } from "@lapismd/design-core/shadcn/button";
   import * as DropdownMenu from "@lapismd/design-core/shadcn/dropdown-menu";
+  import * as ScrollArea from "@lapismd/design-core/shadcn/scroll-area";
+  import { TagList, type TagListItem } from "@lapismd/design-core/shadcn/tag-list";
   import {
     docsNoteCardCount,
     docsNoteMatchesTagFolder,
@@ -29,6 +35,7 @@
     readDocsSidebarUiState,
     writeDocsSidebarUiState,
     type DocsSidebarView,
+    type DocsTagsViewMode,
   } from "./docs-sidebar-ui-storage";
   import "./DocsSidebar.css";
 
@@ -60,6 +67,7 @@
 
   const stored = readDocsSidebarUiState();
   let view = $state<DocsSidebarView>(stored.sidebarView);
+  let tagsViewMode = $state<DocsTagsViewMode>(stored.tagsViewMode);
   let sortMode = $state<DocsNoteSortMode>(stored.noteSortMode ?? DEFAULT_DOCS_NOTE_SORT);
   let query = $state("");
   let dueOnly = $state(false);
@@ -113,6 +121,7 @@
     writeDocsSidebarUiState({
       ...stored,
       sidebarView: view,
+      tagsViewMode,
       noteSortMode: sortMode,
       bookOpenNodes,
       sourceFolderOpenNodes,
@@ -127,6 +136,19 @@
   function noteOpen(noteId: string) {
     return activeNoteId === noteId ? expandedNotes[noteId] !== false : expandedNotes[noteId] === true;
   }
+
+  const selectedTagItems = $derived<TagListItem[]>(
+    selectedTags.map((tag) => ({
+      id: tag,
+      label: tag,
+      icon: HashIcon,
+      tone: "accent",
+      tooltip: `Remove #${tag}`,
+      onClick: () => {
+        selectedTags = selectedTags.filter((item) => item !== tag);
+      },
+    })),
+  );
 
   function panels(note: DocsNoteSummary) {
     return [
@@ -167,17 +189,19 @@
     </div>
   </header>
 
-  <div class="docs-sidebar__tabs" role="tablist" aria-label="Docs sidebar">
+  <div class="docs-sidebar__views" role="group" aria-label="Docs sidebar">
     {#each tabs as tab (tab.id)}
-      <button
+      <Button
         type="button"
-        class="docs-sidebar__tab"
-        role="tab"
-        aria-selected={view === tab.id}
+        variant="ghost"
+        size="sm"
+        class="docs-sidebar__view"
+        aria-pressed={view === tab.id}
+        title={tab.label}
         onclick={() => (view = tab.id)}
       >
-        {tab.label}
-      </button>
+        <span class="docs-sidebar__view-label">{tab.label}</span>
+      </Button>
     {/each}
   </div>
 
@@ -208,20 +232,30 @@
     </DropdownMenu.Root>
   </div>
   <div class="docs-sidebar__filters">
-    <button
+    <Button
       type="button"
-      class="docs-sidebar__text-button"
+      variant="ghost"
+      size="sm"
+      class="docs-sidebar__filter"
       aria-pressed={dueOnly}
+      title="Due"
       onclick={() => (dueOnly = !dueOnly)}
     >
-      Due
-    </button>
-    <button type="button" class="docs-sidebar__text-button" onclick={() => onStartWorkspaceReview()}>
-      Review all
-    </button>
-    {#if reviewScope === "workspace"}
-      <span class="docs-sidebar__kind">Workspace</span>
-    {/if}
+      <ClockIcon aria-hidden="true" />
+      <span class="docs-sidebar__view-label">Due</span>
+    </Button>
+    <Button
+      type="button"
+      variant="ghost"
+      size="sm"
+      class="docs-sidebar__filter"
+      aria-current={reviewScope === "workspace" ? "page" : undefined}
+      title="Review all"
+      onclick={() => onStartWorkspaceReview()}
+    >
+      <BrainIcon aria-hidden="true" />
+      <span class="docs-sidebar__view-label">Review all</span>
+    </Button>
   </div>
 
   {#if error}
@@ -230,7 +264,29 @@
     <p class="docs-sidebar__status">Loading docs</p>
   {/if}
 
-  <div class="docs-sidebar__scroll">
+  <ScrollArea.Root class="docs-sidebar__scroll">
+    <div class="docs-sidebar__scroll-content">
+    {#if selectedTags.length}
+      <div class="docs-sidebar__selected-tags">
+        <TagList
+          class="docs-sidebar__tag-list"
+          label="Selected tag filters"
+          size="sm"
+          tags={selectedTagItems}
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          class="docs-sidebar__clear-tags"
+          aria-label="Clear tag filters"
+          title="Clear tag filters"
+          onclick={() => (selectedTags = [])}
+        >
+          <XIcon aria-hidden="true" />
+        </Button>
+      </div>
+    {/if}
     {#if view === "docs"}
       {#each tree as entry (entry.kind === "book" ? entry.book.indexNoteId : entry.note.id)}
         {#if entry.kind === "book"}
@@ -264,6 +320,7 @@
       <DocsTagsSidebar
         tags={workspace?.tags ?? []}
         {selectedTags}
+        bind:viewMode={tagsViewMode}
         bind:openNodes={tagsOpenNodes}
         onSelectTag={(tag) => {
           selectedTags = selectedTags.includes(tag)
@@ -273,7 +330,8 @@
         }}
       />
     {/if}
-  </div>
+    </div>
+  </ScrollArea.Root>
 </aside>
 
 {#snippet book(entry: DocsBookNoteTreeEntry & { kind: "book" })}

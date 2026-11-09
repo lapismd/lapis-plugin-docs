@@ -63,10 +63,13 @@
     const sidebar = within(
       canvasElement.querySelector('[data-ui-component="docs-sidebar"]') as HTMLElement,
     );
-    await userEvent.click(sidebar.getByRole("tab", { name: "Docs" }));
-    expect(sidebar.getByRole("tab", { name: "Folders" })).toBeVisible();
-    expect(sidebar.getByRole("tab", { name: "Links" })).toBeVisible();
-    expect(sidebar.getByRole("tab", { name: "Tags" })).toBeVisible();
+    const views = within(
+      sidebar.getByRole("group", { name: "Docs sidebar" }),
+    );
+    await userEvent.click(views.getByRole("button", { name: "Docs" }));
+    expect(views.getByRole("button", { name: "Folders" })).toBeVisible();
+    expect(views.getByRole("button", { name: "Links" })).toBeVisible();
+    expect(views.getByRole("button", { name: "Tags" })).toBeVisible();
 
     const sample = sidebar.getAllByRole("button", { name: /^Sample docs/ })[0];
     await userEvent.click(sample);
