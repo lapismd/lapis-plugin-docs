@@ -28,5 +28,5 @@ migration candidates.
 | LN-DOC-008 | The public package export MUST include `DocsPlugin`, Docs view types including `docs-document`, and Core Docs workspace surfaces. |
 | LN-DOC-009 | Autodocs Show Code MUST use public `@lapis-notes/lapis-plugin-docs` imports, not story-only harness wrappers. |
 | LN-DOC-010 | Near-miss shared presentation such as flip-card decks MUST be recreated in this package, marked `DESIGN_CORE_CANDIDATE`, and MUST NOT add Design Core APIs from this repository. |
-| LN-DOC-011 | Coding practice panels, Piston runners, LSP sidecars, timed sessions, and AI coach surfaces MUST NOT ship in Core Docs. `coding-drill` MAY remain a note `docType` metadata value. |
+| LN-DOC-011 | Coding practice panels, Piston runners, LSP sidecars, timed sessions, and AI coach surfaces MUST NOT ship in Core Docs. The document toolbar MUST NOT include a Practice action. `coding-drill` MAY remain a note `docType` metadata value. |
 | LN-DOC-012 | Docs plugin data MUST be versioned and MAY store the docs vault root path. The default root MUST be `docs`. Settings MUST migrate absent data to defaults and notify open Docs views after persistence. |

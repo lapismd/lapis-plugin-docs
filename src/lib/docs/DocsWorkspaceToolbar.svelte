@@ -1,6 +1,5 @@
 <script lang="ts">
   import BookOpenIcon from "@lucide/svelte/icons/book-open";
-  import BrainIcon from "@lucide/svelte/icons/brain";
   import ChevronsDownUpIcon from "@lucide/svelte/icons/chevrons-down-up";
   import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
   import ClipboardIcon from "@lucide/svelte/icons/clipboard";
@@ -31,7 +30,6 @@
     onPreviewModeChange = () => {},
     onToggleAllSections = () => {},
     onAddCard,
-    onSchedulePractice,
     onImportAnkiPackage,
     onCopyRenderedMarkdown = () => {},
     onDeleteNote,
@@ -53,7 +51,6 @@
     onPreviewModeChange?: (enabled: boolean) => void;
     onToggleAllSections?: () => void;
     onAddCard: () => void;
-    onSchedulePractice: (noteId: string) => void | Promise<void>;
     onImportAnkiPackage?: (file: File) => void | Promise<void>;
     onCopyRenderedMarkdown?: () => void | Promise<void>;
     onDeleteNote: () => void | Promise<void>;
@@ -202,14 +199,6 @@
         Add card
       </button>
     {/if}
-    <button
-      type="button"
-      disabled={!draftNote}
-      onclick={() => draftNote && onSchedulePractice(draftNote.id)}
-    >
-      <BrainIcon />
-      Practice
-    </button>
     <button
       type="button"
       disabled={!draftNote}
