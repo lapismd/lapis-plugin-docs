@@ -71,20 +71,8 @@ const config: StorybookConfig = {
     name: "@storybook/svelte-vite",
     options: {},
   },
-  viteFinal: async (viteConfig) =>
-    mergeConfig(viteConfig, {
-      plugins: [
-        ...(!process.env.VITEST
-          ? [
-              svelte({
-                include: "**/*.svelte",
-                preprocess: vitePreprocess(),
-                compilerOptions: { runes: undefined },
-              }),
-            ]
-          : []),
-        tailwindcss(),
-      ],
+  viteFinal: async (viteConfig) => {
+    const config = mergeConfig(viteConfig, {
       resolve: {
         conditions: ["svelte", "module", "browser", "development"],
         dedupe: [...linkedSingletonPackages],
@@ -107,6 +95,13 @@ const config: StorybookConfig = {
         ],
       },
       esbuild: { target: "esnext" },
+      build: {
+        rollupOptions: {
+          // Anki package parsing is a lazy desktop-only path. Keep its Node
+          // built-ins outside the static browser bundle until that path runs.
+          external: [/^node:/],
+        },
+      },
       optimizeDeps: {
         noDiscovery: true,
         exclude: ["@storybook/svelte", ...linkedSiblingPackages],
@@ -152,7 +147,24 @@ const config: StorybookConfig = {
           ],
         },
       },
-    }),
+    });
+    // Framework docgen consumes JavaScript. Compile Svelte before its transform.
+    // Vitest owns its one compiler in vite.config.ts.
+    config.plugins = [
+      ...(!process.env.VITEST
+        ? [
+            svelte({
+              include: "**/*.svelte",
+              preprocess: vitePreprocess(),
+              compilerOptions: { runes: undefined },
+            }),
+          ]
+        : []),
+      ...(config.plugins ?? []),
+      tailwindcss(),
+    ];
+    return config;
+  },
 };
 
 export default config;

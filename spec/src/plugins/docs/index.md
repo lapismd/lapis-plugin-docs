@@ -23,7 +23,7 @@ migration candidates.
 | LN-DOC-003 | Production and Storybook source MUST receive `App` explicitly or from API context and MUST NOT read or assign `globalThis.app`. |
 | LN-DOC-004 | The package MUST own Core Docs workspace components and native `--ui-docs-*` CSS. Reusable leaf controls MUST come from public `@lapismd/design-core` exports. Structured Docs reading MUST keep Docs rich display CSS. Block Markdown MUST use the host `MarkdownRenderer` when the app provides one, and otherwise MAY use public `@lapismd/mira` preview with extensions from public `@lapismd/mira-editor`. Anki package reading MUST use registry `fflate` and `@libsql/client` ranges. |
 | LN-DOC-005 | The published runtime MUST NOT depend on `/Users/stevejuma/code/cv`, `@cvstudio/*`, Carta, or coding-practice host services. Package Storybook MAY depend on `@lapis-notes/workspace`, File Explorer, Search, and Markdown for shell stories. |
-| LN-DOC-006 | Package Storybook MUST run on port 7040, fail `pnpm test:storybook` on axe violations, and keep changed visual stories `visual-pending`. |
+| LN-DOC-006 | Package Storybook MUST run on port 7040, build as a static site without executing desktop-only Anki imports, compile Svelte stories in Vitest, fail `pnpm test:storybook` on axe violations, and keep changed visual stories `visual-pending`. |
 | LN-DOC-007 | Desktop and web hosts MUST register and load this plugin. They MUST NOT register Docs workspace views, commands, or ribbon items themselves. |
 | LN-DOC-008 | The public package export MUST include `DocsPlugin`, Docs view types including `docs-document`, and Core Docs workspace surfaces. |
 | LN-DOC-009 | Autodocs Show Code MUST use public `@lapis-notes/lapis-plugin-docs` imports, not story-only harness wrappers. |

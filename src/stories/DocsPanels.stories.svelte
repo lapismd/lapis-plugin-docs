@@ -71,8 +71,17 @@
     expect(views.getByRole("button", { name: "Links" })).toBeVisible();
     expect(views.getByRole("button", { name: "Tags" })).toBeVisible();
 
-    const sample = sidebar.getAllByRole("button", { name: /^Sample docs/ })[0];
-    await userEvent.click(sample);
+    const sampleBook = sidebar.getAllByRole("button", { name: /^Sample docs/ })[0];
+    const bookChevron = sampleBook.querySelector<HTMLElement>(
+      ".docs-sidebar__chevron",
+    );
+    if (bookChevron?.dataset.open !== "true") {
+      await userEvent.click(sampleBook);
+    }
+    const sampleRows = await sidebar.findAllByRole("button", {
+      name: /^Sample docs/,
+    });
+    await userEvent.click(sampleRows.at(-1)!);
     const cards = await sidebar.findByRole("button", { name: /^Cards/ });
     await userEvent.click(cards);
     await waitFor(() => {
