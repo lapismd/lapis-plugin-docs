@@ -4,6 +4,10 @@
    */
   import type { App } from "@lapis-notes/api";
   import { onDestroy } from "svelte";
+  import {
+    requestDocsDocumentSurface,
+    subscribeDocsDocumentSurface,
+  } from "./docs/docs-document-surface";
   import DocsWorkspace from "./docs/DocsWorkspace.svelte";
   import type { DocsRepository } from "./docs-repository";
   import {
@@ -37,7 +41,7 @@
   let activePanel = $state<DocsNotePanel>("display");
   let reviewScope = $state<DocsReviewScope>("note");
   let previewMode = $state(true);
-  let sidebarOpen = $state(false);
+  let sidebarOpen = $state(true);
   let loading = $state(false);
   let saving = $state(false);
   let error = $state<string | null>(null);
@@ -85,6 +89,17 @@
     void refreshCatalog();
   });
 
+  $effect(() => {
+    if (!filePath) return;
+    return subscribeDocsDocumentSurface(filePath, (surface) => {
+      activePanel = surface.panel;
+      if (surface.reviewScope) reviewScope = surface.reviewScope;
+      if (surface.panel === "display" || surface.panel === "note") {
+        previewMode = surface.panel !== "note";
+      }
+    });
+  });
+
   async function persistNote(note: DocsNote) {
     saving = true;
     try {
@@ -129,7 +144,11 @@
   // app used in openLinkText callback
 </script>
 
-<div class="docs-document-workspace" data-ui-component="docs-document">
+<div
+  class="docs-document-workspace"
+  data-ui-component="docs-document"
+  data-docs-ready={activeNote ? "true" : "false"}
+>
   <DocsWorkspace
     {workspace}
     activeNote={activeNote}
@@ -149,7 +168,9 @@
       const target = notes.find((note) => note.id === noteId);
       if (!target?.sourcePath) return;
       const file = app.vault.getFileByPath(target.sourcePath);
-      if (file) void app.workspace.openLinkText(target.sourcePath, "", false);
+      if (!file) return;
+      requestDocsDocumentSurface(target.sourcePath, { panel: "display" });
+      void app.workspace.openLinkText(target.sourcePath, "", false);
     }}
     onActivePanelChange={(panel) => {
       activePanel = panel;
@@ -166,6 +187,18 @@
     }}
     onSaveNote={persistNote}
     onReviewCard={handleReview}
+    onImportAnkiPackage={async (file) => {
+      if (!repository) return;
+      const { importAnkiPackageFile } = await import("./docs/import-anki-package");
+      await importAnkiPackageFile({
+        app,
+        repository,
+        docsRoot: "docs",
+        file,
+        now: clock(),
+      });
+      await refreshCatalog();
+    }}
   />
 </div>
 

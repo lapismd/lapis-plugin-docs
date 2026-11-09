@@ -111,6 +111,7 @@
 
 .docs-main {
   display: flex;
+  flex: 1 1 auto;
   min-height: 0;
   min-width: 0;
   width: 100%;
@@ -119,13 +120,13 @@
 }
 
 .docs-toolbar {
-  min-height: 3.75rem;
+  min-height: calc(1.9rem + 0.5rem);
   flex-wrap: nowrap;
   justify-content: space-between;
   border-bottom: 1px solid var(--docs-border);
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0.55rem 0.75rem;
+  padding: 0.25rem 0.75rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -268,9 +269,12 @@
 }
 
 .docs-toolbar button.docs-collapse-all-button,
-.docs-toolbar button.docs-import-anki-button {
+.docs-toolbar .docs-import-anki-button {
+  display: inline-flex;
   width: 1.9rem;
   min-height: 1.85rem;
+  align-items: center;
+  justify-content: center;
   border-color: var(--docs-border);
   border-radius: 0.4rem;
   background: var(--docs-surface);
@@ -278,12 +282,16 @@
   box-shadow: 0 1px 2px var(--docs-shadow);
 }
 
+.docs-import-anki-input {
+  display: none;
+}
+
 .docs-toolbar button.docs-view-toggle:hover,
 .docs-toolbar button.docs-view-toggle:focus-visible,
 .docs-toolbar button.docs-collapse-all-button:hover,
 .docs-toolbar button.docs-collapse-all-button:focus-visible,
-.docs-toolbar button.docs-import-anki-button:hover,
-.docs-toolbar button.docs-import-anki-button:focus-visible {
+.docs-toolbar .docs-import-anki-button:hover,
+.docs-toolbar .docs-import-anki-button:focus-within {
   outline: 0;
   background: color-mix(in srgb, var(--docs-subtle) 72%, transparent);
 }
@@ -406,7 +414,7 @@
   color: var(--foreground, #111);
   font-size: 0.9rem;
   line-height: 1.6;
-  padding-bottom: 2rem;
+  padding-bottom: 0;
 }
 
 .docs-review-card--large {
@@ -472,12 +480,23 @@
   padding: 0.75rem 0 0 1rem;
 }
 
-.docs-card-fields > .cv-form-field {
+.docs-card-fields > .cv-form-field,
+.docs-card-fields > .docs-markdown-field {
+  grid-column: 1 / -1;
+}
+
+.docs-card-fields > .docs-markdown-field {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.docs-card-fields > .docs-markdown-field > .cv-form-field {
   grid-column: 1 / -1;
 }
 
 @supports (grid-template-columns: subgrid) {
-  .docs-card-fields > .cv-form-field {
+  .docs-card-fields > .cv-form-field,
+  .docs-card-fields > .docs-markdown-field > .cv-form-field {
     grid-template-columns: subgrid;
     column-gap: var(--cv-control-column-gap, 1rem);
   }
@@ -534,4 +553,17 @@
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
+}
+
+/* Mira reserves 50svh under the last rendered block. Docs surfaces hug their content. */
+.docs-workspace :is(.mira, .mira-markdown-preview, .markdown-preview-surface, .markdown-editor-surface),
+.docs-document-workspace :is(.mira, .mira-markdown-preview, .markdown-preview-surface, .markdown-editor-surface),
+.docs-markdown-field :is(.mira, .mira-markdown-preview, .markdown-preview-surface, .markdown-editor-surface) {
+  --mira-preview-bottom-padding: 0;
+}
+
+.docs-workspace .markdown-preview-surface .markdown-view__document,
+.docs-document-workspace .markdown-preview-surface .markdown-view__document,
+.docs-markdown-field .markdown-preview-surface .markdown-view__document {
+  padding-bottom: 0;
 }

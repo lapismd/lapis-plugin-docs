@@ -18,7 +18,7 @@
 
 	import { fsrsCardFromState, fsrsStateFromCard } from '../model/fsrs';
 	import { docsBookWorkspaceView } from './docs-book-view-model';
-	import { preservePreviewModeForDocsLink } from './docs-link-mode';
+	import { openDocsContentLink, preservePreviewModeForDocsLink } from './docs-link-mode';
 	import { setDocsMediaResolver } from '../model/docs-media-context';
 	import { serverDocsMediaUrl } from '../model/docs-relative-media';
 
@@ -76,7 +76,7 @@
     onDeleteNote?: (noteId: string) => void | Promise<void>;
     onReviewCard?: (noteId: string, cardId: string, rating: DocsReviewRating) => void | Promise<void>;
     onSchedulePractice?: (noteId: string, cardId?: string) => void | Promise<void>;
-    onImportAnkiPackage?: () => void | Promise<void>;
+    onImportAnkiPackage?: (file: File) => void | Promise<void>;
     onUploadAttachment?: (noteId: string, file: File) => Promise<string | null>;
     /** Runtime media URL resolver for co-located docs images. */
     resolveMediaUrl?: (relativePath: string) => string | Promise<string>;
@@ -102,14 +102,12 @@
     activeCodingCardId = null,
     reviewScope = "note",
     previewMode = false,
-    sidebarOpen = false,
     activeFolderTag = null,
     folderDisplayMode = "panel",
     folderPanelCollapsed = false,
     loading = false,
     saving = false,
     error = null,
-    onToggleSidebar = () => {},
     onActiveNoteChange = () => {},
     onActivePanelChange = () => {},
     onActiveCodingCardChange = () => {},
@@ -646,6 +644,15 @@
     const [year, month, day] = dateOnly.split("-").map((part) => Number(part));
     return new Date(year, month - 1, day, 9, 0, 0, 0).toISOString();
   }
+  function onWorkspaceClick(event: MouseEvent) {
+    const opened = openDocsContentLink(event, notes, (noteId) => {
+      onActivePanelChange("display");
+      onPreviewModeChange(true);
+      onActiveNoteChange(noteId);
+    });
+    if (!opened) preservePreviewModeForDocsLink(event, activePanel);
+  }
+
   function updateCardDue(cardId: string, dateOnly: string | undefined) {
     updateCard(cardId, (item) => {
       const now = new Date();
@@ -666,7 +673,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <div
   class="docs-workspace"
-  onclick={(event) => preservePreviewModeForDocsLink(event, activePanel)}
+  onclick={onWorkspaceClick}
 >
   {#if activeFolderTag && folderDisplayMode === "panel"}
     <DocsFolderPanel
@@ -686,6 +693,29 @@
     />
   {/if}
   <div class="docs-main">
+    <DocsWorkspaceToolbar
+      {draftNote}
+      bind:filenameDraft
+      {yamlMode}
+      {saving}
+      {activePanel}
+      {previewMode}
+      showCollapseAll={activePanel === "note" && !yamlMode}
+      hasCollapsedSections={hasCollapsedEditSections}
+      collapseAllDisabled={!hasEditCollapseTarget}
+      bind:displayMode
+      {renderedDisplayMarkdown}
+      onCommitFilename={commitFilename}
+      onYamlModeChange={setYamlMode}
+      onPanelChange={onActivePanelChange}
+      {onPreviewModeChange}
+      onToggleAllSections={toggleAllEditSections}
+      onAddCard={addCard}
+      {onSchedulePractice}
+      {onImportAnkiPackage}
+      onCopyRenderedMarkdown={copyRenderedMarkdown}
+      onDeleteNote={deleteDraftNote}
+    />
     {#if showLoadingState}
       {#if loadingState}
         {@render loadingState()}
@@ -699,31 +729,6 @@
         </div>
       {/if}
     {:else}
-      <DocsWorkspaceToolbar
-        {draftNote}
-        bind:filenameDraft
-        {sidebarOpen}
-        {yamlMode}
-        {saving}
-        {activePanel}
-        {previewMode}
-        showCollapseAll={activePanel === "note" && !yamlMode}
-        hasCollapsedSections={hasCollapsedEditSections}
-        collapseAllDisabled={!hasEditCollapseTarget}
-        bind:displayMode
-        {renderedDisplayMarkdown}
-        {onToggleSidebar}
-        onCommitFilename={commitFilename}
-        onYamlModeChange={setYamlMode}
-        onPanelChange={onActivePanelChange}
-        {onPreviewModeChange}
-        onToggleAllSections={toggleAllEditSections}
-        onAddCard={addCard}
-        {onSchedulePractice}
-        {onImportAnkiPackage}
-        onCopyRenderedMarkdown={copyRenderedMarkdown}
-        onDeleteNote={deleteDraftNote}
-      />
       {#if error}
         <div class="docs-alert">
           <AlertCircleIcon />
@@ -787,6 +792,7 @@
         chapterNavigation={bookWorkspaceView.chapterNavigation}
         {saving}
         onToggleChapterComplete={toggleChapterComplete}
+        onOpenNote={onActiveNoteChange}
       />
     {:else if activePanel === "cards"}
       <section class="docs-note-surface">

@@ -41,6 +41,7 @@ const linkedAssetRoots = linkedSiblingRoots.flatMap((root) =>
 );
 const linkedSingletonPackages = [
   "svelte",
+  "@lapis-notes/api",
   "@codemirror/autocomplete",
   "@codemirror/commands",
   "@codemirror/lang-markdown",
@@ -55,7 +56,6 @@ const linkedSingletonPackages = [
   "@lezer/markdown",
   "@lezer/lr",
   "@internationalized/date",
-  "bits-ui",
 ] as const;
 
 const config: StorybookConfig = {
@@ -71,16 +71,10 @@ const config: StorybookConfig = {
     name: "@storybook/svelte-vite",
     options: {},
   },
-  viteFinal: async (viteConfig) =>
-    mergeConfig(viteConfig, {
-      plugins: [
-        svelte({
-          preprocess: vitePreprocess(),
-          compilerOptions: { runes: undefined },
-        }),
-        tailwindcss(),
-      ],
+  viteFinal: async (viteConfig) => {
+    const config = mergeConfig(viteConfig, {
       resolve: {
+        conditions: ["svelte", "module", "browser", "development"],
         dedupe: [...linkedSingletonPackages],
         alias: [
           {
@@ -93,23 +87,43 @@ const config: StorybookConfig = {
           },
           {
             find: "@internationalized/date",
-            replacement: path.join(repoRoot, "node_modules/@internationalized/date"),
-          },
-          {
-            find: "bits-ui",
-            replacement: path.join(repoRoot, "node_modules/bits-ui"),
+            replacement: path.join(
+              repoRoot,
+              "node_modules/@internationalized/date",
+            ),
           },
         ],
       },
       esbuild: { target: "esnext" },
+      build: {
+        rollupOptions: {
+          // Anki package parsing is a lazy desktop-only path. Keep its Node
+          // built-ins outside the static browser bundle until that path runs.
+          external: [/^node:/],
+        },
+      },
       optimizeDeps: {
-        exclude: ["@storybook/svelte"],
+        noDiscovery: true,
+        exclude: ["@storybook/svelte", ...linkedSiblingPackages],
         esbuildOptions: { target: "esnext" },
         include: [
           "aria-query",
+          "bits-ui",
+          "@lapismd/design-core > bits-ui",
+          "@internationalized/date",
+          "storybook > @testing-library/dom",
           "react",
           "react-dom",
           "react-dom/client",
+          "@lapis-notes/api > @iconify/utils",
+          "@lapis-notes/api > @iconify/utils > debug",
+          "@lapis-notes/api > eventemitter3",
+          "@lapis-notes/api > svelte-sonner",
+          "@lapismd/mira > unified",
+          "@lapismd/mira > rehype-highlight > lowlight",
+          "@lapismd/mira > remark-frontmatter",
+          "@lapismd/mira > remark-emoji",
+          "@lapis-notes/markdown > @lapismd/mira-plugin-mermaid > mermaid",
           "@lucide/svelte/icons/calendar-days",
           "@lucide/svelte/icons/check",
           "@lucide/svelte/icons/arrow-left",
@@ -133,7 +147,24 @@ const config: StorybookConfig = {
           ],
         },
       },
-    }),
+    });
+    // Framework docgen consumes JavaScript. Compile Svelte before its transform.
+    // Vitest owns its one compiler in vite.config.ts.
+    config.plugins = [
+      ...(!process.env.VITEST
+        ? [
+            svelte({
+              include: "**/*.svelte",
+              preprocess: vitePreprocess(),
+              compilerOptions: { runes: undefined },
+            }),
+          ]
+        : []),
+      ...(config.plugins ?? []),
+      tailwindcss(),
+    ];
+    return config;
+  },
 };
 
 export default config;

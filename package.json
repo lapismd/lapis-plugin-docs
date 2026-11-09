@@ -33,7 +33,9 @@
     "spec:validate": "spec-validator validate",
     "storybook": "WATCHPACK_POLLING=250 node scripts/storybook-run.mjs --no-open --config-dir .storybook",
     "storybook:stop": "bash scripts/storybook-stop.sh",
-    "storybook:restart": "bash scripts/storybook-restart.sh"
+    "storybook:restart": "bash scripts/storybook-restart.sh",
+    "validation:check": "vitest run --project unit scripts/ci.test.mjs",
+    "validation:smoke": "node scripts/validation/smoke.mjs"
   },
   "files": [
     "dist",
@@ -59,15 +61,18 @@
   },
   "dependencies": {
     "@internationalized/date": "3.12.2",
+    "@libsql/client": "^0.18.0",
     "@lucide/svelte": "^0.523.0",
+    "fflate": "^0.8.3",
     "ts-fsrs": "^5.4.1",
     "yaml": "^2.9.0"
   },
   "peerDependencies": {
-    "@lapis-notes/api": "^0.0.1",
-    "@lapismd/design-core": "^0.1.0",
-    "@lapismd/mira": "^0.0.1",
-    "svelte": "^5.0.0"
+    "@lapis-notes/api": "^0.2.6",
+    "@lapismd/design-core": "^0.12.1",
+    "@lapismd/mira": "~0.1.4",
+    "@lapismd/mira-editor": "~0.0.3",
+    "svelte": "5.56.10"
   },
   "devDependencies": {
     "@codemirror/autocomplete": "6.20.3",
@@ -81,19 +86,20 @@
     "@codemirror/view": "6.43.8",
     "@fontsource-variable/dm-sans": "^5.2.8",
     "@fontsource-variable/source-code-pro": "5.2.7",
-    "@lapis-notes/api": "0.0.1",
-    "@lapis-notes/file-explorer": "0.0.1",
-    "@lapis-notes/markdown": "0.0.1",
-    "@lapis-notes/search": "0.0.1",
-    "@lapis-notes/ui": "0.0.1",
-    "@lapis-notes/workspace": "0.0.1",
-    "@lapismd/design-core": "0.1.0",
-    "@lapismd/mira": "0.0.1",
-    "@lapismd/spec-validator": "0.1.0",
+    "@lapis-notes/api": "0.2.6",
+    "@lapis-notes/file-explorer": "0.2.2",
+    "@lapis-notes/markdown": "0.2.2",
+    "@lapis-notes/search": "0.1.5",
+    "@lapis-notes/ui": "0.1.7",
+    "@lapis-notes/workspace": "0.3.4",
+    "@lapismd/design-core": "0.12.1",
+    "@lapismd/mira": "0.1.4",
+    "@lapismd/mira-editor": "~0.0.3",
+    "@lapismd/spec-validator": "^0.2.0",
     "@lezer/common": "1.5.2",
     "@lezer/highlight": "1.2.3",
-    "@lezer/markdown": "1.7.2",
     "@lezer/lr": "1.4.10",
+    "@lezer/markdown": "1.7.2",
     "@storybook/addon-a11y": "10.5.7",
     "@storybook/addon-docs": "10.5.7",
     "@storybook/addon-svelte-csf": "5.1.2",
@@ -105,19 +111,29 @@
     "@tailwindcss/vite": "4.1.12",
     "@tsconfig/svelte": "5.0.5",
     "@types/node": "^22.15.0",
-    "@vitest/browser": "4.1.8",
-    "@vitest/browser-playwright": "4.1.8",
+    "@vitest/browser": "4.1.10",
+    "@vitest/browser-playwright": "4.1.10",
     "aria-query": "5.3.2",
-    "bits-ui": "2.18.1",
+    "bits-ui": "2.20.2",
     "publint": "0.3.12",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "storybook": "10.5.7",
-    "svelte": "5.56.9",
+    "svelte": "5.56.10",
     "svelte-check": "4.3.1",
     "tailwindcss": "4.1.12",
     "typescript": "~5.8.3",
-    "vite": "6.4.2",
-    "vitest": "4.1.8"
+    "vite": "6.4.3",
+    "vitest": "4.1.10"
+  },
+  "pnpm": {
+    "overrides": {
+      "@lapismd/design-core": "0.12.1"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@lapismd/design-core": "0.12"
+      }
+    }
   }
 }

@@ -12,8 +12,25 @@ import "./preview.css";
 
 const preview: Preview = {
   tags: ["autodocs", "test"],
+  globalTypes: {
+    // Brand selection is independent from the light/dark colour mode.
+    theme: {
+      description: "Brand theme",
+      toolbar: {
+        icon: "paintbrush",
+        items: [
+          { value: "default", title: "Default" },
+          { value: "lapis", title: "Lapis" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+    // colorMode is toggled by the manager TOOL in
+    // manager-color-mode-toggle.tsx (single sun/moon button).
+  },
   initialGlobals: {
     theme: "lapis",
+    colorMode: "light",
   },
   decorators: [
     withThemeByDataAttribute({
@@ -24,6 +41,19 @@ const preview: Preview = {
       defaultTheme: "lapis",
       attributeName: "data-ui-theme",
     }),
+    (story, context) => {
+      if (typeof document !== "undefined") {
+        document.documentElement.setAttribute(
+          "data-ui-theme",
+          String(context.globals.theme ?? "lapis"),
+        );
+        document.documentElement.classList.toggle(
+          "dark",
+          context.globals.colorMode === "dark",
+        );
+      }
+      return story();
+    },
   ],
   parameters: {
     layout: "fullscreen",
@@ -47,7 +77,16 @@ const preview: Preview = {
       test: "error",
     },
     backgrounds: { disable: true },
+    // Brand switcher is owned by globalTypes.theme above; keep the addon
+    // decorator for data-ui-theme without a second toolbar control.
     themes: { disable: true },
+    // Docs TOC (right rail): Installation / Structure / API headings from MDX + Markdown.
+    docs: {
+      toc: {
+        headingSelector: "h2, h3",
+        title: "On this page",
+      },
+    },
   },
 };
 

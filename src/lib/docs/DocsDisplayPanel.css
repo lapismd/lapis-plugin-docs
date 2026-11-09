@@ -1,4 +1,49 @@
+.docs-reading-anchor {
+  position: absolute;
+  z-index: 5;
+  margin: 0;
+  pointer-events: none;
+}
+
+.docs-reading-edge {
+  position: absolute;
+  top: 50%;
+  right: max(
+    calc(0.8rem + var(--markdown-floating-toc-scrollbar-offset, 1rem)),
+    calc(env(safe-area-inset-right) + var(--markdown-floating-toc-scrollbar-offset, 1rem))
+  );
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.docs-reading-edge > .markdown-floating-toc {
+  position: relative;
+  top: auto;
+  right: auto;
+  height: auto;
+  min-height: 0;
+  transform: none;
+}
+
+.docs-reading-edge .markdown-floating-toc__rail {
+  position: relative;
+  top: auto;
+  right: auto;
+  margin-left: auto;
+  transform: none;
+}
+
+.docs-reading-edge .docs-chapter-scroll-ring {
+  margin-right: calc((var(--markdown-floating-toc-gutter, 1.45rem) - 2.35rem) / 2);
+}
+
 .docs-display-view {
+  position: relative;
   min-height: 0;
   flex: 1;
   background:
@@ -30,7 +75,7 @@
   color: var(--foreground, #111);
   font-size: 0.95rem;
   line-height: 1.65;
-  padding: 0 0 3rem;
+  padding: 0;
 }
 
 .docs-display-view--slides {
@@ -253,6 +298,8 @@
 
 .docs-rich-block {
   --block-accent: var(--docs-accent);
+  --docs-rich-header-icon: 2.35rem;
+  --docs-rich-header-gap: 0.75rem;
   display: grid;
   gap: 1rem;
   overflow: hidden;
@@ -289,13 +336,17 @@
 }
 
 .docs-rich-block__header {
-  gap: 0.75rem;
+  gap: var(--docs-rich-header-gap);
+}
+
+.docs-rich-block:has(> .docs-rich-block__header) > .docs-markdown-preview-root {
+  padding-inline-start: calc(var(--docs-rich-header-icon) + var(--docs-rich-header-gap));
 }
 
 .docs-rich-block__icon {
   display: grid;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: var(--docs-rich-header-icon);
+  height: var(--docs-rich-header-icon);
   flex: none;
   place-items: center;
   border-radius: 0.65rem;

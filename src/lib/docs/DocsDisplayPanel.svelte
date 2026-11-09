@@ -15,7 +15,8 @@
 		bookNavigation = null,
 		chapterNavigation = null,
 		saving = false,
-		onToggleChapterComplete = () => {}
+		onToggleChapterComplete = () => {},
+		onOpenNote = () => {}
 	}: {
 		displayMode: DisplayMode;
 		note: DocsNote | null;
@@ -24,6 +25,7 @@
 		chapterNavigation?: DocsBookChapterNavigation | null;
 		saving?: boolean;
 		onToggleChapterComplete?: (completed: boolean) => void | Promise<void>;
+		onOpenNote?: (noteId: string) => void;
 	} = $props();
 
 	let focusSlideIndex = $state(0);
@@ -62,6 +64,7 @@
 						focusSlideIndex = clampDisplaySlideIndex(index, note);
 					}}
 					{onToggleChapterComplete}
+					{onOpenNote}
 				/>
 			{:else}
 				<DocsMarkdownPreview

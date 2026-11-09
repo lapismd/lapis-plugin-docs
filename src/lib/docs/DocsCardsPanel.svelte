@@ -5,12 +5,12 @@
 	import TagEditor from "./candidates/TagEditor.svelte";
 	import * as ScrollArea from "@lapismd/design-core/shadcn/scroll-area";
 	import DocsCardPreviewStack from "./DocsCardPreviewStack.svelte";
+	import DocsMarkdownField from "./DocsMarkdownField.svelte";
 	import {
 		FormField,
 		FormSectionHeader,
 		ReferencePicker,
 		SegmentedControl,
-		autosizeTextarea,
 		type ReferenceIndex
 	} from "@lapismd/design-core/forms";
 	import { slugifyDocsId } from '../model/markdown';
@@ -116,6 +116,8 @@
           {index}
           total={draftNote.cards.length}
           open={cardOpenById[card.id] !== false}
+          editable={cardOpenById[card.id] !== false}
+          titleToggleable={cardOpenById[card.id] === false}
           removeLabel={`Remove card ${card.id}`}
           onTitleChange={(prompt) =>
             updateCard(card.id, (item) => ({ ...item, prompt }))}
@@ -169,18 +171,16 @@
                   }))}
               />
             </FormField>
-            <FormField label="Answer">
-              <textarea
-                rows="1"
-                value={card.answer}
-                placeholder="Add Answer"
-                use:autosizeTextarea={card.answer}
-                oninput={(event) =>
-                  updateCard(card.id, (item) => ({
-                    ...item,
-                    answer: event.currentTarget.value,
-                  }))}></textarea>
-            </FormField>
+            <DocsMarkdownField
+              label="Answer"
+              value={card.answer}
+              placeholder="Add Answer"
+              onChange={(value) =>
+                updateCard(card.id, (item) => ({
+                  ...item,
+                  answer: value,
+                }))}
+            />
             <FormField label="Tags" as="div">
               <TagEditor
                 id={`docs-card-tags-${draftNote.id}-${card.id}`}

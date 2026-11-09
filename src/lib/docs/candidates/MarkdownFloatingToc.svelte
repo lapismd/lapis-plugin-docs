@@ -1,7 +1,8 @@
 <script lang="ts">
-	/**
-	 * DESIGN_CORE_CANDIDATE: MarkdownFloatingToc — ported for Docs; promote to design-core/forms later.
-	 */
+  /**
+   * DESIGN_CORE_CANDIDATE: MarkdownFloatingToc — ported for Docs; promote to design-core/forms later.
+   */
+  import "./markdown-floating-toc.css";
   import type { MarkdownFloatingTocMode } from "./markdown-floating-toc";
 
   type TocHeading = {

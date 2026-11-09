@@ -67,11 +67,15 @@ export default defineConfig({
       {
         extends: true,
         plugins: [
+          svelte({
+            include: "**/*.svelte",
+            preprocess: vitePreprocess(),
+            compilerOptions: { runes: undefined },
+          }),
           storybookTest({ configDir: path.join(packageDir, ".storybook") }),
         ],
         test: {
           name: "storybook",
-          setupFiles: ["./.storybook/vitest.setup.ts"],
           testTimeout: 60_000,
           browser: {
             enabled: true,
