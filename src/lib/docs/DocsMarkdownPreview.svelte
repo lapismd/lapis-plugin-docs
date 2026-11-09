@@ -264,4 +264,15 @@
   .docs-markdown-preview-root :global(.docs-mira-markdown-preview .markdown-view__document) {
     padding-bottom: 0;
   }
+
+  .docs-markdown-preview-root :global(.markdown-rendered a),
+  .docs-markdown-preview-root :global(.markdown-preview-surface a),
+  .docs-markdown-preview-root :global(a[data-mira-internal-link]),
+  .docs-markdown-preview-root :global(.mira-link-preview__trigger) {
+    color: var(--card-color, var(--column-color, var(--kanban-accent, var(--docs-brand, #2563eb))));
+    cursor: pointer;
+    font-weight: 850;
+    text-decoration: underline;
+    text-underline-offset: 0.18rem;
+  }
 </style>

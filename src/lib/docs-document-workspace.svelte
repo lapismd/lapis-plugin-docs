@@ -4,7 +4,10 @@
    */
   import type { App } from "@lapis-notes/api";
   import { onDestroy } from "svelte";
-  import { subscribeDocsDocumentSurface } from "./docs/docs-document-surface";
+  import {
+    requestDocsDocumentSurface,
+    subscribeDocsDocumentSurface,
+  } from "./docs/docs-document-surface";
   import DocsWorkspace from "./docs/DocsWorkspace.svelte";
   import type { DocsRepository } from "./docs-repository";
   import {
@@ -165,7 +168,9 @@
       const target = notes.find((note) => note.id === noteId);
       if (!target?.sourcePath) return;
       const file = app.vault.getFileByPath(target.sourcePath);
-      if (file) void app.workspace.openLinkText(target.sourcePath, "", false);
+      if (!file) return;
+      requestDocsDocumentSurface(target.sourcePath, { panel: "display" });
+      void app.workspace.openLinkText(target.sourcePath, "", false);
     }}
     onActivePanelChange={(panel) => {
       activePanel = panel;

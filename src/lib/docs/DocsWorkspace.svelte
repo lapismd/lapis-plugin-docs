@@ -18,7 +18,7 @@
 
 	import { fsrsCardFromState, fsrsStateFromCard } from '../model/fsrs';
 	import { docsBookWorkspaceView } from './docs-book-view-model';
-	import { preservePreviewModeForDocsLink } from './docs-link-mode';
+	import { openDocsContentLink, preservePreviewModeForDocsLink } from './docs-link-mode';
 	import { setDocsMediaResolver } from '../model/docs-media-context';
 	import { serverDocsMediaUrl } from '../model/docs-relative-media';
 
@@ -644,6 +644,15 @@
     const [year, month, day] = dateOnly.split("-").map((part) => Number(part));
     return new Date(year, month - 1, day, 9, 0, 0, 0).toISOString();
   }
+  function onWorkspaceClick(event: MouseEvent) {
+    const opened = openDocsContentLink(event, notes, (noteId) => {
+      onActivePanelChange("display");
+      onPreviewModeChange(true);
+      onActiveNoteChange(noteId);
+    });
+    if (!opened) preservePreviewModeForDocsLink(event, activePanel);
+  }
+
   function updateCardDue(cardId: string, dateOnly: string | undefined) {
     updateCard(cardId, (item) => {
       const now = new Date();
@@ -664,7 +673,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <div
   class="docs-workspace"
-  onclick={(event) => preservePreviewModeForDocsLink(event, activePanel)}
+  onclick={onWorkspaceClick}
 >
   {#if activeFolderTag && folderDisplayMode === "panel"}
     <DocsFolderPanel

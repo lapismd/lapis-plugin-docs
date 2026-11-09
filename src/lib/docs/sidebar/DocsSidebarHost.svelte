@@ -1,7 +1,10 @@
 <script lang="ts">
   import type { App, TFile } from "@lapis-notes/api";
   import type { DocsRepository } from "../../docs-repository";
-  import { requestDocsDocumentSurface } from "../docs-document-surface";
+  import {
+    requestDocsDocumentSurface,
+    subscribeDocsDocumentSurface,
+  } from "../docs-document-surface";
   import {
     buildDocsWorkspaceIndex,
     createDocsNote,
@@ -65,6 +68,15 @@
       activePath = file?.path ?? null;
     });
     return () => workspace.offref(fileOpen);
+  });
+
+  $effect(() => {
+    const path = activePath;
+    if (!path) return;
+    return subscribeDocsDocumentSurface(path, (surface) => {
+      activePanel = surface.panel === "note" ? "display" : surface.panel;
+      if (surface.reviewScope) reviewScope = surface.reviewScope;
+    });
   });
 
   async function openNote(
