@@ -105,7 +105,7 @@ blocks:
         subgraph Authoring["Authoring surface"]
           direction TB
           A([Open note]):::entry --> B[Edit structured blocks]
-          B --> C[Attach cards and source refs]
+          B --> C[Attach cards and block refs]
           C --> D{Valid schema?}
         end
 
@@ -170,7 +170,7 @@ blocks:
       - - Block
         - text, concept, procedure, prompt, code, mermaid code, table, callout, story, resources
       - - Card
-        - type, status, sourceRefs, blockRefs, fsrs, reviews
+        - type, status, blockRefs, fsrs, reviews
   - id: callout-critical
     type: callout
     title: Harness reset
@@ -213,8 +213,6 @@ cards:
       - sample
       - learning/revision/memory
       - memory
-    sourceRefs:
-      - "[^highlight]"
     blockRefs:
       - concept-desirable-difficulty
     fsrs:
@@ -259,8 +257,6 @@ cards:
       - sample
       - systems/cache/invalidation
       - systems
-    sourceRefs:
-      - "[^summary]"
     blockRefs:
       - prompt-cache-invalidation
       - code-fsrs-helper
@@ -295,8 +291,6 @@ cards:
       - sample
       - learning/revision/suspended
       - suspended
-    sourceRefs:
-      - "[^section]"
     blockRefs:
       - callout-critical
     fsrs:

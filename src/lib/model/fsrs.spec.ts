@@ -10,7 +10,6 @@ const card: DocsCard = {
 	prompt: 'Prompt',
 	answer: 'Answer',
 	tags: [],
-	sourceRefs: [],
 	blockRefs: [],
 	fsrs: {
 		due: '2026-07-02T09:00:00.000Z',

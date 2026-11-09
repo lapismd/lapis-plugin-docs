@@ -1,21 +1,19 @@
 <script module lang="ts">
   import { defineMeta } from "@storybook/addon-svelte-csf";
-  import DocsFlipCard from "./docs/DocsFlipCard.svelte";
-  import { docsFlipCardExample } from "./docs.example-sources";
+  import { docsCardPreviewExample } from "./docs.example-sources";
 
   const { Story } = defineMeta({
     title: "Plugins/Docs/Cards",
-    component: DocsFlipCard,
     tags: ["visual-pending"],
     parameters: {
       docs: {
         description: {
           component:
-            "Plugin-local flip card for Docs review. Marked as a design-core migration candidate.",
-          story: "Flip a basic Docs review card.",
+            "Document card preview used by Cards and Review. The stack, face, and actions match the note card preview.",
+          story: "Preview a sample Docs card with the document card styling.",
         },
         source: {
-          code: docsFlipCardExample,
+          code: docsCardPreviewExample,
           language: "svelte",
           type: "code",
         },
@@ -24,13 +22,28 @@
   });
 </script>
 
-<Story name="Flip Card">
+<script lang="ts">
+  import DocsCardPreviewStack from "./docs/DocsCardPreviewStack.svelte";
+  import "./docs/DocsCardsReview.css";
+  import "./docs/DocsWorkspace.css";
+  import { sampleDocsNotes } from "./model";
+
+  const note = sampleDocsNotes().find((item) => item.id === "sample-docs-index");
+  const items = (note?.cards ?? []).map((card) => ({
+    key: card.id,
+    card,
+    noteId: note?.id,
+    noteTitle: note?.title ?? "",
+    noteSourcePath: note?.sourcePath ?? "",
+    noteBlocks: note?.blocks ?? [],
+  }));
+  let previewAnswerOpenById = $state<Record<string, boolean>>({});
+</script>
+
+<Story name="Card preview">
   {#snippet template()}
-    <div class="docs-story-frame" style="padding: 1.5rem; max-width: 28rem;">
-      <DocsFlipCard
-        front="When is token bucket better than a fixed window?"
-        back="When bounded bursts are acceptable."
-      />
+    <div class="docs-workspace docs-story-frame" style="height: 40rem; padding: 1.5rem;">
+      <DocsCardPreviewStack {items} bind:previewAnswerOpenById />
     </div>
   {/snippet}
 </Story>

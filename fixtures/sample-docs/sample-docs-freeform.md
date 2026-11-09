@@ -31,8 +31,6 @@ cards:
       - sample
       - notes/freeform
       - freeform
-    sourceRefs:
-      - "[^text]"
     blockRefs:
       - freeform-note
     fsrs:

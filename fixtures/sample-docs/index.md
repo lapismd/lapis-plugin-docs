@@ -46,8 +46,6 @@ cards:
       - sample
       - resources/docs/index
       - index
-    sourceRefs:
-      - "[^section]"
     blockRefs:
       - index-links
     fsrs:

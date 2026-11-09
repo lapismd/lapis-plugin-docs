@@ -6,7 +6,6 @@
 	import { REVIEW_RATINGS, REVIEW_RATING_LABELS } from '../model/docs-review-constants';
 	import { formatDocsReviewInterval, previewDocsCardRatings } from '../model/fsrs';
 	import type { DocsCard, DocsRevisionBlock, DocsReviewRating } from '../model';
-	import type { ReferenceIndex } from '@lapismd/design-core/forms';
 
 	let {
 		card,
@@ -14,7 +13,6 @@
 		noteSourcePath = '',
 		dueAt,
 		noteBlocks = [],
-		sourceReferenceIndex,
 		revealed = false,
 		peek = false,
 		showIntervalPreview = false,
@@ -27,7 +25,6 @@
 		noteSourcePath?: string;
 		dueAt?: string;
 		noteBlocks?: DocsRevisionBlock[];
-		sourceReferenceIndex: ReferenceIndex;
 		revealed?: boolean;
 		peek?: boolean;
 		showIntervalPreview?: boolean;
@@ -108,7 +105,6 @@
 						{card}
 						{noteSourcePath}
 						{noteBlocks}
-						{sourceReferenceIndex}
 						showExtras={revealed}
 					/>
 				</div>

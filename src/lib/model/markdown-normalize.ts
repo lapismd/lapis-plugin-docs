@@ -807,7 +807,6 @@ export function normalizeDocsCard(
     prompt,
     answer,
     tags: stringArray(record.tags),
-    sourceRefs: stringArray(record.sourceRefs ?? record.source_refs),
     blockRefs: stringArray(record.blockRefs ?? record.block_refs),
     ...(type === "coding"
       ? { exercise: normalizeDocsCodingExercise(record.exercise, id) }

@@ -2,20 +2,17 @@
 	import DocsCardPreviewStack from './DocsCardPreviewStack.svelte';
 	import type { DocsReviewQueueItem, DocsReviewRating, DocsReviewScope, DocsRevisionBlock } from '../model';
 	import * as ScrollArea from "@lapismd/design-core/shadcn/scroll-area";
-	import type { ReferenceIndex } from '@lapismd/design-core/forms';
 
 	let {
 		dueCards,
 		reviewScope = 'note',
 		getNoteBlocks = () => [],
-		sourceReferenceIndex,
 		reviewAnswerOpenById = $bindable({}),
 		onReviewCard
 	}: {
 		dueCards: DocsReviewQueueItem[];
 		reviewScope?: DocsReviewScope;
 		getNoteBlocks?: (noteId: string) => DocsRevisionBlock[];
-		sourceReferenceIndex: ReferenceIndex;
 		reviewAnswerOpenById: Record<string, boolean>;
 		onReviewCard: (
 			noteId: string,
@@ -55,7 +52,6 @@
 			{/if}
 			<DocsCardPreviewStack
 				items={stackItems}
-				{sourceReferenceIndex}
 				ariaLabel={reviewScope === 'workspace' ? 'All due cards' : 'Due cards'}
 				mode="study"
 				blockSwipeWhenRevealed={true}

@@ -40,8 +40,6 @@ cards:
       - sample
       - interview/behavioral/stories
       - behavioral
-    sourceRefs:
-      - "[^stories/story_acme_platform]"
     blockRefs:
       - story-conflict
     fsrs:
