@@ -13,7 +13,6 @@
   import { TagList, type TagListItem } from "@lapismd/design-core/shadcn/tag-list";
   import {
     docsNoteCardCount,
-    docsNoteMatchesTagFolder,
     type DocsNotePanel,
     type DocsNoteSummary,
     type DocsReviewScope,
@@ -27,6 +26,14 @@
     createDocsBookNoteTree,
     type DocsBookNoteTreeEntry,
   } from "./docs-book-note-tree";
+  import {
+    docsSidebarFiltersActive,
+    docsTagSummariesForNotes,
+    filterDocsSidebarAmbiguousLinks,
+    filterDocsSidebarBacklinks,
+    filterDocsSidebarNotes,
+    filterDocsSidebarOutgoingLinks,
+  } from "./docs-sidebar-filters";
   import {
     DEFAULT_DOCS_NOTE_SORT,
     type DocsNoteSortMode,
@@ -81,26 +88,43 @@
   const dueNoteIds = $derived(
     new Set((workspace?.reviewQueue ?? []).map((item) => item.noteId)),
   );
-  const filteredNotes = $derived(
-    notes.filter((note) => {
-      if (dueOnly && !dueNoteIds.has(note.id)) return false;
-      if (selectedTags.length && !selectedTags.every((tag) => docsNoteMatchesTagFolder(note, tag))) {
-        return false;
-      }
-      const needle = query.trim().toLowerCase();
-      if (!needle) return true;
-      return [note.title, note.id, note.summary, ...note.tags, ...note.aliases]
-        .join(" ")
-        .toLowerCase()
-        .includes(needle);
-    }),
+  const reviewAll = $derived(reviewScope === "workspace");
+  const noteFilters = $derived({
+    query,
+    dueOnly,
+    reviewAll,
+    selectedTags,
+    dueNoteIds,
+  });
+  const filtersActive = $derived(docsSidebarFiltersActive(noteFilters));
+  const filteredNotes = $derived(filterDocsSidebarNotes(notes, noteFilters));
+  const visibleNoteIds = $derived(new Set(filteredNotes.map((note) => note.id)));
+  const sidebarTags = $derived(
+    filtersActive ? docsTagSummariesForNotes(filteredNotes) : workspace?.tags ?? [],
   );
-  const tree = $derived(createDocsBookNoteTree(filteredNotes, workspace?.books ?? [], sortMode));
+  const tree = $derived(
+    createDocsBookNoteTree(filteredNotes, workspace?.books ?? [], sortMode, filtersActive),
+  );
   const activeBacklinks = $derived(
-    activeNoteId ? workspace?.graph.backlinks[activeNoteId] ?? [] : [],
+    filterDocsSidebarBacklinks(
+      activeNoteId ? workspace?.graph.backlinks[activeNoteId] ?? [] : [],
+      visibleNoteIds,
+      filtersActive,
+    ),
   );
   const activeOutgoing = $derived(
-    workspace?.graph.links.filter((link) => link.sourceNoteId === activeNoteId) ?? [],
+    filterDocsSidebarOutgoingLinks(
+      workspace?.graph.links.filter((link) => link.sourceNoteId === activeNoteId) ?? [],
+      visibleNoteIds,
+      filtersActive,
+    ),
+  );
+  const activeAmbiguous = $derived(
+    filterDocsSidebarAmbiguousLinks(
+      workspace?.graph.ambiguousLinks ?? [],
+      visibleNoteIds,
+      filtersActive,
+    ),
   );
   const sortOptions: Array<{ value: DocsNoteSortMode; label: string }> = [
     { value: "updated-desc", label: "Updated" },
@@ -313,12 +337,12 @@
         {notes}
         backlinks={activeBacklinks}
         outgoingLinks={activeOutgoing}
-        ambiguousLinks={workspace?.graph.ambiguousLinks ?? []}
+        ambiguousLinks={activeAmbiguous}
         {onSelectNote}
       />
     {:else}
       <DocsTagsSidebar
-        tags={workspace?.tags ?? []}
+        tags={sidebarTags}
         {selectedTags}
         bind:viewMode={tagsViewMode}
         bind:openNodes={tagsOpenNodes}

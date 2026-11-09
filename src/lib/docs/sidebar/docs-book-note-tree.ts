@@ -72,14 +72,15 @@ function summaryFromBookChapter(chapter: DocsBookChapter): DocsNoteSummary {
  * Nest filtered notes under books using workspace.books TOC membership.
  * Chapter notes listed in any book are omitted from the top level.
  *
- * When a book is visible (index or any chapter matches the filter), the full
- * book.chapters TOC is listed — including unresolved entries — so sibling
- * chapters are not dropped by partial filters.
+ * Without `strict`, a visible book keeps its full chapter TOC, including
+ * unresolved entries. With `strict`, only notes that passed the sidebar
+ * filter are listed.
  */
 export function createDocsBookNoteTree(
   filteredNotes: DocsNoteSummary[],
   books: DocsBookNavigation[],
-  sortMode: DocsNoteSortMode = DEFAULT_DOCS_NOTE_SORT
+  sortMode: DocsNoteSortMode = DEFAULT_DOCS_NOTE_SORT,
+  strict = false,
 ): DocsBookNoteTreeEntry[] {
   const filteredById = new Map(filteredNotes.map((note) => [note.id, note]));
   const chapterNoteIds = new Set<string>();
@@ -96,12 +97,18 @@ export function createDocsBookNoteTree(
 
   for (const book of books) {
     const indexNote = filteredById.get(book.indexNoteId) ?? null;
-    const matchedChapter = book.chapters.some((chapter) => filteredById.has(chapter.noteId));
-    if (!indexNote && !matchedChapter) continue;
-
-    const chapters = book.chapters.map(
-      (chapter) => filteredById.get(chapter.noteId) ?? summaryFromBookChapter(chapter)
-    );
+    const chapters = strict
+      ? book.chapters.flatMap((chapter) => {
+          const note = filteredById.get(chapter.noteId);
+          return note ? [note] : [];
+        })
+      : book.chapters.map(
+          (chapter) => filteredById.get(chapter.noteId) ?? summaryFromBookChapter(chapter),
+        );
+    if (!indexNote && chapters.length === 0) continue;
+    if (!strict && !indexNote && !book.chapters.some((chapter) => filteredById.has(chapter.noteId))) {
+      continue;
+    }
 
     entries.push({
       kind: 'book',
