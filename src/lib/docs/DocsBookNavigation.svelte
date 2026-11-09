@@ -1,10 +1,15 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import BookOpenIcon from '@lucide/svelte/icons/book-open';
 	import CheckIcon from '@lucide/svelte/icons/check';
 	import ListIcon from '@lucide/svelte/icons/list';
+	import SearchIcon from '@lucide/svelte/icons/search';
 	import XIcon from '@lucide/svelte/icons/x';
+	import { Button } from '@lapismd/design-core/shadcn/button';
+	import { Input } from '@lapismd/design-core/shadcn/input';
+	import * as ScrollArea from '@lapismd/design-core/shadcn/scroll-area';
 	import type {
 		DocsBookChapter,
 		DocsBookChapterNavigation,
@@ -26,8 +31,18 @@
 	} = $props();
 
 	let floatingOpen = $state(false);
+	let searchOpen = $state(false);
+	let chapterQuery = $state('');
+	let searchInput = $state<HTMLInputElement | null>(null);
 
 	const progressPercent = $derived(Math.max(0, Math.min(100, book.progressPercent)));
+	const visibleChapters = $derived.by(() => {
+		const needle = chapterQuery.trim().toLowerCase();
+		if (!needle) return book.chapters;
+		return book.chapters.filter((chapter) =>
+			`${chapter.title} ${chapter.summary}`.toLowerCase().includes(needle)
+		);
+	});
 	const ringRadius = 15.5;
 	const ringCircumference = 2 * Math.PI * ringRadius;
 	const ringOffset = $derived(ringCircumference * (1 - progressPercent / 100));
@@ -39,17 +54,68 @@
 	function isActive(chapter: DocsBookChapter) {
 		return chapter.resolved && chapter.noteId === activeNoteId;
 	}
+
+	async function openChapterSearch() {
+		searchOpen = true;
+		await tick();
+		searchInput?.focus();
+	}
+
+	function closeChapterSearch() {
+		searchOpen = false;
+		chapterQuery = '';
+	}
+
+	function onChapterSearchKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') closeChapterSearch();
+	}
 </script>
 
 {#if variant === 'toc'}
 	<section class="docs-book-toc" aria-label="Book table of contents">
 		<div class="docs-book-toc__header">
 			<div class="docs-book-toc__icon"><ListIcon aria-hidden="true" /></div>
-			<div>
+			<div class="docs-book-toc__heading">
 				<p>Table of Contents</p>
 				<span
 					>{book.chapters.length} chapters · {book.completedCount}/{book.resolvedCount} complete</span
 				>
+			</div>
+			<div class="docs-book-toc__search" class:is-open={searchOpen}>
+				{#if searchOpen}
+					<SearchIcon aria-hidden="true" />
+					<Input
+						bind:ref={searchInput}
+						class="docs-book-toc__search-input"
+						type="text"
+						placeholder="Search chapters"
+						aria-label="Search chapters"
+						bind:value={chapterQuery}
+						onkeydown={onChapterSearchKeydown}
+					/>
+					<Button
+						type="button"
+						variant="ghost"
+						size="icon-sm"
+						class="docs-book-toc__search-toggle"
+						aria-label="Close chapter search"
+						onclick={closeChapterSearch}
+					>
+						<XIcon aria-hidden="true" />
+					</Button>
+				{:else}
+					<Button
+						type="button"
+						variant="ghost"
+						size="icon-sm"
+						class="docs-book-toc__search-toggle"
+						aria-label="Search chapters"
+						aria-expanded={false}
+						onclick={openChapterSearch}
+					>
+						<SearchIcon aria-hidden="true" />
+					</Button>
+				{/if}
 			</div>
 			<div
 				class="docs-book-progress-ring"
@@ -77,8 +143,9 @@
 				{/if}
 			</div>
 		</div>
+		<ScrollArea.Root class="docs-book-toc__scroll">
 		<ol class="docs-book-chapters">
-			{#each book.chapters as chapter (chapter.index + chapter.noteId)}
+			{#each visibleChapters as chapter (chapter.index + chapter.noteId)}
 				<li
 					class:resolved={chapter.resolved}
 					class:is-active={isActive(chapter)}
@@ -106,8 +173,11 @@
 						</span>
 					{/if}
 				</li>
+			{:else}
+				<li class="docs-book-chapters__empty">No matching chapters.</li>
 			{/each}
 		</ol>
+		</ScrollArea.Root>
 	</section>
 {:else}
 	<div class="docs-book-floating" class:is-open={floatingOpen}>
@@ -251,10 +321,13 @@
 
 <style>
 	.docs-book-toc {
-		display: grid;
+		display: flex;
+		flex-direction: column;
 		gap: 1rem;
+		max-height: 50svh;
 		margin: 1.5rem 0;
 		padding: 1rem;
+		overflow: hidden;
 		border: 1px solid var(--border);
 		border-radius: 0.5rem;
 		background: var(--background);
@@ -267,6 +340,73 @@
 		align-items: center;
 		gap: 0.65rem;
 		min-width: 0;
+	}
+
+	.docs-book-toc__header {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		flex: 0 0 auto;
+		background: var(--background);
+	}
+
+	.docs-book-toc__heading {
+		min-width: 0;
+		flex: 1 1 auto;
+	}
+
+	.docs-book-toc__heading p,
+	.docs-book-toc__heading span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.docs-book-toc__search {
+		display: flex;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: flex-end;
+		min-width: 0;
+		margin-left: auto;
+	}
+
+	.docs-book-toc__search.is-open {
+		flex: 1 1 12rem;
+		gap: 0.35rem;
+		max-width: 18rem;
+	}
+
+	.docs-book-toc__search > :global(svg) {
+		flex: 0 0 auto;
+		width: 0.95rem;
+		height: 0.95rem;
+		color: var(--muted-foreground);
+	}
+
+	.docs-book-toc :global(button.docs-book-toc__search-toggle) {
+		width: 2rem;
+		height: 2rem;
+		flex: 0 0 auto;
+		border-radius: 0.5rem;
+	}
+
+	.docs-book-toc :global(input.docs-book-toc__search-input) {
+		height: 2rem;
+		min-width: 0;
+		flex: 1 1 auto;
+		font-size: 0.82rem;
+		padding-inline: 0.5rem;
+	}
+
+	.docs-book-toc :global(.docs-book-toc__scroll) {
+		min-height: 0;
+		flex: 1 1 auto;
+		overflow: hidden;
+	}
+
+	.docs-book-toc :global(.docs-book-toc__scroll [data-ui-part='scroll-area-viewport']) {
+		max-height: calc(50svh - 5.75rem);
 	}
 
 	.docs-book-toc__icon,
@@ -287,7 +427,6 @@
 		height: 1rem;
 	}
 
-	.docs-book-toc__header > div:nth-child(2),
 	.docs-book-floating__title {
 		min-width: 0;
 		flex: 1 1 auto;
@@ -454,6 +593,13 @@
 
 	.docs-book-chapters__missing {
 		opacity: 0.62;
+	}
+
+	.docs-book-chapters__empty {
+		margin: 0;
+		color: var(--muted-foreground);
+		font-size: 0.82rem;
+		list-style: none;
 	}
 
 	.docs-book-floating {
