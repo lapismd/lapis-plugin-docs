@@ -65,20 +65,24 @@
 		{blockSwipeWhenRevealed}
 		emptyLabel="No cards yet."
 	>
+	{#snippet frontHeader(item)}
+		{@const stackItem = item as DocsCardStackItem}
+		<div class="docs-review-face__meta">
+			<span class="docs-review-face__label">{stackItem.noteTitle}</span>
+			{#if stackItem.card.tags.length}
+				<DocsCardTagChips tags={stackItem.card.tags} />
+			{:else if stackItem.dueAt}
+				<span class="docs-review-face__label">Due {stackItem.dueAt}</span>
+			{/if}
+		</div>
+	{/snippet}
+
 	{#snippet front(item, context)}
 		{@const stackItem = item as DocsCardStackItem}
 		<div
 			class="docs-review-face__content docs-review-face__content--front"
 			id={stackItem.noteId ? `docs-card-${stackItem.noteId}-${stackItem.card.id}` : undefined}
 		>
-			<div class="docs-review-face__meta">
-				<span class="docs-review-face__label">{stackItem.noteTitle}</span>
-				{#if stackItem.card.tags.length}
-					<DocsCardTagChips tags={stackItem.card.tags} />
-				{:else if stackItem.dueAt}
-					<span class="docs-review-face__label">Due {stackItem.dueAt}</span>
-				{/if}
-			</div>
 			<div class="docs-review-face__prompt">
 				<span>Question</span>
 				<h3>
