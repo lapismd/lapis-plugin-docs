@@ -55,7 +55,7 @@ export default defineConfig(tableRequirements(), {
     },
     packageManifest: {
       name: "@lapis-notes/lapis-plugin-docs",
-      version: "0.1.0",
+      version: "0.2.0",
       privateAllowed: false,
       portableDependencies: true,
       manifestPath: "manifest.json",
@@ -75,6 +75,7 @@ export default defineConfig(tableRequirements(), {
         "(^|/)(?:dist|build|storybook-static)/",
         "^spec/book/",
         "^spec/src/(?:SUMMARY|verification)\\.md$",
+        "^CHANGELOG\\.md$",
         "\\.(?:spec|test)\\.[cm]?[jt]sx?$",
       ],
       rules: [
