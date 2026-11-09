@@ -35,10 +35,18 @@
     "storybook:stop": "bash scripts/storybook-stop.sh",
     "storybook:restart": "bash scripts/storybook-restart.sh",
     "validation:check": "vitest run --project unit scripts/ci.test.mjs",
-    "validation:smoke": "node scripts/validation/smoke.mjs"
+    "validation:smoke": "node scripts/validation/smoke.mjs",
+    "changeset": "changeset",
+    "release:version": "node scripts/release.mjs version",
+    "release:prepare": "node scripts/release.mjs prepare",
+    "release:attest": "node scripts/release.mjs attest",
+    "release:publish": "node scripts/release.mjs publish",
+    "release:verify": "node scripts/release.mjs verify"
   },
   "files": [
     "dist",
+    "manifest.json",
+    "CHANGELOG.md",
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*",
     "!dist/**/*.stories.*",
@@ -75,6 +83,7 @@
     "svelte": "5.56.10"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "@codemirror/autocomplete": "6.20.3",
     "@codemirror/commands": "6.10.4",
     "@codemirror/lang-markdown": "6.5.2",
@@ -118,6 +127,7 @@
     "publint": "0.3.12",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "sigstore": "4.1.1",
     "storybook": "10.5.7",
     "svelte": "5.56.10",
     "svelte-check": "4.3.1",

@@ -110,12 +110,12 @@ export default defineConfig(tableRequirements(), {
         },
         {
           pattern:
-            "^(?:pnpm-|scripts/|\\.gitignore$|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$|README\\.md$)",
+            "^(?:pnpm-|scripts/|\\.changeset/|\\.gitignore$|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$|README\\.md$)",
           chapters: ["spec/src/spec-governance.md"],
         },
       ],
       protected: [
-        "^(?:package\\.json$|manifest\\.json$|src/|crates/|fixtures/native-projection/|NATIVE-PROJECTION\\.md$|\\.storybook/|pnpm-|scripts/|\\.gitignore$|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$)",
+        "^(?:package\\.json$|manifest\\.json$|src/|crates/|fixtures/native-projection/|NATIVE-PROJECTION\\.md$|\\.storybook/|pnpm-|scripts/|\\.changeset/config\\.json$|\\.gitignore$|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$)",
       ],
     },
   },

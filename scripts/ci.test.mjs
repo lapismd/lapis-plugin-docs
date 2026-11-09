@@ -66,12 +66,17 @@ describe("Docs CI gates", () => {
   });
 
   it("aggregates every lane, even when prerequisites fail or cancel", () => {
+    expect(workflow.name).toBe("CI and npm release");
     expect(workflow.jobs.validate.if).toBe("always()");
-    expect([...workflow.jobs.validate.needs].sort()).toEqual(
-      Object.keys(workflow.jobs)
-        .filter((name) => name !== "validate")
-        .sort(),
-    );
+    expect([...workflow.jobs.validate.needs].sort()).toEqual([
+      "build-cache",
+      "image-pin",
+      "package",
+      "quality",
+      "storybook-interaction",
+      "storybook-static",
+      "unit",
+    ]);
     expect(workflow.jobs.validate.steps.at(-1).env.CI_JOB_RESULTS).toBe(
       "${{ toJSON(needs) }}",
     );
@@ -87,6 +92,36 @@ describe("Docs CI gates", () => {
       ).toThrow("unit");
     }
     expect(() => validateCiResults({})).toThrow();
+  });
+
+  it("versions on main and publishes the qualified npm artifact", () => {
+    const version = workflow.jobs.changesets;
+    const publish = workflow.jobs.publish;
+    expect(version.needs).toBe("validate");
+    expect(version.if).toContain("needs.validate.result == 'success'");
+    expect(version.if).toContain("github.ref == 'refs/heads/main'");
+    expect(version.permissions["pull-requests"]).toBe("write");
+    expect(version.steps.at(-1).uses).toBe("changesets/action@v1.8.0");
+    expect(version.steps.at(-1).with.version).toBe("pnpm release:version");
+    expect(version.steps.at(-1).with.title).toBe("chore: version Docs package");
+    expect(publish.needs).toEqual(["validate", "changesets"]);
+    expect(publish.if).toContain("needs.validate.result == 'success'");
+    expect(publish.if).toContain("needs.changesets.result == 'success'");
+    expect(publish.if).toContain(
+      "needs.changesets.outputs.hasChangesets != 'true'",
+    );
+    expect(publish.environment).toBe("npm-production");
+    expect(publish.permissions["id-token"]).toBe("write");
+    expect(publish.steps.map((step) => step.run ?? step.uses)).toEqual(
+      expect.arrayContaining([
+        "pnpm release:attest",
+        "pnpm release:publish",
+        "actions/download-artifact@v8",
+      ]),
+    );
+    expect(workflow.jobs.package.steps.map((step) => step.run)).toEqual(
+      expect.arrayContaining(["pnpm release:prepare"]),
+    );
   });
 
   it("publishes the static Storybook from main the way Notebook does", () => {
