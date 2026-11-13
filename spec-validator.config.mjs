@@ -55,7 +55,7 @@ export default defineConfig(tableRequirements(), {
     },
     packageManifest: {
       name: "@lapis-notes/lapis-plugin-docs",
-      version: "0.2.0",
+      version: "0.2.1",
       privateAllowed: false,
       portableDependencies: true,
       manifestPath: "manifest.json",

@@ -25,7 +25,7 @@ state, persistence, and application policy.
 
 ## Current package status
 
-- Package version: `@lapis-notes/lapis-plugin-docs@0.2.0`.
+- Package version: `@lapis-notes/lapis-plugin-docs@0.2.1`.
 - Runtime plugin id: `docs`.
 - Runtime peers: `@lapis-notes/api@^0.2.6`,
   `@lapismd/design-core@^0.12.1`, `@lapismd/mira@~0.1.4`,
