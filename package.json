@@ -41,7 +41,9 @@
     "release:prepare": "node scripts/release.mjs prepare",
     "release:attest": "node scripts/release.mjs attest",
     "release:publish": "node scripts/release.mjs publish",
-    "release:verify": "node scripts/release.mjs verify"
+    "release:verify": "node scripts/release.mjs verify",
+    "spec:search": "spec-validator search",
+    "spec:index": "spec-validator index"
   },
   "files": [
     "dist",
@@ -77,7 +79,7 @@
   },
   "peerDependencies": {
     "@lapis-notes/api": "^0.2.6",
-    "@lapismd/design-core": "^0.12.1",
+    "@lapismd/design-core": "^0.12.1 || ^0.13.0",
     "@lapismd/mira": "~0.1.4",
     "@lapismd/mira-editor": "~0.0.3",
     "svelte": "5.56.10"
@@ -101,7 +103,7 @@
     "@lapis-notes/search": "0.1.5",
     "@lapis-notes/ui": "0.1.7",
     "@lapis-notes/workspace": "0.3.4",
-    "@lapismd/design-core": "0.12.4",
+    "@lapismd/design-core": "0.13.0",
     "@lapismd/mira": "0.1.5",
     "@lapismd/mira-editor": "~0.0.3",
     "@lapismd/spec-validator": "^0.2.0",
@@ -138,7 +140,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@lapismd/design-core": "0.12.4"
+      "@lapismd/design-core": "0.13.0"
     },
     "peerDependencyRules": {
       "allowedVersions": {
