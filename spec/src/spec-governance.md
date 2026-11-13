@@ -29,7 +29,7 @@ spec-first gate remains fail-closed for `*.doc.md` file-view work.
 
 The Docs model does not keep a private reference-index module. Card block refs use the design-core reference picker.
 
-The current first-party lockfile resolves Design Core `0.12.4`, Mira `0.1.5`,
+The current first-party lockfile resolves Design Core `0.13.0`, Mira `0.1.5`,
 and API `0.2.6`. Source ownership and public contracts remain unchanged.
 
 The shared `@lapismd/spec-validator` package is repository validation tooling,
@@ -50,3 +50,7 @@ Hosted CI follows the Tasks and Notebook lane split inside that shared image.
 Quality selects the pushed revision before `validation:check`, `spec:check`,
 and `check`. Unit, package audit, static Storybook, and three interaction
 shards run beside it, and the aggregate job fails closed.
+
+The Design Core 0.13 intake retains the public component and App ownership
+contracts. `spec:search` and `spec:index` expose the installed Node validator
+for local requirement discovery; neither command runs in CI validation lanes.

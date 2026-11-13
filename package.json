@@ -41,7 +41,9 @@
     "release:prepare": "node scripts/release.mjs prepare",
     "release:attest": "node scripts/release.mjs attest",
     "release:publish": "node scripts/release.mjs publish",
-    "release:verify": "node scripts/release.mjs verify"
+    "release:verify": "node scripts/release.mjs verify",
+    "spec:search": "spec-validator search",
+    "spec:index": "spec-validator index"
   },
   "files": [
     "dist",
