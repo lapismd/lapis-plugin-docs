@@ -1,5 +1,11 @@
 # @lapis-notes/lapis-plugin-docs
 
+## 0.2.1
+
+### Patch Changes
+
+- 6f6c81d: Refresh first-party Lapis dependencies to the published versions recorded in this pull request.
+
 ## 0.2.0
 
 ### Minor Changes
