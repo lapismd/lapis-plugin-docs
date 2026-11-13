@@ -29,6 +29,9 @@ spec-first gate remains fail-closed for `*.doc.md` file-view work.
 
 The Docs model does not keep a private reference-index module. Card block refs use the design-core reference picker.
 
+The current first-party lockfile resolves Design Core `0.12.4`, Mira `0.1.5`,
+and API `0.2.6`. Source ownership and public contracts remain unchanged.
+
 The shared `@lapismd/spec-validator` package is repository validation tooling,
 not a runtime package. It MUST resolve from npm through the root development
 dependency. This exception does not weaken source-first validation for runtime
