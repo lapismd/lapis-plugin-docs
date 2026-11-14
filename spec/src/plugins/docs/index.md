@@ -9,7 +9,7 @@ practice is out of scope. Hosted CI uses the same pinned image and blocking
 lanes as Tasks and Notebook.
 
 The first-party dependency refresh resolves registry Design Core `0.13.1`,
-Mira `0.1.5`, Mira editor `~0.0.3`, and API `0.2.6` through portable npm ranges.
+Mira `0.2.0`, Mira editor `~0.0.3`, and API `0.2.6` through portable npm ranges.
 Reusable leaf controls come from public Design Core APIs. Markdown reading uses
 the host `MarkdownRenderer` when the app provides one, and otherwise public Mira
 preview with Mira editor extensions. Near-miss shared UI such as
@@ -36,3 +36,7 @@ migration candidates.
 The first-party maintenance intake also refreshes the published Visual Delta
 development addon and its registry lockfile. Docs runtime IDs, App ownership,
 Markdown fallback and host admission remain unchanged.
+
+The Mira 0.2 intake widens the public peer range to retain compatible 0.1
+consumers while admitting released 0.2 peers. Markdown fallback continues to
+use Mira public preview and the published editor extension package.
