@@ -8,7 +8,7 @@ registers a `docs/note` projection, a movable Docs sidebar tree, exclusive
 practice is out of scope. Hosted CI uses the same pinned image and blocking
 lanes as Tasks and Notebook.
 
-The first-party dependency refresh resolves registry Design Core `0.13.0`,
+The first-party dependency refresh resolves registry Design Core `0.13.1`,
 Mira `0.1.5`, Mira editor `~0.0.3`, and API `0.2.6` through portable npm ranges.
 Reusable leaf controls come from public Design Core APIs. Markdown reading uses
 the host `MarkdownRenderer` when the app provides one, and otherwise public Mira
@@ -32,3 +32,7 @@ migration candidates.
 | LN-DOC-010 | Near-miss shared presentation such as flip-card decks MUST be recreated in this package, marked `DESIGN_CORE_CANDIDATE`, and MUST NOT add Design Core APIs from this repository. |
 | LN-DOC-011 | Coding practice panels, Piston runners, LSP sidecars, timed sessions, and AI coach surfaces MUST NOT ship in Core Docs. The document toolbar MUST NOT include a Practice action. `coding-drill` MAY remain a note `docType` metadata value. |
 | LN-DOC-012 | Docs plugin data MUST be versioned and MAY store the docs vault root path. The default root MUST be `docs`. Settings MUST migrate absent data to defaults and notify open Docs views after persistence. |
+
+The first-party maintenance intake also refreshes the published Visual Delta
+development addon and its registry lockfile. Docs runtime IDs, App ownership,
+Markdown fallback and host admission remain unchanged.
