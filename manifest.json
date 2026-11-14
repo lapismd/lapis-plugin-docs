@@ -1,7 +1,7 @@
 {
   "id": "docs",
   "name": "Docs",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "minAppVersion": "0.0.1",
   "description": "Vault-native Docs notes, books, cards, and FSRS review.",
   "author": "Lapis Notes",
