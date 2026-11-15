@@ -8,7 +8,10 @@ const workflow = parse(
 );
 const pages = parse(
   readFileSync(
-    new URL("../.github/workflows/publish-storybook-pages.yml", import.meta.url),
+    new URL(
+      "../.github/workflows/publish-storybook-pages.yml",
+      import.meta.url,
+    ),
     "utf8",
   ),
 );
@@ -39,7 +42,9 @@ describe("Docs CI gates", () => {
 
   it("selects the exact CI revision before quality lanes", () => {
     const steps = workflow.jobs.quality.steps.map((step) => step.run ?? "");
-    expect(steps.join("\n")).toContain('jj --ignore-immutable edit "$GITHUB_SHA"');
+    expect(steps.join("\n")).toContain(
+      'jj --ignore-immutable edit "$GITHUB_SHA"',
+    );
     expect(steps).toContain("pnpm validation:check");
     expect(steps).toContain("pnpm spec:check");
     expect(steps).toContain("pnpm check");
@@ -100,8 +105,15 @@ describe("Docs CI gates", () => {
     expect(version.needs).toBe("validate");
     expect(version.if).toContain("needs.validate.result == 'success'");
     expect(version.if).toContain("github.ref == 'refs/heads/main'");
-    expect(version.permissions["pull-requests"]).toBe("write");
-    expect(version.steps.at(-1).uses).toBe("changesets/action@v1.8.0");
+    expect(version.permissions.contents).toBe("read");
+    const app = version.steps.find((step) => step.id === "app");
+    expect(app.with["permission-pull-requests"]).toBe("write");
+    expect(version.steps.at(-1).env.GITHUB_TOKEN).toBe(
+      "${{ steps.app.outputs.token }}",
+    );
+    expect(version.steps.at(-1).uses).toBe(
+      "changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b",
+    );
     expect(version.steps.at(-1).with.version).toBe("pnpm release:version");
     expect(version.steps.at(-1).with.title).toBe("chore: version Docs package");
     expect(publish.needs).toEqual(["validate", "changesets"]);

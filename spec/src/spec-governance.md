@@ -20,6 +20,13 @@
 | LPD-SPEC-014 | Hosted CI MUST use the pinned `ghcr.io/lapismd/lapis-ci` image shared with Tasks and Notebook, select the exact CI revision with Jujutsu, and block on quality, unit, package, static Storybook, and sharded interaction lanes. The aggregate job MUST fail unless every lane succeeds. Storybook publication from `main` MUST upload the static build to GitHub Pages.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | LPD-SPEC-015 | After those lanes succeed, the main workflow MUST open a Changesets version pull request titled “chore: version Docs package” when pending changesets exist. Otherwise it MUST publish the qualified npm artifact to the public registry with GitHub Actions OIDC trusted publishing, provenance, and a registry receipt. The publish job MUST use the `npm-production` environment and MUST NOT publish from a pull request or a failed validation lane. After that publish succeeds, the workflow MUST notify dependency consumers through the pinned dependency-automation workflow, using the same publish boundary as Tasks. The version command MUST set `package.json`, `manifest.json`, the canonical release version, the validator package version pin, and the README package status to the same version. Generated `CHANGELOG.md` stays outside the spec-first map. Validator package version pin: `0.2.2`. |
 
+LPD-SPEC-015 version PRs MUST use the existing dependency App only on canonical
+main, scoped to this repository with contents and pull-request write permissions.
+Missing credentials MUST fail closed and checkout MUST NOT persist credentials.
+The version job's workflow token remains read-only. Changesets MUST NOT create
+GitHub releases directly; the separate existing qualified publisher retains its
+OIDC, signatures, provenance, registry verification and workflow credentials.
+
 ## Spec-first mapping notes
 
 Protected Docs runtime and package-governance paths map through
