@@ -39,7 +39,7 @@ jobs:
       # Sibling repositories are absent on CI, and the tracked lockfile is
       # registry-pure, so the frozen install ignores local pnpm hooks.
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --ignore-pnpmfile
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies --ignore-pnpmfile
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
