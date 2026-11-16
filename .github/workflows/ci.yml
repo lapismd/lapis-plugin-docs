@@ -219,6 +219,10 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies --ignore-pnpmfile
+      - name: Guard the qualified source-owned Node version recipe
+        uses: lapismd/lapis-ci/actions/guard-version-runtime@7242eb3bf246c266ba4a48c50eaaf01c2950a37d # reviewed whole-recipe proof
+        with:
+          qualification-file: .github/versioning-runtime.json
       - name: Mint repository-scoped version PR token
         id: app
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3

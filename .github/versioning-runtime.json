@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "cliVersion": "3.0.3",
+  "packageManager": "pnpm@10.32.1",
+  "configSha256": "7dd5cd533dff2d3e2408b6091b11ce311f3709995b6b0a215dfed6ee24b309a7",
+  "scripts": {
+    "release:version": "node scripts/release.mjs version"
+  },
+  "files": {
+    "scripts/release.mjs": "3d2c5b8e427aef5eecf00d4d196c64291672ff7424bd039c77489302750b2056",
+    "pnpm-workspace.yaml": "89f23dc78ff0cadc29c72400d720748299543e9a8bec41544eef667000dbb4e5"
+  }
+}
