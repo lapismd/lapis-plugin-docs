@@ -11,13 +11,13 @@
       "scope": "development-only",
       "vulnerableRange": ">=4.2.0 <=4.3.1",
       "patchedRange": "<0.0.0",
-      "sourceSha": "07aceddc9584d5d2ea9b99f129f759a0cac7dff2",
-      "manifestSha256": "c42c00fc9614fb574556446887bb3bc736ee8e99c8c504b08d160911e58e62d6",
+      "sourceSha": "3fc13f1e0b9adc07854c5ddb18dd53a561a0ede1",
+      "manifestSha256": "b6185beee3607ba0aed773d72062e6d3c926fac31c15bfde51ccdac2b382fd0b",
       "lockSha256": "de2cb227ba83e06423cb2b95c67c66dc80db8fcde600ef067f77fe2c62756a0f",
-      "approvedAt": "2026-11-16T07:46:22.000Z",
+      "approvedAt": "2026-11-16T08:39:31.000Z",
       "expiresAt": "2026-11-21T00:00:00.000Z",
       "authority": "delegated-operator",
-      "record": "spec/records/2026-11-16-supported-host-cohort.md"
+      "record": "spec/records/2026-11-16-docs-030-development-decision.md"
     }
   ]
 }
