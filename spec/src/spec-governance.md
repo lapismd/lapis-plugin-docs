@@ -88,10 +88,11 @@ selects its specification working revision, preserving the committed Git HEAD
 needed for exact dependency-source discovery. Its raw full/production JSON and
 bounded decision are retained even when later quality checks fail.
 
-The supported-cohort development policy binds dependency source
-`07aceddc9584d5d2ea9b99f129f759a0cac7dff2` and its exact manifest/lock hashes.
-Its new delegated operator decision is recorded in
-`spec/records/2026-11-16-supported-host-cohort.md`; its raw one-LOW full audit
+The 0.3.0 development policy binds genuine version source
+`3fc13f1e0b9adc07854c5ddb18dd53a561a0ede1` and its exact manifest/lock hashes.
+The earlier source07ac approval failed closed after version preparation. The
+separately qualified delegated decision is recorded in
+`spec/records/2026-11-16-docs-030-development-decision.md`; its raw one-LOW full audit
 is not clean. This authority expires November21 at00:00UTC or on a known fix
 sooner, and does not admit any runtime finding or alternate dependency path.
 

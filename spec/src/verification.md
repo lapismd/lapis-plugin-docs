@@ -1,5 +1,9 @@
 # Verification
 
+The genuine0.3.0 version has a separately bound, expiring development-only audit
+decision after current package/browser qualification; the original binding
+failed closed. See [exact decision evidence](../records/2026-11-16-docs-030-development-decision.md).
+
 LPD-SPEC-014's [dependency-security record](../records/2026-11-16-dependency-security.md)
 retains baseline25/full and8/production findings, the repaired24 findings, three
 failing-before/passing-after regressions, complete functional/browser evidence
