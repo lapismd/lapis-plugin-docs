@@ -20,11 +20,13 @@ test("the qualified shared runtime guard precedes version writer authority insid
   );
   assert.equal(
     guard.uses,
-    "lapismd/lapis-ci/actions/guard-version-runtime@7242eb3bf246c266ba4a48c50eaaf01c2950a37d",
+    "lapismd/lapis-ci/actions/guard-version-runtime@6b4ed4d29fba971c04a7f6b66a0f2231f024e82e",
   );
   assert.deepEqual(guard.with, {
     "qualification-file": ".github/versioning-runtime.json",
+    "detect-release-intent": "true",
   });
+  assert.equal(guard.id, "intent");
   assert.equal(guard.if, undefined);
   assert.equal(guard["continue-on-error"], undefined);
   assert(
