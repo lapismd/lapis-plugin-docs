@@ -1,5 +1,10 @@
 # Docs Plugin
 
+The LPD-SPEC-014 dependency-security slice retains the public runtime, host
+contract and release version while updating the supported Storybook10, Vite6
+and Vitest4 development cohort. Declared transitive security floors exclude
+known fixed advisory ranges; full and production audits remain distinct gates.
+
 `@lapis-notes/lapis-plugin-docs` owns the first-party external Docs catalog and
 plugin runtime. A Docs note is a `*.doc.md` Markdown file with YAML front matter
 under a configurable vault root. The filesystem is authoritative. The plugin

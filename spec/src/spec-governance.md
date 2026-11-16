@@ -29,6 +29,13 @@ OIDC, signatures, provenance, registry verification and workflow credentials.
 
 ## Spec-first mapping notes
 
+LPD-SPEC-014 requires the quality job's full dependency audit and the package
+job's production audit to fail closed at every severity before the existing
+Validate aggregate can admit publication. Fixed advisory ranges must remain
+excluded from the tracked graph. Tooling remediation must preserve the supported
+Node24/Storybook10/Vite6/Vitest4 cohort and the existing CLI3 version recipe;
+an unfixed advisory remains blocking without a separately authorized policy.
+
 Protected Docs runtime and package-governance paths map through
 `spec-validator.config.mjs`. Changes to that config, `PROVENANCE.md`, and
 related governance files MUST keep this chapter in the same change so the
