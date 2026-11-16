@@ -106,7 +106,7 @@
     "@lapismd/design-core": "0.13.4",
     "@lapismd/mira": "0.2.0",
     "@lapismd/mira-editor": "~0.0.5",
-    "@lapismd/spec-validator": "^0.2.0",
+    "@lapismd/spec-validator": "^0.2.1",
     "@lezer/common": "1.5.5",
     "@lezer/highlight": "1.2.5",
     "@lezer/lr": "1.4.12",

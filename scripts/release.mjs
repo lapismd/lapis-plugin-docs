@@ -1,3 +1,7 @@
+import {
+  DOCS_READINESS_BUDGET_MS,
+  installDocsConsumer,
+} from "./release-install-readiness.mjs";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
@@ -358,30 +362,71 @@ async function loadCandidate(root) {
   return { candidate, path };
 }
 
-async function registry(candidate) {
+async function registry(candidate, timeoutMs = 30000) {
   const response = await fetch(
     `https://registry.npmjs.org/${encodeURIComponent(candidate.name)}/${candidate.version}`,
     {
       headers: { "Cache-Control": "no-cache" },
+      signal: AbortSignal.timeout(timeoutMs),
     },
   );
   if (response.status === 404) return null;
   if (!response.ok)
     throw Error(`npm metadata request failed: ${response.status}`);
-  return response.json();
+  const metadata = await response.json();
+  if (
+    metadata?.name !== candidate.name ||
+    metadata?.version !== candidate.version
+  )
+    throw Error("npm metadata identity mismatch");
+  return metadata;
+}
+
+export async function waitForRegistry(candidate, options = {}) {
+  const attempts = options.attempts ?? 12;
+  const intervalMs = options.intervalMs ?? 5_000;
+  const now = options.now ?? (() => performance.now());
+  const deadline = options.deadline ?? now() + DOCS_READINESS_BUDGET_MS;
+  const remaining = () => Math.max(0, Math.floor(deadline - now()));
+  const lookup =
+    options.lookup ??
+    ((value) => registry(value, Math.max(1, Math.min(5000, remaining()))));
+  const sleep =
+    options.sleep ??
+    ((milliseconds) =>
+      new Promise((resolve) => setTimeout(resolve, milliseconds)));
+  if (!Number.isInteger(attempts) || attempts < 1)
+    throw Error("Registry verification attempts must be a positive integer");
+  if (!Number.isFinite(intervalMs) || intervalMs < 0)
+    throw Error("Registry verification interval must be non-negative");
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    if (!remaining()) break;
+    const metadata = await lookup(candidate);
+    if (metadata) {
+      if (!remaining()) break;
+      return metadata;
+    }
+    if (attempt + 1 < attempts) await sleep(Math.min(intervalMs, remaining()));
+  }
+  throw Error("Published npm version is not downloadable");
 }
 
 export async function verify(root = process.cwd(), options = {}) {
   const matchCandidate = options.matchCandidate !== false;
   const { candidate } = await loadCandidate(root);
-  let metadata;
-  for (let attempt = 0; attempt < 12; attempt++) {
-    metadata = await registry(candidate);
-    if (metadata) break;
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-  }
-  if (!metadata) throw Error("Published npm version is not downloadable");
-  const response = await fetch(metadata.dist?.tarball);
+  const deadline = performance.now() + DOCS_READINESS_BUDGET_MS;
+  const metadata = await waitForRegistry(candidate, {
+    ...options.registryWait,
+    deadline,
+  });
+  const remaining = () => Math.max(0, Math.floor(deadline - performance.now()));
+  if (!remaining())
+    throw Error(
+      "Docs registry readiness budget exhausted before artifact verification",
+    );
+  const response = await fetch(metadata.dist?.tarball, {
+    signal: AbortSignal.timeout(Math.min(30000, remaining())),
+  });
   if (!response.ok)
     throw Error(`npm archive request failed: ${response.status}`);
   const publishedBytes = Buffer.from(await response.arrayBuffer());
@@ -402,16 +447,13 @@ export async function verify(root = process.cwd(), options = {}) {
         dependencies: { [candidate.name]: candidate.version },
       }),
     );
-    run(
-      "npm",
-      [
-        "install",
-        "--ignore-scripts",
-        "--registry=https://registry.npmjs.org",
-        "--strict-peer-deps",
-      ],
-      { cwd: consumer },
-    );
+    await installDocsConsumer({
+      cwd: consumer,
+      candidate,
+      metadata,
+      published,
+      budgetMs: remaining(),
+    });
     run(
       "npm",
       [
@@ -436,7 +478,7 @@ export async function verify(root = process.cwd(), options = {}) {
           name: candidate.name,
           version: candidate.version,
           source: candidate.source,
-          integrity: candidate.integrity,
+          integrity: published.integrity,
           tarball: metadata.dist.tarball,
           attestations: metadata.dist.attestations,
           signatures: metadata.dist.signatures,
@@ -499,9 +541,7 @@ export async function publish(root = process.cwd()) {
       { cwd: root },
     );
   } else
-    console.log(
-      `Skipping ${tag}; npm already has this version (${decision}).`,
-    );
+    console.log(`Skipping ${tag}; npm already has this version (${decision}).`);
   await verify(root, { matchCandidate: decision !== "skip-different" });
   if (decision === "skip-different") {
     console.log(

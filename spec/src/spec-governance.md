@@ -104,3 +104,26 @@ outputs and no Deno. Its source-owned input bindings guard the same version
 job before App minting; empty Changesets retain the action's existing no-op
 behavior. Evidence and boundaries are recorded in
 `spec/records/2026-11-16-version-runtime-adoption.md`.
+
+## Registry installation readiness
+
+LPD-SPEC-015 publication verification MUST use the immutable shared Lapis CI
+registry-readiness setup with exact npm12.0.2 strict peers and disabled lifecycle
+scripts. Docs owns a single60000ms monotonic readiness deadline, beginning before
+full-version metadata observation and covering the tarball and initial clean
+install. Its existing twelve metadata probes and five-second cadence remain
+bounded by that same deadline; only the remaining budget reaches the helper.
+Install-v1 metadata and the installed candidate MUST match the independently
+verified published name, version and SHA512 integrity. In skip-different mode,
+the receipt MUST describe those published bytes. Identity, integrity, authority,
+peer and unrelated installation failures MUST block; only the shared exact
+propagation/transient policy may retry read-only observation/initial install.
+Frozen npm ci, strict peers, npm signature audit, provenance, publint and all
+existing validation/publication boundaries remain blocking. Uploads are never
+replayed by readiness. Missing shared setup MUST fail closed.
+
+LPD-SPEC-019 bindings MUST include the new imported release helper. Changed
+release-source bytes require a fresh actual hosted whole-version-recipe proof;
+proposed input hashes and the historical receipt do not prove qualification.
+This maintenance slice creates no runtime release intent and MUST NOT renew or
+transfer any advisory approval to changed source or lockfile bytes.

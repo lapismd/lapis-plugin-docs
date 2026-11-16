@@ -46,3 +46,7 @@ Markdown fallback and host admission remain unchanged.
 The supported host cohort now requires Mira 0.2 and repaired Editor 0.0.5.
 Markdown fallback continues through the public preview and editor extension
 package. Runtime ID, domain storage and explicit App ownership remain unchanged.
+
+The development-only validator now resolves the released Deno-free0.2.1 tool.
+LPD-SPEC-015 publication verification adopts bounded shared registry readiness;
+package/runtime0.3.0, host contracts and Docs behavior remain unchanged.
