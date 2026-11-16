@@ -106,3 +106,24 @@ recipe needs a fresh shared hosted proof before guard adoption. No writer App,
 publication, tag promotion, activation change or credential change occurs here.
 Local raw logs/audits and HAR/trace evidence remain outside source under
 the local `docs03-*` cache evidence; hosted CI supplies canonical clean-checkout gates.
+
+## Bound delegated operator decision
+
+After the full supported-cohort gates above passed, the exact shared collector
+reproduced `blocked/unapproved-finding` with the initially empty policy on
+2026-11-16T07:46:09.426Z. This decision authorizes only the described LOW under
+the user's standing delegation, at2026-11-16T07:46:22.000Z, ending
+2026-11-21T00:00:00.000Z or a known fix sooner. This is not an exact hash-specific
+approval personally given by the user.
+
+- Dependency source: `07aceddc9584d5d2ea9b99f129f759a0cac7dff2`.
+- Manifest SHA256: `c42c00fc9614fb574556446887bb3bc736ee8e99c8c504b08d160911e58e62d6`.
+- Lock SHA256: `de2cb227ba83e06423cb2b95c67c66dc80db8fcde600ef067f77fe2c62756a0f`.
+- Authority: `delegated-operator`, limited to this development-only finding.
+
+The subsequent real invocation at2026-11-16T07:46:59.481Z returned
+`temporary-development-acceptance`, allowed=true, exactly one accepted finding,
+raw full exit1 and production exit0. It re-read official upstream registry
+metadata and revalidated the unchanged source, graph and policy after collection. Neither result may be described as a clean
+full audit. Source changes, another finding, a newer stable upstream release,
+a published patch, production exposure or expiry must block automatically.
