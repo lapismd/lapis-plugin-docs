@@ -78,3 +78,32 @@ version drift (two failures). Selecting the shared checkout's actual pinned
 manager, without changing the source fixture or assertions, passes all21
 protocol tests before the real Docs verifier runs. Docs' own source checks
 continue to use its unchanged pnpm10.32.1.
+
+## Actual hosted whole-recipe acceptance
+
+Main-hosted shared run43934766066 on accepted source7981eda8 succeeds at
+2026-11-16T19:01:16.894Z for exact Docs source
+`3dc72ab588327c130aff99e39c832b53f2f72675`. All15 input hashes match the reviewed
+case and the unchanged local source inputs. CLI3.0.3 on Node24.15.0 with
+pnpm10.32.1 and strict frozen setup executes the actual unchanged custom command
+with Deno absent. No writer App, source commit, package, tag or release is
+published. This record-only child does not change any bound qualification input.
+
+The authentic historical minor note is restored only inside the disposable
+fixture, with currentReleaseIntent=false. It prepares exactly Docs0.3.0→0.4.0
+there, not in the owning source. Package and runtime metadata stay coordinated;
+all five real version outputs advance correctly. The parsed lock graph is
+unchanged; canonical/governance/validator/README text changes only its exact
+version markers. Bound helpers, workflow, audit policy and config remain
+identical. Changelog and empty-note consumption touch only reviewed paths, with
+no untracked output. These actual receipt results now close the pending recipe
+gate; they are separate from local unit and retained npm-artifact acceptance.
+
+Receipt SHA256: `a5fe34ea0519e82a0df8788326daca27d9e77f65e7f07bbd918e0a7a5e74149d`.
+
+Shared main69a81e05 now passes complete CI43934950418, including native macOS,
+Linux validation, isolated npm12 tests, image build and smoke. Docs head3dc72ab5
+already passed full hosted CI43929333858. Fresh final-head checks after this
+record update and actual main publication verification remain deployment gates.
+The separately scoped development LOW retains its approved dependency-source/
+manifest/lock binding and November21 expiry; this evidence does not renew it.
