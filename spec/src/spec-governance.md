@@ -19,6 +19,9 @@
 | LPD-SPEC-013 | Native projection qualification MUST use a committed Cargo lockfile and pass locked tests, formatting and strict Clippy. The retained TypeScript oracle MUST remain unchanged; YAML diagnostic adaptations MUST record original/native details separately. Build caches and temporary worker evidence MUST remain ignored.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | LPD-SPEC-014 | Hosted CI MUST use the pinned `ghcr.io/lapismd/lapis-ci` image shared with Tasks and Notebook, select the exact CI revision with Jujutsu, and block on quality, unit, package, static Storybook, and sharded interaction lanes. The aggregate job MUST fail unless every lane succeeds. Storybook publication from `main` MUST upload the static build to GitHub Pages.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | LPD-SPEC-015 | After those lanes succeed, the main workflow MUST open a Changesets version pull request titled “chore: version Docs package” when pending changesets exist. Otherwise it MUST publish the qualified npm artifact to the public registry with GitHub Actions OIDC trusted publishing, provenance, and a registry receipt. The publish job MUST use the `npm-production` environment and MUST NOT publish from a pull request or a failed validation lane. After that publish succeeds, the workflow MUST notify dependency consumers through the pinned dependency-automation workflow, using the same publish boundary as Tasks. The version command MUST set `package.json`, `manifest.json`, the canonical release version, the validator package version pin, and the README package status to the same version. Generated `CHANGELOG.md` stays outside the spec-first map. Validator package version pin: `0.2.2`. |
+| LPD-SPEC-016 | A development-only advisory acceptance MUST use the pinned shared collector and permit only one authorized LOW against its exact advisory, package, version, path, source commit and manifest/lock hashes. It MUST expire by 2026-11-21T00:00:00Z or an upstream fix, whichever comes first. Production findings, extra findings and mismatched or stale context MUST remain blocking; raw audits MUST be retained.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| LPD-SPEC-017 | Every hosted Docs dependency installation MUST enforce strict peer dependencies with a frozen registry lockfile and disabled local pnpm hooks. Peer warnings MUST NOT substitute for qualification or be suppressed through forced host versions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| LPD-SPEC-018 | Published Docs MUST require the qualified API 0.6.6, Design Core 0.13.4, Mira 0.2, repaired Editor 0.0.5 and Svelte 5.56.10 cohort, with Node 22.12 or later. Incompatible legacy peer combinations MUST NOT be advertised; App-backed and strict public-archive acceptance MUST qualify the supported cohort. Every locked Mermaid renderer path MUST use the repaired published plugin and Mermaid12 contract, without retaining the obsolete external ELK renderer.                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 LPD-SPEC-015 version PRs MUST use the existing dependency App only on canonical
 main, scoped to this repository with contents and pull-request write permissions.
@@ -31,7 +34,9 @@ OIDC, signatures, provenance, registry verification and workflow credentials.
 
 LPD-SPEC-014 requires the quality job's full dependency audit and the package
 job's production audit to fail closed at every severity before the existing
-Validate aggregate can admit publication. Fixed advisory ranges must remain
+Validate aggregate can admit publication. Only the separately authorized exact
+development-only policy under LPD-SPEC-016 may qualify its bounded LOW; production
+must remain clean. Fixed advisory ranges must remain
 excluded from the tracked graph. Tooling remediation must preserve the supported
 Node24/Storybook10/Vite6/Vitest4 cohort and the existing CLI3 version recipe;
 an unfixed advisory remains blocking without a separately authorized policy.
@@ -43,8 +48,10 @@ spec-first gate remains fail-closed for `*.doc.md` file-view work.
 
 The Docs model does not keep a private reference-index module. Card block refs use the design-core reference picker.
 
-The current first-party lockfile resolves Design Core `0.13.2`, Mira `0.2.0`,
-and API `0.2.6`. Source ownership and public contracts remain unchanged.
+The supported source intake resolves API `0.6.6`, Design Core `0.13.4`, Mira
+`0.2.0`, repaired Editor `0.0.5`, UI `0.2.1` and Svelte `5.56.10`. Its genuine
+minor Changeset removes the incompatible legacy public host combinations.
+The public/runtime release version remains `0.2.2` until normal versioning.
 
 The shared `@lapismd/spec-validator` package is repository validation tooling,
 not a runtime package. It MUST resolve from npm through the root development
@@ -69,14 +76,13 @@ The Design Core 0.13 intake retains the public component and App ownership
 contracts. `spec:search` and `spec:index` expose the installed Node validator
 for local requirement discovery; neither command runs in CI validation lanes.
 
-The first-party dependency intake retains portable registry ranges and the
-Design Core `0.13.2` development override. This maintenance change preserves all
-quality, interaction, accessibility and release verification gates.
+The current host cohort replaces the former Core development override and
+legacy peer suppression with supported registry contracts. Public peer floors
+and the Node minimum change truthfully under minor release intent. Quality,
+interaction, accessibility, immutable publication and provenance gates remain
+required. Historical maintenance records retain their original evidence.
 
-The Mira 0.2 maintenance intake preserves published registry resolution, the
-compatible 0.1 peer line, and the existing quality, interaction, accessibility
-and release gates. It changes no Docs runtime ID or host admission policy.
-
-The Core 0.13.2 maintenance intake updates the development dependency and its
-existing registry override together. The compatible public Core peer range,
-Docs runtime behavior, and every blocking validation lane remain unchanged.
+The full audit collector runs after frozen installation and before Jujutsu
+selects its specification working revision, preserving the committed Git HEAD
+needed for exact dependency-source discovery. Its raw full/production JSON and
+bounded decision are retained even when later quality checks fail.

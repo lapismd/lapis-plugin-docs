@@ -69,6 +69,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/ci-setup
+      - name: Audit the exact full dependency graph
+        uses: lapismd/lapis-ci/actions/check-development-audit@2c756d802f95777a33980b8b1e74f6986498d86e # reviewed exact-policy collector
+        with:
+          policy-file: .github/development-audit.json
       - name: Install the pinned Jujutsu bootstrap
         run: node scripts/validation/install-tools.mjs --ci
       - name: Select the exact CI source revision
@@ -79,8 +83,15 @@ jobs:
       - run: pnpm spec:check
       - name: Run quality checks
         run: pnpm check
-      - name: Audit the full dependency graph
-        run: pnpm audit
+      - name: Retain dependency audit evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7, Node24
+        with:
+          name: docs-dependency-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/dependency-audit/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 14
 
   unit:
     needs: [image-pin, build-cache]
@@ -207,7 +218,7 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-      - run: pnpm install --frozen-lockfile --ignore-pnpmfile
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies --ignore-pnpmfile
       - name: Mint repository-scoped version PR token
         id: app
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3
@@ -247,7 +258,7 @@ jobs:
           cache: pnpm
       - name: Install dependencies and current npm
         run: |
-          pnpm install --frozen-lockfile --ignore-pnpmfile
+          pnpm install --frozen-lockfile --strict-peer-dependencies --ignore-pnpmfile
           npm install --global npm@12.0.2
       - uses: actions/download-artifact@v8
         with:

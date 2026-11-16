@@ -22,7 +22,7 @@ runs:
           docs-pnpm-${{ runner.os }}-${{ runner.arch }}-
     - name: Install frozen registry dependencies
       shell: bash
-      run: pnpm install --frozen-lockfile --ignore-pnpmfile --prefer-offline --store-dir=/tmp/lapis-docs-pnpm
+      run: pnpm install --frozen-lockfile --strict-peer-dependencies --ignore-pnpmfile --prefer-offline --store-dir=/tmp/lapis-docs-pnpm
     - name: Install matching headless Chromium
       if: inputs.browsers == 'true'
       uses: actions/cache@v5

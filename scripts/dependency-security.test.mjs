@@ -55,10 +55,7 @@ test("locked transitive graph excludes every version in the fixable advisory ran
 
 test("full and production audits are mandatory source CI gates without suppression", () => {
   const workflow = YAML.parse(read(".github/workflows/ci.yml"));
-  for (const [job, command] of [
-    ["quality", "pnpm audit"],
-    ["package", "pnpm audit --prod"],
-  ]) {
+  for (const [job, command] of [["package", "pnpm audit --prod"]]) {
     const audit = workflow.jobs[job].steps.find((step) => step.run === command);
     assert(audit, `${job} must retain ${command}`);
     assert.equal(audit.if, undefined);
@@ -66,6 +63,18 @@ test("full and production audits are mandatory source CI gates without suppressi
     assert.equal(audit.env, undefined);
     assert(workflow.jobs.validate.needs.includes(job));
   }
+  const full = workflow.jobs.quality.steps.find(
+    (step) =>
+      step.uses ===
+      "lapismd/lapis-ci/actions/check-development-audit@2c756d802f95777a33980b8b1e74f6986498d86e",
+  );
+  assert(
+    full,
+    "the reviewed shared collector preserves unsuppressed full/production audit evidence",
+  );
+  assert.equal(full.if, undefined);
+  assert.equal(full["continue-on-error"], undefined);
+  assert(workflow.jobs.validate.needs.includes("quality"));
   const workspace = YAML.parse(read("pnpm-workspace.yaml"));
   assert.equal(workspace.auditConfig, undefined);
   assert.equal(pkg.pnpm?.auditConfig, undefined);

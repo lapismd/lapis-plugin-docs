@@ -1,9 +1,10 @@
 # Docs Plugin
 
-The LPD-SPEC-014 dependency-security slice retains the public runtime, host
-contract and release version while updating the supported Storybook10, Vite6
-and Vitest4 development cohort. Declared transitive security floors exclude
-known fixed advisory ranges; full and production audits remain distinct gates.
+LPD-SPEC-014 dependency-security gates retain the supported Storybook10, Vite6
+and Vitest4 development cohort and exclude fixed advisory ranges. The genuine
+LPD-SPEC-018 minor intake changes public host compatibility: API 0.6.6, Core 0.13.4,
+Mira 0.2, repaired Editor 0.0.5 and Svelte 5.56.10, with Node 22.12+. Legacy host
+combinations are no longer advertised; full and production audits stay distinct.
 
 `@lapis-notes/lapis-plugin-docs` owns the first-party external Docs catalog and
 plugin runtime. A Docs note is a `*.doc.md` Markdown file with YAML front matter
@@ -13,8 +14,8 @@ registers a `docs/note` projection, a movable Docs sidebar tree, exclusive
 practice is out of scope. Hosted CI uses the same pinned image and blocking
 lanes as Tasks and Notebook.
 
-The first-party dependency refresh resolves registry Design Core `0.13.2`,
-Mira `0.2.0`, Mira editor `~0.0.4`, and API `0.2.6` through portable npm ranges.
+The supported first-party intake uses registry Design Core `0.13.4`, Mira
+`0.2.0`, Mira editor `~0.0.5`, and API `0.6.6` through portable npm ranges.
 Reusable leaf controls come from public Design Core APIs. Markdown reading uses
 the host `MarkdownRenderer` when the app provides one, and otherwise public Mira
 preview with Mira editor extensions. Near-miss shared UI such as
@@ -42,6 +43,6 @@ The first-party maintenance intake also refreshes the published Visual Delta
 development addon and its registry lockfile. Docs runtime IDs, App ownership,
 Markdown fallback and host admission remain unchanged.
 
-The Mira 0.2 intake widens the public peer range to retain compatible 0.1
-consumers while admitting released 0.2 peers. Markdown fallback continues to
-use Mira public preview and the published editor extension package.
+The supported host cohort now requires Mira 0.2 and repaired Editor 0.0.5.
+Markdown fallback continues through the public preview and editor extension
+package. Runtime ID, domain storage and explicit App ownership remain unchanged.
