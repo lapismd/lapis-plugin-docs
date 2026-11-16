@@ -17,6 +17,33 @@ const pages = parse(
 );
 
 describe("Docs CI gates", () => {
+  it("uses genuine shared release intent to gate writer access and publication", () => {
+    const version = workflow.jobs.changesets;
+    const intent = version.steps.find((step) => step.id === "intent");
+    expect(intent?.uses).toMatch(
+      /^lapismd\/lapis-ci\/actions\/guard-version-runtime@[a-f0-9]{40}$/,
+    );
+    expect(intent.with["qualification-file"]).toBe(
+      ".github/versioning-runtime.json",
+    );
+    expect(intent.with["detect-release-intent"]).toBe("true");
+    expect(version.outputs.hasChangesets).toBe(
+      "${{ steps.intent.outputs.hasChangesets }}",
+    );
+    const app = version.steps.find((step) => step.id === "app");
+    const action = version.steps.find((step) => step.id === "changesets");
+    expect(version.steps.indexOf(intent)).toBeLessThan(
+      version.steps.indexOf(app),
+    );
+    expect(app.if).toBe("steps.intent.outputs.hasChangesets == 'true'");
+    expect(action.if).toBe(app.if);
+    expect(workflow.jobs.publish.if).toContain(
+      "needs.changesets.outputs.hasChangesets == 'false'",
+    );
+    expect(workflow.jobs.publish.if).toContain(
+      "needs.changesets.result == 'success'",
+    );
+  });
   it("shares the immutable lapis-ci image used by Tasks and Notebook", () => {
     const pin = JSON.parse(
       readFileSync(new URL("../.ci/images.json", import.meta.url), "utf8"),
@@ -120,7 +147,7 @@ describe("Docs CI gates", () => {
     expect(publish.if).toContain("needs.validate.result == 'success'");
     expect(publish.if).toContain("needs.changesets.result == 'success'");
     expect(publish.if).toContain(
-      "needs.changesets.outputs.hasChangesets != 'true'",
+      "needs.changesets.outputs.hasChangesets == 'false'",
     );
     expect(publish.environment).toBe("npm-production");
     expect(publish.permissions["id-token"]).toBe("write");

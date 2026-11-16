@@ -31,6 +31,18 @@ The version job's workflow token remains read-only. Changesets MUST NOT create
 GitHub releases directly; the separate existing qualified publisher retains its
 OIDC, signatures, provenance, registry verification and workflow credentials.
 
+LPD-SPEC-015 and LPD-SPEC-019 MUST derive pending version work from the pinned
+shared guard's successful actual CLI release plan, before acquiring a writer.
+Empty maintenance note files alone MUST NOT create version intent or suppress
+the publisher verifier. The version writer and Changesets action MUST run only
+for an explicit `true` result. Publication MUST require successful validation,
+a successful version job and the explicit `false` result; missing, failed or
+malformed planning evidence MUST NOT admit publication. The shared guard MUST
+retain actual workspace dependency rewrites and recheck bound inputs after
+planning. This workflow routing change MUST preserve the source version command,
+its qualified helper closure, existing notes, public versions and advisory
+bindings. Shared-source and hosted consumer evidence remain separate.
+
 ## Spec-first mapping notes
 
 LPD-SPEC-014 requires the quality job's full dependency audit and the package

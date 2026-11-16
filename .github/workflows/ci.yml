@@ -207,7 +207,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+      hasChangesets: ${{ steps.intent.outputs.hasChangesets }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -220,11 +220,14 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies --ignore-pnpmfile
       - name: Guard the qualified source-owned Node version recipe
-        uses: lapismd/lapis-ci/actions/guard-version-runtime@7242eb3bf246c266ba4a48c50eaaf01c2950a37d # reviewed whole-recipe proof
+        id: intent
+        uses: lapismd/lapis-ci/actions/guard-version-runtime@6b4ed4d29fba971c04a7f6b66a0f2231f024e82e # shared guarded actual-plan detection
         with:
           qualification-file: .github/versioning-runtime.json
+          detect-release-intent: "true"
       - name: Mint repository-scoped version PR token
         id: app
+        if: steps.intent.outputs.hasChangesets == 'true'
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3
         with:
           client-id: ${{ vars.LAPIS_DEPENDENCY_APP_CLIENT_ID }}
@@ -234,6 +237,7 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
       - id: changesets
+        if: steps.intent.outputs.hasChangesets == 'true'
         uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b # v1.8.0
         with:
           version: pnpm release:version
@@ -247,7 +251,7 @@ jobs:
   publish:
     name: Publish and verify npm release
     needs: [validate, changesets]
-    if: needs.validate.result == 'success' && needs.changesets.result == 'success' && github.ref == 'refs/heads/main' && needs.changesets.outputs.hasChangesets != 'true'
+    if: needs.validate.result == 'success' && needs.changesets.result == 'success' && github.ref == 'refs/heads/main' && needs.changesets.outputs.hasChangesets == 'false'
     runs-on: ubuntu-latest
     environment: npm-production
     permissions:
