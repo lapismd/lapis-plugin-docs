@@ -7,7 +7,8 @@
     "release:version": "node scripts/release.mjs version"
   },
   "files": {
-    "scripts/release.mjs": "3d2c5b8e427aef5eecf00d4d196c64291672ff7424bd039c77489302750b2056",
+    "scripts/release.mjs": "fce8bfaa3505a112a27a3389c56ee48401bb372b5c82e1d069a34ea4fcc025ca",
+    "scripts/release-install-readiness.mjs": "8ef1cd17c5ff7f05321f2bd6f4e562fc07bd50f79769f5caeacdd2a72fe34a71",
     "pnpm-workspace.yaml": "89f23dc78ff0cadc29c72400d720748299543e9a8bec41544eef667000dbb4e5"
   }
 }

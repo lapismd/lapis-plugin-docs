@@ -96,7 +96,7 @@ separately qualified delegated decision is recorded in
 is not clean. This authority expires November21 at00:00UTC or on a known fix
 sooner, and does not admit any runtime finding or alternate dependency path.
 
-The current Node24 recipe proof is hosted run43828625633 on reviewed Lapis CI
+The historical Node24 recipe proof is hosted run43828625633 on reviewed Lapis CI
 `7242eb3bf246c266ba4a48c50eaaf01c2950a37d`, using immutable Docs source
 `9e8e7ec23fc5d7f412f180e76ebcb3699a00cfed` and its genuine minor note.
 The actual unchanged CLI3 command prepares0.3.0 with all five custom metadata
@@ -104,3 +104,34 @@ outputs and no Deno. Its source-owned input bindings guard the same version
 job before App minting; empty Changesets retain the action's existing no-op
 behavior. Evidence and boundaries are recorded in
 `spec/records/2026-11-16-version-runtime-adoption.md`.
+
+## Registry installation readiness
+
+LPD-SPEC-015 publication verification MUST use the immutable shared Lapis CI
+registry-readiness setup with exact npm12.0.2 strict peers and disabled lifecycle
+scripts. Docs owns a single60000ms monotonic readiness deadline, beginning before
+full-version metadata observation and covering the tarball and initial clean
+install. Its existing twelve metadata probes and five-second cadence remain
+bounded by that same deadline; only the remaining budget reaches the helper.
+Install-v1 metadata and the installed candidate MUST match the independently
+verified published name, version and SHA512 integrity. In skip-different mode,
+the receipt MUST describe those published bytes. Identity, integrity, authority,
+peer and unrelated installation failures MUST block; only the shared exact
+propagation/transient policy may retry read-only observation/initial install.
+Frozen npm ci, strict peers, npm signature audit, provenance, publint and all
+existing validation/publication boundaries remain blocking. Uploads are never
+replayed by readiness. Missing shared setup MUST fail closed.
+
+LPD-SPEC-019 bindings MUST include the new imported release helper. Changed
+release-source bytes require a fresh actual hosted whole-version-recipe proof;
+proposed input hashes and the historical receipt do not prove qualification.
+This maintenance slice creates no runtime release intent and MUST NOT renew or
+transfer any advisory approval to changed source or lockfile bytes.
+
+The readiness maintenance development decision is separately recorded in
+`spec/records/2026-11-16-readiness-development-decision.md`. It accepts only
+the same exact unfixed development LOW on dependency source4d5b4811 and the
+new manifest/lock hashes, under delegated operator authority. Expiry remains
+November21 at00:00UTC or an available fix sooner; raw full audit remains one
+LOW and production zero. All other failures still block. The historical recipe
+receipt remains historical until the changed closure has actual hosted proof.

@@ -77,6 +77,7 @@ test("source-owned guard data binds the actual unchanged CLI3 custom recipe and 
   );
   assert.deepEqual(Object.keys(qualification.files).sort(), [
     "pnpm-workspace.yaml",
+    "scripts/release-install-readiness.mjs",
     "scripts/release.mjs",
   ]);
   for (const [file, expected] of Object.entries(qualification.files))
