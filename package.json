@@ -17,7 +17,7 @@
   "type": "module",
   "scripts": {
     "build": "pnpm run prepack",
-    "check": "pnpm spec:validate && pnpm check:app-ownership && pnpm check:no-tailwind && pnpm check:svelte && pnpm check:types",
+    "check": "pnpm check:dependency-intake && pnpm spec:validate && pnpm check:app-ownership && pnpm check:no-tailwind && pnpm check:svelte && pnpm check:types",
     "check:app-ownership": "vitest run --project unit src/lib/application-ownership.test.ts",
     "check:no-tailwind": "node scripts/check-no-tailwind.mjs",
     "check:svelte": "svelte-check --tsconfig ./tsconfig.app.json --fail-on-warnings --output human",
@@ -27,10 +27,10 @@
     "build-storybook": "NODE_OPTIONS=\"${NODE_OPTIONS:---max-old-space-size=8192}\" storybook build --config-dir .storybook --output-dir storybook-static",
     "publint": "publint",
     "prepack": "svelte-package --tsconfig ./tsconfig.pack.json && publint",
-    "spec:build": "spec-validator build",
-    "spec:check": "spec-validator check && pnpm check:app-ownership",
-    "spec:first": "spec-validator first",
-    "spec:validate": "spec-validator validate",
+    "spec:build": "node scripts/dependency-automation/spec-policy.mjs build",
+    "spec:check": "node scripts/dependency-automation/spec-policy.mjs check && pnpm check:app-ownership",
+    "spec:first": "node scripts/dependency-automation/spec-policy.mjs first",
+    "spec:validate": "node scripts/dependency-automation/spec-policy.mjs validate",
     "storybook": "WATCHPACK_POLLING=250 node scripts/storybook-run.mjs --no-open --config-dir .storybook",
     "storybook:stop": "bash scripts/storybook-stop.sh",
     "storybook:restart": "bash scripts/storybook-restart.sh",
@@ -43,7 +43,8 @@
     "release:publish": "node scripts/release.mjs publish",
     "release:verify": "node scripts/release.mjs verify",
     "spec:search": "spec-validator search",
-    "spec:index": "spec-validator index"
+    "spec:index": "spec-validator index",
+    "check:dependency-intake": "node scripts/dependency-automation/check-canonical-intake.mjs"
   },
   "files": [
     "dist",
@@ -137,14 +138,5 @@
     "typescript": "~5.8.3",
     "vite": "6.4.6",
     "vitest": "4.1.12"
-  },
-  "pnpm": {
-    "overrides": {
-      "devalue@<=5.9.2": ">=5.9.3 <6",
-      "katex@>=0.11.0 <0.18.2": "0.18.10",
-      "source-map-js@>=1.0.0 <1.2.2": ">=1.2.2 <2",
-      "glob@>=9.0.0 <=14.0.1": "14.0.6",
-      "minimatch@>=7.0.0 <11.0.1": "11.0.8"
-    }
   }
 }

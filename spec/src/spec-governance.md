@@ -147,3 +147,47 @@ new manifest/lock hashes, under delegated operator authority. Expiry remains
 November21 at00:00UTC or an available fix sooner; raw full audit remains one
 LOW and production zero. All other failures still block. The historical recipe
 receipt remains historical until the changed closure has actual hosted proof.
+
+## Shared dependency workflow
+
+| ID | Requirement |
+| --- | --- |
+| LPD-SPEC-020 | Compatible Core development intake MUST retain public peer contracts and registry coordinates, verify source-owned policy and exact current catalog facts in two managed chapters, and run the independent offline guard in ordinary quality/check lanes outside specification exemptions. Only a forward0.13 patch may change the development pin, matching override and mechanical lock closure; unrelated source/catalog changes MUST fail. |
+| LPD-SPEC-021 | Successful existing CI/npm and Pages workflows MAY send a completion hint only through the reviewed immutable coordinator implementation and its matching source policy. Verification MUST precede App minting and final dispatch; candidate code/artifacts/caches, callback self-triggers and inherited secrets MUST remain excluded. Source activation and every audit, functional, publication and ownership gate remain separate. |
+
+The catalog pin remains Core0.13.4 during setup. Version guarding uses the
+reviewed development-coordinate workspace digest, preserving all other source
+bytes. The root Docs package/runtime version and public peers are unchanged.
+The required full audit currently reports an unapproved HIGH Changesets finding;
+this source preparation cannot bypass it or inherit the coordinator exception.
+
+| ID | Requirement |
+| --- | --- |
+| LPD-SPEC-022 | Specification discovery MUST use the repository-owned system QMD collection when available and retain explicit doctor/search diagnostics without downloading QMD models in CI. |
+
+## Current development catalog
+
+These managed facts describe only the Core development catalog. Public runtime
+contracts and every normal validation and publication gate remain independent.
+
+<!-- dependency-intake:core-development:start -->
+
+```json
+{
+  "schemaVersion": 1,
+  "kind": "development-dependency-intake",
+  "dependency": "@lapismd/design-core",
+  "version": "0.13.4",
+  "peer": "^0.13.4",
+  "integrity": "sha512-pKZpaKOsGVZxV9CJVf309EhKl8YMcj92vxnL26Pv+PXe8thjD2qMaaK+xtqnWjLh3Esevbd2SSnxyUj4x18ikw==",
+  "importers": {
+    ".": {
+      "specifier": "0.13.4",
+      "version": "0.13.4(svelte@5.56.10)(tailwindcss@4.1.12)"
+    }
+  },
+  "policySha256": "a2723a9eb60f2e64b845adbfece1d5fba7bab4117d4ec4fa3e8c5b016cae9052"
+}
+```
+
+<!-- dependency-intake:core-development:end -->

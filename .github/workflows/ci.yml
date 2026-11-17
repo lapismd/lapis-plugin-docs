@@ -69,6 +69,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/ci-setup
+      - name: Guard reviewed version inputs before merge
+        uses: lapismd/lapis-ci/actions/guard-version-runtime@dd71275c5b2618afceae0b97ee0a071649781971
+        with:
+          qualification-file: .github/versioning-runtime.json
       - name: Audit the exact full dependency graph
         uses: lapismd/lapis-ci/actions/check-development-audit@2c756d802f95777a33980b8b1e74f6986498d86e # reviewed exact-policy collector
         with:
@@ -221,7 +225,7 @@ jobs:
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies --ignore-pnpmfile
       - name: Guard the qualified source-owned Node version recipe
         id: intent
-        uses: lapismd/lapis-ci/actions/guard-version-runtime@6b4ed4d29fba971c04a7f6b66a0f2231f024e82e # shared guarded actual-plan detection
+        uses: lapismd/lapis-ci/actions/guard-version-runtime@dd71275c5b2618afceae0b97ee0a071649781971 # shared guarded actual-plan detection
         with:
           qualification-file: .github/versioning-runtime.json
           detect-release-intent: "true"

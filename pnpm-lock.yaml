@@ -10,6 +10,22 @@ overrides:
   source-map-js@>=1.0.0 <1.2.2: '>=1.2.2 <2'
   glob@>=9.0.0 <=14.0.1: 14.0.6
   minimatch@>=7.0.0 <11.0.1: 11.0.8
+  '@lapismd/design-core': 0.13.4
+  '@codemirror/autocomplete': 6.20.4
+  '@codemirror/commands': 6.11.1
+  '@codemirror/lang-markdown': 6.5.2
+  '@codemirror/lang-yaml': 6.1.3
+  '@codemirror/language': 6.13.1
+  '@codemirror/lint': 6.9.7
+  '@codemirror/search': 6.7.2
+  '@codemirror/state': 6.7.6
+  '@codemirror/view': 6.43.15
+  '@internationalized/date': 3.12.4
+  '@lezer/common': 1.5.5
+  '@lezer/highlight': 1.2.5
+  '@lezer/markdown': 1.8.1
+  '@lezer/lr': 1.4.12
+  svelte: 5.56.10
 
 importers:
 
@@ -436,7 +452,7 @@ packages:
   '@dnd-kit/svelte@0.4.0':
     resolution: {integrity: sha512-hWmIenZ7EeMh8eDrNteL+5yIDgUg/0GnF+U80Pr0nScWGHdCTehYKXEGQtV2PNm99ta5qNg6GuvvtP4WRS8dug==}
     peerDependencies:
-      svelte: ^5.29.0
+      svelte: 5.56.10
 
   '@emnapi/core@1.11.0':
     resolution: {integrity: sha512-l9Oo58x0HOP5znGzVhYW9U3e5wVuA4LAZU2AGezTmkhO1CgQRFDhDg4nneHsu/t3WniXg9QrG2nIXL/ZS8ln8Q==}
@@ -1033,24 +1049,24 @@ packages:
   '@lapis-notes/api@0.6.6':
     resolution: {integrity: sha512-hxuETQT/RA9b0ux6JNwYSyg1dGvSWADWNtQKKtKt1qMEA5nFseUwqIHC+5izhvGbGBtqMvhVEwwM4w/Ip2I8iw==}
     peerDependencies:
-      '@codemirror/autocomplete': ^6.18.6
-      '@codemirror/commands': ^6.8.1
-      '@codemirror/lang-markdown': ^6.3.4
-      '@codemirror/lang-yaml': ^6.1.2
-      '@codemirror/language': ^6.11.1
+      '@codemirror/autocomplete': 6.20.4
+      '@codemirror/commands': 6.11.1
+      '@codemirror/lang-markdown': 6.5.2
+      '@codemirror/lang-yaml': 6.1.3
+      '@codemirror/language': 6.13.1
       '@codemirror/language-data': ^6.5.2
       '@codemirror/legacy-modes': ^6.5.3
-      '@codemirror/lint': ^6.8.5
-      '@codemirror/search': ^6.5.11
-      '@codemirror/state': ^6.4.1
-      '@codemirror/view': ^6.35.0
+      '@codemirror/lint': 6.9.7
+      '@codemirror/search': 6.7.2
+      '@codemirror/state': 6.7.6
+      '@codemirror/view': 6.43.15
       '@dnd-kit/dom': ^0.4.0
       '@dnd-kit/svelte': ^0.4.0
       '@lapis-notes/ui': ^0.2.1
-      '@lapismd/design-core': ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.12.0 || ^0.13.0
+      '@lapismd/design-core': 0.13.4
       '@lapismd/mira': ~0.1.3 || ~0.2.0
-      '@lezer/highlight': ^1.2.1
-      '@lezer/markdown': ^1.4.3
+      '@lezer/highlight': 1.2.5
+      '@lezer/markdown': 1.8.1
       i18next: ^25.3.0
       svelte: 5.56.10
       svelte-sonner: ^1.0.5
@@ -1058,50 +1074,50 @@ packages:
   '@lapis-notes/file-explorer@0.2.8':
     resolution: {integrity: sha512-2nnIW+8O6oQs9PR1rLlQTXJX/2RU7+xGkkmfUDz7ERxEK6nnSEuy+mpTO4hnA0XKV1w1yH6hzz0ai7VOR5G8tQ==}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   '@lapis-notes/markdown@0.3.2':
     resolution: {integrity: sha512-FlOy3z+Vm9DS7PDcVj7ACM2m/xSBKsF0re1kqemi71D6YhAjDE2+UwcShmKDi1OR6Qe14tIzKFAgFndVpuylsQ==}
     peerDependencies:
-      '@codemirror/autocomplete': ^6.18.6
-      '@codemirror/commands': ^6.8.1
-      '@codemirror/lang-markdown': ^6.3.3
-      '@codemirror/language': ^6.11.3
-      '@codemirror/lint': ^6.8.5
-      '@codemirror/search': ^6.5.11
-      '@codemirror/state': ^6.6.0
-      '@codemirror/view': ^6.42.1
+      '@codemirror/autocomplete': 6.20.4
+      '@codemirror/commands': 6.11.1
+      '@codemirror/lang-markdown': 6.5.2
+      '@codemirror/language': 6.13.1
+      '@codemirror/lint': 6.9.7
+      '@codemirror/search': 6.7.2
+      '@codemirror/state': 6.7.6
+      '@codemirror/view': 6.43.15
       '@lapis-notes/api': ^0.2.0 || ^0.4.0 || ^0.6.0
       '@lapis-notes/ui': ^0.1.4 || ^0.2.0
-      '@lezer/common': ^1.5.2
-      '@lezer/highlight': ^1.2.3
-      '@lezer/lr': ^1.4.2
-      svelte: ^5.0.0
+      '@lezer/common': 1.5.5
+      '@lezer/highlight': 1.2.5
+      '@lezer/lr': 1.4.12
+      svelte: 5.56.10
 
   '@lapis-notes/search@0.1.12':
     resolution: {integrity: sha512-vPwn6VwaNYpN4MtYswFVneuOyCojoTQc6xAfb1cTUz6GON0Gm+f3Sdg8rBwl5pyOrRjRks0axTBhJ4Ak4UtoLg==}
     peerDependencies:
-      '@codemirror/autocomplete': ^6.18.6
-      '@codemirror/commands': ^6.8.1
-      '@codemirror/language': ^6.11.3
-      '@codemirror/state': ^6.6.0
-      '@codemirror/view': ^6.42.1
+      '@codemirror/autocomplete': 6.20.4
+      '@codemirror/commands': 6.11.1
+      '@codemirror/language': 6.13.1
+      '@codemirror/state': 6.7.6
+      '@codemirror/view': 6.43.15
       '@lapis-notes/api': ^0.2.0 || ^0.4.0 || ^0.6.0
-      '@lezer/common': ^1.5.2
-      '@lezer/highlight': ^1.2.3
-      '@lezer/lr': ^1.4.2
-      svelte: ^5.0.0
+      '@lezer/common': 1.5.5
+      '@lezer/highlight': 1.2.5
+      '@lezer/lr': 1.4.12
+      svelte: 5.56.10
 
   '@lapis-notes/ui@0.2.1':
     resolution: {integrity: sha512-jluN0IuqzdHd95U48YRL5Gmt475Sw/Tw3BjgC9KY2uXDu4lJYnNv0sQ2yjvSI/AdCBv+tG1Az1gOaL83eI5Q2g==}
     peerDependencies:
-      '@lapismd/design-core': ^0.7.0 || ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.12.0 || ^0.13.0
-      svelte: ^5.0.0
+      '@lapismd/design-core': 0.13.4
+      svelte: 5.56.10
 
   '@lapis-notes/workspace@0.4.6':
     resolution: {integrity: sha512-FW2wSwsq3jPjVKfIKHreQMkBtZsjO3wY5tTJneMZPgyphSxH6OvUFCD87Np51oK71hhJJxDhkEZ5Zaxz/5LPyQ==}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   '@lapismd/ai-host@0.3.0':
     resolution: {integrity: sha512-KQ5BQZD4e7Lq0Q4LiE9XW5xf4MJJ1eBTPKE/qCAdBRjtY17Qpy37RM8B5IBmTjI9L0I4g3uWCqXWK4AjvUyVXw==}
@@ -1111,44 +1127,44 @@ packages:
     resolution: {integrity: sha512-pKZpaKOsGVZxV9CJVf309EhKl8YMcj92vxnL26Pv+PXe8thjD2qMaaK+xtqnWjLh3Esevbd2SSnxyUj4x18ikw==}
     engines: {node: ^22.11 || ^24 || >=26}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   '@lapismd/mira-editor@0.0.5':
     resolution: {integrity: sha512-8jURvNLNiVk8HxVrqMFbHPA9VwvqAeIQW5OGdQeRU+k9HIIUqWYWfdLxIo6zyhgqNfU8T1AfoBl1pmIWo8knHg==}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   '@lapismd/mira-plugin-ai@0.0.4':
     resolution: {integrity: sha512-js5ebjMtgbN2vsGV56OWWhOAptYpOU1DYjP3g2wRBZy096GCXoxSGyL2AghqhYXNht8co6wdhAQJJ5oWi43Yfw==}
     peerDependencies:
-      '@codemirror/state': ^6.5.2
-      '@codemirror/view': ^6.38.8
+      '@codemirror/state': 6.7.6
+      '@codemirror/view': 6.43.15
 
   '@lapismd/mira-plugin-mermaid@0.0.5':
     resolution: {integrity: sha512-u23SlCvJwd+yzfExxxOLbYvppizFJzSuUiTKT8rjD32p0S3jMXvUb7wn71xsSyhRNXzrKlQZRIIGMYt3Q+eI8Q==}
     peerDependencies:
-      '@codemirror/language': ^6.11.3
-      svelte: ^5.0.0
+      '@codemirror/language': 6.13.1
+      svelte: 5.56.10
       unified: ^11.0.5
 
   '@lapismd/mira@0.2.0':
     resolution: {integrity: sha512-ARqY8xPgO4Igv9RX427iwOiZiVCSRJ8ptWC0HmMP9syEqhlvD7ZSLyvD3b03TTgJiAYw3ZyRONZb8ISGlconiA==}
     peerDependencies:
-      '@codemirror/autocomplete': ^6.18.7
-      '@codemirror/commands': ^6.10.0
-      '@codemirror/lang-markdown': ^6.3.4
-      '@codemirror/lang-yaml': ^6.1.2
-      '@codemirror/language': ^6.11.3
+      '@codemirror/autocomplete': 6.20.4
+      '@codemirror/commands': 6.11.1
+      '@codemirror/lang-markdown': 6.5.2
+      '@codemirror/lang-yaml': 6.1.3
+      '@codemirror/language': 6.13.1
       '@codemirror/language-data': ^6.5.2
       '@codemirror/legacy-modes': ^6.5.3
-      '@codemirror/lint': ^6.9.2
-      '@codemirror/search': ^6.5.11
-      '@codemirror/state': ^6.5.2
-      '@codemirror/view': ^6.38.8
-      '@lezer/common': ^1.5.2
-      '@lezer/highlight': ^1.2.3
-      '@lezer/markdown': ^1.4.3
-      svelte: ^5.0.0
+      '@codemirror/lint': 6.9.7
+      '@codemirror/search': 6.7.2
+      '@codemirror/state': 6.7.6
+      '@codemirror/view': 6.43.15
+      '@lezer/common': 1.5.5
+      '@lezer/highlight': 1.2.5
+      '@lezer/markdown': 1.8.1
+      svelte: 5.56.10
 
   '@lapismd/spec-validator@0.2.1':
     resolution: {integrity: sha512-aHLByppZkay1axSm8KvCwOJz0si8aDyZBXDGWW+d2VQw+66f1KLimw2rEMjYIpLdoSG9+yN5Kd1MKlAJw7xUVw==}
@@ -1266,22 +1282,22 @@ packages:
   '@lucide/svelte@0.515.0':
     resolution: {integrity: sha512-CEAyqcZmNBfYzVgaRmK2RFJP5tnbXxekRyDk0XX/eZQRfsJmkDvmQwXNX8C869BgNeryzmrRyjHhUL6g9ZOHNA==}
     peerDependencies:
-      svelte: ^5
+      svelte: 5.56.10
 
   '@lucide/svelte@0.523.0':
     resolution: {integrity: sha512-t6CNxUAC7to9IPQv+yaJD8OlpXVeEL7wT1nw5+lx62HoBnkO6//xYZSTkV8Ia3bqtoF4deI3Pjff/8cPyQjiCw==}
     peerDependencies:
-      svelte: ^5
+      svelte: 5.56.10
 
   '@lucide/svelte@0.525.0':
     resolution: {integrity: sha512-dyUxkXzepagLUzL8jHQNdeH286nC66ClLACsg+Neu/bjkRJWPWMzkT+H0DKlE70QdkicGCfs1ZGmXCc351hmZA==}
     peerDependencies:
-      svelte: ^5
+      svelte: 5.56.10
 
   '@lucide/svelte@1.70.0':
     resolution: {integrity: sha512-zvx7K/WLxo82c4ZYqbsfcYUPDVFrq4561xH0NHfSHJJbajj0AONTQ14EO095/WnfI4XUEl1tyS/nbjQNNiNxdQ==}
     peerDependencies:
-      svelte: ^5
+      svelte: 5.56.10
 
   '@manypkg/find-root@3.1.0':
     resolution: {integrity: sha512-BcSqCyKhBVZ5YkSzOiheMCV41kqAFptW6xGqYSTjkVTl9XQpr+pqHhwgGCOHQtjDCv7Is6EFyA14Sm5GVbVABA==}
@@ -1697,9 +1713,9 @@ packages:
   '@replit/codemirror-indentation-markers@6.5.3':
     resolution: {integrity: sha512-hL5Sfvw3C1vgg7GolLe/uxX5T3tmgOA3ZzqlMv47zjU1ON51pzNWiVbS22oh6crYhtVhv8b3gdXwoYp++2ilHw==}
     peerDependencies:
-      '@codemirror/language': ^6.0.0
-      '@codemirror/state': ^6.0.0
-      '@codemirror/view': ^6.0.0
+      '@codemirror/language': 6.13.1
+      '@codemirror/state': 6.7.6
+      '@codemirror/view': 6.43.15
 
   '@rollup/rollup-android-arm-eabi@4.63.1':
     resolution: {integrity: sha512-UZ8sUxPTiHWYX9QNdJedb1kDZSpS1t/VPWBWGSgqHNi9w3Cu6IXvu2mzbhiTiPvtrqgTQJ+zqiAq2iPIPilpaQ==}
@@ -1899,7 +1915,7 @@ packages:
       '@storybook/svelte': ^0.0.0-0 || ^8.2.0 || ^9.0.0 || ^9.1.0-0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0 || ^10.4.0-0
       '@sveltejs/vite-plugin-svelte': ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
       storybook: ^0.0.0-0 || ^8.2.0 || ^9.0.0 || ^9.1.0-0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0 || ^10.4.0-0
-      svelte: ^5.0.0
+      svelte: 5.56.10
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
 
   '@storybook/addon-themes@10.6.7':
@@ -1958,14 +1974,14 @@ packages:
     peerDependencies:
       '@sveltejs/vite-plugin-svelte': ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
       storybook: ^10.6.7
-      svelte: ^5.0.0
+      svelte: 5.56.10
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
 
   '@storybook/svelte@10.6.7':
     resolution: {integrity: sha512-Q9FZcmfrgsX0mSROe4YdVFA2INLxlLSWWEpBK+qbG6El9pIoToAh+JSIH9+ipxBAo9+opm8iTlu7uok+KbmZ1A==}
     peerDependencies:
       storybook: ^10.6.7
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   '@sveltejs/acorn-typescript@1.0.13':
     resolution: {integrity: sha512-wgKggnhZVL9Bfx1OaKKTrYY9BFRk6C8UAkQNUcIv1+llzYrIqy+RZm5HPKzn0NpEBvTVhTqB4kQyllZywsRBRQ==}
@@ -1977,21 +1993,21 @@ packages:
     engines: {node: ^16.14 || >=18}
     hasBin: true
     peerDependencies:
-      svelte: ^3.44.0 || ^4.0.0 || ^5.0.0-next.1
+      svelte: 5.56.10
 
   '@sveltejs/vite-plugin-svelte-inspector@4.0.1':
     resolution: {integrity: sha512-J/Nmb2Q2y7mck2hyCX4ckVHcR5tu2J+MtBEQqpDrrgELZ2uvraQcK/ioCV61AqkdXFgriksOKIceDcQmqnGhVw==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22}
     peerDependencies:
       '@sveltejs/vite-plugin-svelte': ^5.0.0
-      svelte: ^5.0.0
+      svelte: 5.56.10
       vite: ^6.0.0
 
   '@sveltejs/vite-plugin-svelte@5.1.1':
     resolution: {integrity: sha512-Y1Cs7hhTc+a5E9Va/xwKlAJoariQyHY+5zBgCZg4PFWNYQ1nMN9sjK1zhw1gK69DuqVP++sht/1GZg1aRwmAXQ==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
       vite: ^6.0.0
 
   '@swc/helpers@0.5.23':
@@ -2094,7 +2110,7 @@ packages:
   '@tanstack/svelte-virtual@3.13.52':
     resolution: {integrity: sha512-GBP08+GfuAtrcfCEkhZ8qg7At0m1ty82WTVC92YDjmYuU9yU+XD9LoCGUbrwl5m0V05ySgDS6JzmxqwoVdlt5Q==}
     peerDependencies:
-      svelte: ^3.48.0 || ^4.0.0 || ^5.0.0
+      svelte: 5.56.10
 
   '@tanstack/virtual-core@3.19.11':
     resolution: {integrity: sha512-/5iHb0RHBvj8Di59FDs4ESNm45jls33aZAi4zccVXZjc/6ZvwQP6nzEYeT6weXjTf9E6/vrp2JhYWRyO+ZP13A==}
@@ -2475,8 +2491,8 @@ packages:
     resolution: {integrity: sha512-cb1eQD1wZEhJWb1dTLiAdYWqeUI5v7f+7EAHmetxBuELI9lo4cpAIfGEjald/PR4wTR80Fu5DFH+IaY1OKn+tg==}
     engines: {node: '>=20'}
     peerDependencies:
-      '@internationalized/date': ^3.8.1
-      svelte: ^5.33.0
+      '@internationalized/date': 3.12.4
+      svelte: 5.56.10
 
   body-parser@2.4.0:
     resolution: {integrity: sha512-Ifk1KcLrxaGt1occQagQNFNNOqRt1LFuehEnHHzB8Z6cRgIxRU1TBaiIsUiCdA+gy5PL7Y1IX31DNKkRmxtXjQ==}
@@ -3467,7 +3483,7 @@ packages:
     resolution: {integrity: sha512-ags7npK5Nv6AI9LBpAbijpmHxcO9hOeP0/7yJ72++AOBWmwB0X7LqNQFJk1PBe4wM0UsgklWQdyRZyx8s9xyXg==}
     deprecated: Package deprecated. Please use @lucide/svelte instead.
     peerDependencies:
-      svelte: ^3 || ^4 || ^5.0.0-next.42
+      svelte: 5.56.10
 
   luxon@3.7.2:
     resolution: {integrity: sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew==}
@@ -3659,10 +3675,6 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  minimatch@11.0.5:
-    resolution: {integrity: sha512-snPlVppFcYWfLLFQGhDxUyBcHNtMlWmn3jtj7pEaO+DP8pqL0IvAzXhMYmn1z9ASNtgmwLBdFxSf4tMUB0OTKA==}
-    engines: {node: 20 || >=22}
-
   minimatch@11.0.8:
     resolution: {integrity: sha512-nFQuYSTVrGvysVBps5Ih+0BdnYFN/Cj3C816r6+p7yK+FHrVLGE4O4N9AFwykrlNlvM2HYt+Rad1Uiro6h88Ig==}
     engines: {node: 20 || >=22}
@@ -3797,7 +3809,7 @@ packages:
   paneforge@1.0.2:
     resolution: {integrity: sha512-KzmIXQH1wCfwZ4RsMohD/IUtEjVhteR+c+ulb/CHYJHX8SuDXoJmChtsc/Xs5Wl8NHS4L5Q7cxL8MG40gSU1bA==}
     peerDependencies:
-      svelte: ^5.29.0
+      svelte: 5.56.10
 
   parse-entities@4.0.2:
     resolution: {integrity: sha512-GG2AQYWoLgL877gQIKeRPGO1xF9+eG1ujIb5soS5gPvLQ1y2o8FL90w2QWNdf9I361Mpp7726c+lj3U0qK1uGw==}
@@ -4015,18 +4027,18 @@ packages:
   runed@0.23.4:
     resolution: {integrity: sha512-9q8oUiBYeXIDLWNK5DfCWlkL0EW3oGbk845VdKlPeia28l751VpfesaB/+7pI6rnbx1I6rqoZ2fZxptOJLxILA==}
     peerDependencies:
-      svelte: ^5.7.0
+      svelte: 5.56.10
 
   runed@0.29.2:
     resolution: {integrity: sha512-0cq6cA6sYGZwl/FvVqjx9YN+1xEBu9sDDyuWdDW1yWX7JF2wmvmVKfH+hVCZs+csW+P3ARH92MjI3H9QTagOQA==}
     peerDependencies:
-      svelte: ^5.7.0
+      svelte: 5.56.10
 
   runed@0.35.1:
     resolution: {integrity: sha512-2F4Q/FZzbeJTFdIS/PuOoPRSm92sA2LhzTnv6FXhCoENb3huf5+fDuNOg1LNvGOouy3u/225qxmuJvcV3IZK5Q==}
     peerDependencies:
       '@sveltejs/kit': ^2.21.0
-      svelte: ^5.7.0
+      svelte: 5.56.10
     peerDependenciesMeta:
       '@sveltejs/kit':
         optional: true
@@ -4211,43 +4223,43 @@ packages:
     resolution: {integrity: sha512-hRHHufbJoArFmDYQKCpCvc0xUuIEfwYksvyLYEQyH+1xb5LD5sM/IthfooCdXZQtOIqXz6xm7NmaqdfwG4kh6w==}
     engines: {node: '>=18'}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   svelte-check@4.3.1:
     resolution: {integrity: sha512-lkh8gff5gpHLjxIV+IaApMxQhTGnir2pNUAqcNgeKkvK5bT/30Ey/nzBxNLDlkztCH4dP7PixkMt9SWEKFPBWg==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
     peerDependencies:
-      svelte: ^4.0.0 || ^5.0.0-next.0
+      svelte: 5.56.10
       typescript: '>=5.0.0'
 
   svelte-sonner@1.2.3:
     resolution: {integrity: sha512-SjQaDI/k6L/ordD2w84XOkGv3kaZwyGRsJzR+lHW097/aJCaydvp63VblMTFsrakm58BxRjUSySK/BWH9jdY1Q==}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   svelte-toolbelt@0.10.6:
     resolution: {integrity: sha512-YWuX+RE+CnWYx09yseAe4ZVMM7e7GRFZM6OYWpBKOb++s+SQ8RBIMMe+Bs/CznBMc0QPLjr+vDBxTAkozXsFXQ==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
-      svelte: ^5.30.2
+      svelte: 5.56.10
 
   svelte-toolbelt@0.7.1:
     resolution: {integrity: sha512-HcBOcR17Vx9bjaOceUvxkY3nGmbBmCBBbuWLLEWO6jtmWH8f/QoWmbyUfQZrpDINH39en1b8mptfPQT9VKQ1xQ==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   svelte-toolbelt@0.9.3:
     resolution: {integrity: sha512-HCSWxCtVmv+c6g1ACb8LTwHVbDqLKJvHpo6J8TaqwUme2hj9ATJCpjCPNISR1OCq2Q4U1KT41if9ON0isINQZw==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
-      svelte: ^5.30.2
+      svelte: 5.56.10
 
   svelte2tsx@0.7.61:
     resolution: {integrity: sha512-EpQ/+UHITBULeUojx/LLD3uTYasZXcX1BrqlrzfLUnT9vdUhaOWK59a3ryWcFU8L0sY1SP+gRhJ2Beiis98+qw==}
     peerDependencies:
-      svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
+      svelte: 5.56.10
       typescript: ^4.9.4 || ^5.0.0 || ^6.0.0
 
   svelte@5.56.10:
@@ -4469,7 +4481,7 @@ packages:
     resolution: {integrity: sha512-7zN7Bi3dFQixvvbUJY9uGDe7Ws/dGZeBQR2pXdXmzQiakjrxBvWo0QrmsX3HK+VH+SZOltz378cmgmCS9f9rSg==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: 5.56.10
 
   vfile-location@5.0.3:
     resolution: {integrity: sha512-5yXvWDEgqeiYiBe1lbxYF7UMAIm/IcopxMHrMQDq3nvKcjPKIhZklUKL+AE7J7uApI4kwe2snsK+eI6UTj9EHg==}
@@ -7872,7 +7884,7 @@ snapshots:
 
   glob@14.0.6:
     dependencies:
-      minimatch: 11.0.5
+      minimatch: 11.0.8
       minipass: 7.1.3
       path-scurry: 3.0.0
 
@@ -8719,11 +8731,6 @@ snapshots:
       mime-db: 1.54.0
 
   min-indent@1.0.1: {}
-
-  minimatch@11.0.5:
-    dependencies:
-      '@isaacs/nonrecursive-glob-match': 1.1.0
-      brace-expansion: 5.0.12
 
   minimatch@11.0.8:
     dependencies:
