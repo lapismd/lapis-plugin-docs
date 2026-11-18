@@ -1,5 +1,7 @@
 # Verification
 
+LPD-SPEC-016/019 retains the [disabled exact HIGH proposal](../records/2026-11-18-development-high-proposal.md); no HIGH approval is active and required audits remain blocking.
+
 The genuine0.3.0 version has a separately bound, expiring development-only audit
 decision after current package/browser qualification; the original binding
 failed closed. See [exact decision evidence](../records/2026-11-16-docs-030-development-decision.md).

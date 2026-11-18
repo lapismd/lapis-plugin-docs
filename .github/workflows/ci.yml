@@ -74,7 +74,7 @@ jobs:
         with:
           qualification-file: .github/versioning-runtime.json
       - name: Audit the exact full dependency graph
-        uses: lapismd/lapis-ci/actions/check-development-audit@2c756d802f95777a33980b8b1e74f6986498d86e # reviewed exact-policy collector
+        uses: lapismd/lapis-ci/actions/check-development-audit@63e64958e9b271d36feba06a162ee02b079a3206 # reviewed schema2 support; no HIGH approval
         with:
           policy-file: .github/development-audit.json
       - name: Install the pinned Jujutsu bootstrap
