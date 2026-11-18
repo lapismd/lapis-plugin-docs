@@ -75,7 +75,7 @@ test("the pinned full audit runs in the committed Git context and retains raw ev
   );
   assert.equal(
     audit.uses,
-    "lapismd/lapis-ci/actions/check-development-audit@2c756d802f95777a33980b8b1e74f6986498d86e",
+    "lapismd/lapis-ci/actions/check-development-audit@63e64958e9b271d36feba06a162ee02b079a3206",
   );
   assert.deepEqual(audit.with, {
     "policy-file": ".github/development-audit.json",

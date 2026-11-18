@@ -8,7 +8,17 @@
   },
   "files": {
     "scripts/release.mjs": "fce8bfaa3505a112a27a3389c56ee48401bb372b5c82e1d069a34ea4fcc025ca",
-    "scripts/release-install-readiness.mjs": "8ef1cd17c5ff7f05321f2bd6f4e562fc07bd50f79769f5caeacdd2a72fe34a71",
-    "pnpm-workspace.yaml": "89f23dc78ff0cadc29c72400d720748299543e9a8bec41544eef667000dbb4e5"
+    "scripts/release-install-readiness.mjs": "8ef1cd17c5ff7f05321f2bd6f4e562fc07bd50f79769f5caeacdd2a72fe34a71"
+  },
+  "nodeMajor": 24,
+  "formatterPolicy": "unconfigured",
+  "workspacePolicy": {
+    "schemaVersion": 1,
+    "sha256": "df3d1ee0fca2291e5af8226380d80a146bc4beb059395cb8c2fef1a4cac74b5b",
+    "developmentOverride": {
+      "dependency": "@lapismd/design-core",
+      "series": "0.13",
+      "minimumPatch": 4
+    }
   }
 }

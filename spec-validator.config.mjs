@@ -17,6 +17,7 @@ export default defineConfig(tableRequirements(), {
     storybookMirrors: "LPD-SPEC-009",
     specFirst: "LPD-SPEC-002",
     internal: "LPD-SPEC-003",
+    qmd: "LPD-SPEC-022",
   },
   diagnostics: {
     "SPEC-PKG-PORTABLE": "LPD-SPEC-004",
@@ -43,6 +44,7 @@ export default defineConfig(tableRequirements(), {
       statuses: ["Implemented", "Planned", "Visual pending"],
     }),
     book: true,
+    qmd: { collection: "lapis-plugin-docs-spec", configPath: ".qmd/index.yml" },
     storybookMirrors: {
       style: "src-spec-mdx",
       directory: "stories/spec",
@@ -119,6 +121,16 @@ export default defineConfig(tableRequirements(), {
         "^(?:package\\.json$|manifest\\.json$|src/|crates/|fixtures/native-projection/|NATIVE-PROJECTION\\.md$|\\.storybook/|pnpm-|scripts/|\\.changeset/config\\.json$|\\.gitignore$|\\.github/|AGENTS\\.md$|spec-validator\\.config\\.mjs$|PROVENANCE\\.md$)",
       ],
     },
+  },
+  check: {
+    build: true,
+    first: true,
+    lanes: [
+      {
+        command: "node",
+        args: ["scripts/dependency-automation/check-canonical-intake.mjs"],
+      },
+    ],
   },
   plugins: ["scripts/spec-validation/storybook-taxonomy-audit.mjs"],
 });

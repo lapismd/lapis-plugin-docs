@@ -66,7 +66,7 @@ test("full and production audits are mandatory source CI gates without suppressi
   const full = workflow.jobs.quality.steps.find(
     (step) =>
       step.uses ===
-      "lapismd/lapis-ci/actions/check-development-audit@2c756d802f95777a33980b8b1e74f6986498d86e",
+      "lapismd/lapis-ci/actions/check-development-audit@63e64958e9b271d36feba06a162ee02b079a3206",
   );
   assert(
     full,

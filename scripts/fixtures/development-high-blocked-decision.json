@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "b9d3dace06f6eab9e72ac265c2b926f9cad9a2cc",
+  "manifestSha256": "2c86428e3288b9fe9c52ec43bccdd418e860482ae992358a189e8471e443b4da",
+  "lockSha256": "a4de8f38490964aa14a7cce5916f24b2fbfb06dafb38480c0360b5825d9e381e",
+  "checkedAt": "2026-11-18T00:39:33.499Z",
+  "rawVulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 1,
+    "critical": 0
+  },
+  "productionVulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0
+  },
+  "accepted": [],
+  "retired": [],
+  "allowed": false,
+  "status": "blocked",
+  "reason": "unapproved-finding",
+  "rawFullExitCode": 1,
+  "rawProductionExitCode": 0
+}

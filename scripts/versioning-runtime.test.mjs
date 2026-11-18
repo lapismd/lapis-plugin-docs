@@ -20,7 +20,7 @@ test("the qualified shared runtime guard precedes version writer authority insid
   );
   assert.equal(
     guard.uses,
-    "lapismd/lapis-ci/actions/guard-version-runtime@6b4ed4d29fba971c04a7f6b66a0f2231f024e82e",
+    "lapismd/lapis-ci/actions/guard-version-runtime@dd71275c5b2618afceae0b97ee0a071649781971",
   );
   assert.deepEqual(guard.with, {
     "qualification-file": ".github/versioning-runtime.json",
@@ -78,10 +78,45 @@ test("source-owned guard data binds the actual unchanged CLI3 custom recipe and 
     hash(read(".changeset/config.json")),
   );
   assert.deepEqual(Object.keys(qualification.files).sort(), [
-    "pnpm-workspace.yaml",
     "scripts/release-install-readiness.mjs",
     "scripts/release.mjs",
   ]);
   for (const [file, expected] of Object.entries(qualification.files))
     assert.equal(hash(read(file)), expected, file);
+});
+
+test("the workspace binding admits only the reviewed Core development coordinate", () => {
+  const q = JSON.parse(read(".github/versioning-runtime.json"));
+  assert.equal(q.nodeMajor, 24);
+  assert.equal(q.formatterPolicy, "unconfigured");
+  assert.deepEqual(q.workspacePolicy.developmentOverride, {
+    dependency: "@lapismd/design-core",
+    series: "0.13",
+    minimumPatch: 4,
+  });
+  const source = read("pnpm-workspace.yaml").toString();
+  const selected = JSON.parse(read("package.json")).devDependencies[
+    "@lapismd/design-core"
+  ];
+  const needle = '  "@lapismd/design-core": "' + selected + '"';
+  assert.equal(source.split(needle).length, 2);
+  assert.equal(
+    q.workspacePolicy.sha256,
+    hash(
+      source.replace(
+        needle,
+        '  "@lapismd/design-core": "<development-override>"',
+      ),
+    ),
+  );
+  const workflow = YAML.parse(read(".github/workflows/ci.yml").toString());
+  const guard = workflow.jobs.quality.steps.find((s) =>
+    s.uses?.startsWith("lapismd/lapis-ci/actions/guard-version-runtime@"),
+  );
+  assert.equal(
+    guard.uses,
+    "lapismd/lapis-ci/actions/guard-version-runtime@dd71275c5b2618afceae0b97ee0a071649781971",
+  );
+  assert.equal(guard.if, undefined);
+  assert.equal(guard["continue-on-error"], undefined);
 });

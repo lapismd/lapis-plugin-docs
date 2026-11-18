@@ -50,3 +50,30 @@ package. Runtime ID, domain storage and explicit App ownership remain unchanged.
 The development-only validator now resolves the released Deno-free0.2.1 tool.
 LPD-SPEC-015 publication verification adopts bounded shared registry readiness;
 package/runtime0.3.0, host contracts and Docs behavior remain unchanged.
+
+## Current development catalog
+
+These managed facts describe only the Core development catalog. Public runtime
+contracts and every normal validation and publication gate remain independent.
+
+<!-- dependency-intake:core-development:start -->
+
+```json
+{
+  "schemaVersion": 1,
+  "kind": "development-dependency-intake",
+  "dependency": "@lapismd/design-core",
+  "version": "0.13.4",
+  "peer": "^0.13.4",
+  "integrity": "sha512-pKZpaKOsGVZxV9CJVf309EhKl8YMcj92vxnL26Pv+PXe8thjD2qMaaK+xtqnWjLh3Esevbd2SSnxyUj4x18ikw==",
+  "importers": {
+    ".": {
+      "specifier": "0.13.4",
+      "version": "0.13.4(svelte@5.56.10)(tailwindcss@4.1.12)"
+    }
+  },
+  "policySha256": "a2723a9eb60f2e64b845adbfece1d5fba7bab4117d4ec4fa3e8c5b016cae9052"
+}
+```
+
+<!-- dependency-intake:core-development:end -->
