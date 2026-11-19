@@ -152,7 +152,7 @@ receipt remains historical until the changed closure has actual hosted proof.
 
 | ID | Requirement |
 | --- | --- |
-| LPD-SPEC-020 | Compatible Core development intake MUST retain public peer contracts and registry coordinates, verify source-owned policy and exact current catalog facts in two managed chapters, and run the independent offline guard in ordinary quality/check lanes outside specification exemptions. Only a forward0.13 patch may change the development pin, matching override and mechanical lock closure; unrelated source/catalog changes MUST fail. |
+| LPD-SPEC-020 | Compatible Core development intake MUST retain public peer contracts and registry coordinates, verify source-owned policy and exact current catalog facts in two managed chapters, and run the independent offline guard in ordinary quality/check lanes outside specification exemptions. Only a forward0.13 patch may change the development pin, matching override and mechanical lock closure. Named audit evidence, the public-host cohort and mapped source prose MAY receive only guard-derived graph-hash or Core-version substitutions; source identity, authority, approval, expiry and all other bytes MUST remain unchanged. Unrelated source/catalog changes MUST fail. |
 | LPD-SPEC-021 | Successful existing CI/npm and Pages workflows MAY send a completion hint only through the reviewed immutable coordinator implementation and its matching source policy. Verification MUST precede App minting and final dispatch; candidate code/artifacts/caches, callback self-triggers and inherited secrets MUST remain excluded. Source activation and every audit, functional, publication and ownership gate remain separate. |
 
 Core0.13.4, runtime versions and public peers remain unchanged; version guarding

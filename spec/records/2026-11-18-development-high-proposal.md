@@ -64,6 +64,9 @@ on the host; that failed command preflight is retained and workflows parse clean
 inside the existing immutable tool image with read-only source files, no network
 and no credentials. Docs' initial incorrect `node --test` invocation of Vitest
 suites fails before collection; their actual owning Vitest runner passes.
-Required full audit remains intentionally failing, not waived. Source manifests,
-locks, workspace policies and every version-recipe binding remain unchanged.
-Final focused qualification passes 14 tests and the complete four-lane specification check and App ownership check. The unchanged source input hashes and active-policy boundary are rechecked by the proposal suite. Hosted qualification remains required before merge.
+Required full audit remains intentionally failing, not waived. The proposal
+remains bound to the exact source graph above. A later guarded Core
+development-only intake may rebind only its manifest, lock and workspace hashes
+to that mechanically verified graph; source identity, authority, approval and
+expiry remain byte-identical, and no decision is renewed or transferred.
+Final focused qualification passes 14 tests and the complete four-lane specification check and App ownership check. The exact source input hashes and active-policy boundary are rechecked by the proposal suite. Hosted qualification remains required before merge.

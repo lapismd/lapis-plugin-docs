@@ -13,6 +13,28 @@ const chapters = [
   "spec/src/plugins/docs/index.md",
   "spec/src/spec-governance.md",
 ];
+const graphInputs = ["package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml"];
+const supplementaryTransforms = {
+  ".github/development-audit-high-proposal.json": [
+    "manifestSha256",
+    "lockSha256",
+    "workspaceSha256",
+  ],
+  ".github/development-audit.json": ["manifestSha256", "lockSha256"],
+  "scripts/fixtures/development-high-blocked-decision.json": [
+    "manifestSha256",
+    "lockSha256",
+  ],
+  "scripts/host-cohort.test.mjs": ["version"],
+  "spec/records/2026-11-18-development-high-proposal.md": [
+    "manifestSha256",
+    "lockSha256",
+    "workspaceSha256",
+  ],
+};
+const chapterOutsideTransforms = {
+  "spec/src/spec-governance.md": ["version"],
+};
 const expectedPolicy = {
   schemaVersion: 1,
   kind: "single-development-dependency",
@@ -25,6 +47,48 @@ const fail = (reason) => {
   throw Error(`Docs canonical intake: ${reason}`);
 };
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+export function docsGraphBindings(files) {
+  return {
+    manifestSha256: hash(files["package.json"]),
+    lockSha256: hash(files["pnpm-lock.yaml"]),
+    workspaceSha256: hash(files["pnpm-workspace.yaml"]),
+    version: JSON.parse(files["package.json"]).devDependencies?.[core],
+  };
+}
+function exactTransform(base, fields, previous, candidate, path) {
+  if (typeof base !== "string") fail(`missing supplementary baseline: ${path}`);
+  let expected = base;
+  for (const field of fields) {
+    if (
+      typeof previous[field] !== "string" ||
+      typeof candidate[field] !== "string" ||
+      !expected.includes(previous[field])
+    )
+      fail(`stale supplementary baseline: ${path}`);
+    expected = expected.replaceAll(previous[field], candidate[field]);
+  }
+  return expected;
+}
+function verifySupplementaryTransforms({
+  before,
+  files,
+  baseSupplementaryDocuments,
+  supplementaryDocuments,
+}) {
+  const previous = docsGraphBindings(before),
+    candidate = docsGraphBindings(files);
+  for (const [path, fields] of Object.entries(supplementaryTransforms)) {
+    const expected = exactTransform(
+      baseSupplementaryDocuments?.[path],
+      fields,
+      previous,
+      candidate,
+      path,
+    );
+    if (supplementaryDocuments?.[path] !== expected)
+      fail(`supplementary evidence is not an exact graph rebinding: ${path}`);
+  }
+}
 export function docsCoreFacts(files, policyBytes) {
   if (!equal(JSON.parse(policyBytes), expectedPolicy))
     fail("source policy changed or unsupported");
@@ -176,6 +240,8 @@ export function verifyDocsCanonicalIntake({
   before,
   basePolicyBytes,
   baseDocuments,
+  baseSupplementaryDocuments,
+  supplementaryDocuments,
   changedFiles = [],
 }) {
   const facts = docsCoreFacts(files, policyBytes);
@@ -204,10 +270,9 @@ export function verifyDocsCanonicalIntake({
     changedFiles.some(
       (p) =>
         ![
-          "package.json",
-          "pnpm-workspace.yaml",
-          "pnpm-lock.yaml",
+          ...graphInputs,
           ...chapters,
+          ...Object.keys(supplementaryTransforms),
         ].includes(p),
     )
   )
@@ -232,11 +297,26 @@ export function verifyDocsCanonicalIntake({
     )
   )
     fail("unexpected public contract or registry catalog change");
+  verifySupplementaryTransforms({
+    before,
+    files,
+    baseSupplementaryDocuments,
+    supplementaryDocuments,
+  });
   const oldFacts = docsCoreFacts(before, basePolicyBytes);
+  const previousBindings = docsGraphBindings(before),
+    candidateBindings = docsGraphBindings(files);
   for (const p of chapters) {
     const base = slot(baseDocuments[p]),
-      current = slot(documents[p]);
-    if (!equal(base.facts, oldFacts) || base.outside !== current.outside)
+      current = slot(documents[p]),
+      expectedOutside = exactTransform(
+        base.outside,
+        chapterOutsideTransforms[p] ?? [],
+        previousBindings,
+        candidateBindings,
+        p,
+      );
+    if (!equal(base.facts, oldFacts) || expectedOutside !== current.outside)
       fail("manual source chapter edits or stale baseline");
   }
   return facts;
@@ -247,9 +327,11 @@ export function checkDocsCanonicalIntake(root = process.cwd()) {
     if (realpathSync(target) !== target) fail("non-regular source path");
     return readFileSync(target, "utf8");
   };
-  const inputs = ["package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml"];
-  const files = Object.fromEntries(inputs.map((p) => [p, read(p)])),
-    documents = Object.fromEntries(chapters.map((p) => [p, read(p)]));
+  const files = Object.fromEntries(graphInputs.map((p) => [p, read(p)])),
+    documents = Object.fromEntries(chapters.map((p) => [p, read(p)])),
+    supplementaryDocuments = Object.fromEntries(
+      Object.keys(supplementaryTransforms).map((p) => [p, read(p)]),
+    );
   const run = (args) =>
     execFileSync("jj", ["--ignore-working-copy", ...args], {
       cwd: root,
@@ -273,14 +355,17 @@ export function checkDocsCanonicalIntake(root = process.cwd()) {
       ["--ignore-working-copy", "file", "show", "-r", parents[0], "--", path],
       { cwd: root, encoding: "utf8", maxBuffer: 3 * 1024 * 1024 },
     );
-  const before = Object.fromEntries(inputs.map((p) => [p, base(p)]));
-  let basePolicyBytes, baseDocuments;
+  const before = Object.fromEntries(graphInputs.map((p) => [p, base(p)]));
+  let basePolicyBytes, baseDocuments, baseSupplementaryDocuments;
   if (
     JSON.parse(before["package.json"]).devDependencies?.[core] !==
     JSON.parse(files["package.json"]).devDependencies?.[core]
   ) {
     basePolicyBytes = base(policyPath);
     baseDocuments = Object.fromEntries(chapters.map((p) => [p, base(p)]));
+    baseSupplementaryDocuments = Object.fromEntries(
+      Object.keys(supplementaryTransforms).map((p) => [p, base(p)]),
+    );
   }
   return verifyDocsCanonicalIntake({
     files,
@@ -289,6 +374,8 @@ export function checkDocsCanonicalIntake(root = process.cwd()) {
     before,
     basePolicyBytes,
     baseDocuments,
+    baseSupplementaryDocuments,
+    supplementaryDocuments,
     changedFiles: changesFromVcs({}, root).map((c) => c.path),
   });
 }
