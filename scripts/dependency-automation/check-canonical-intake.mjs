@@ -25,7 +25,7 @@ const supplementaryTransforms = {
     "manifestSha256",
     "lockSha256",
   ],
-  "scripts/host-cohort.test.mjs": ["version"],
+  "scripts/host-cohort.test.mjs": ["hostCohortVersion"],
   "spec/records/2026-11-18-development-high-proposal.md": [
     "manifestSha256",
     "lockSha256",
@@ -33,7 +33,7 @@ const supplementaryTransforms = {
   ],
 };
 const chapterOutsideTransforms = {
-  "spec/src/spec-governance.md": ["version"],
+  "spec/src/spec-governance.md": ["governanceDevelopmentVersion"],
 };
 const expectedPolicy = {
   schemaVersion: 1,
@@ -59,13 +59,25 @@ function exactTransform(base, fields, previous, candidate, path) {
   if (typeof base !== "string") fail(`missing supplementary baseline: ${path}`);
   let expected = base;
   for (const field of fields) {
+    const [from, to] =
+      field === "hostCohortVersion"
+        ? [
+            `["${core}", "${previous.version}"`,
+            `["${core}", "${candidate.version}"`,
+          ]
+        : field === "governanceDevelopmentVersion"
+          ? [
+              `Core${previous.version}, runtime versions`,
+              `Core${candidate.version}, runtime versions`,
+            ]
+          : [previous[field], candidate[field]];
     if (
-      typeof previous[field] !== "string" ||
-      typeof candidate[field] !== "string" ||
-      !expected.includes(previous[field])
+      typeof from !== "string" ||
+      typeof to !== "string" ||
+      !expected.includes(from)
     )
       fail(`stale supplementary baseline: ${path}`);
-    expected = expected.replaceAll(previous[field], candidate[field]);
+    expected = expected.replaceAll(from, to);
   }
   return expected;
 }

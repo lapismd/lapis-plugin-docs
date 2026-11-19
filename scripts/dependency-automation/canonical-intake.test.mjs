@@ -25,7 +25,7 @@ const document = (facts, path) =>
   JSON.stringify(facts, null, 2) +
   "\n```\n\n<!-- dependency-intake:core-development:end -->\n\n" +
   (path === "spec/src/spec-governance.md"
-    ? `Authored Core${facts.version} text.\n`
+    ? `Public Core 0.13.4 remains supported.\nCore${facts.version}, runtime versions remain unchanged.\n`
     : "Authored text.\n");
 function supplementary(files) {
   const bindings = docsGraphBindings(files),
@@ -67,7 +67,8 @@ function supplementary(files) {
         null,
         2,
       ) + "\n",
-    "scripts/host-cohort.test.mjs": `Core cohort ${bindings.version}\n`,
+    "scripts/host-cohort.test.mjs":
+      `["@lapismd/design-core", "${bindings.version}", "legacy"]\n`,
     "spec/records/2026-11-18-development-high-proposal.md":
       `Source ${stable.sourceSha}\nManifest ${bindings.manifestSha256}\nLock ${bindings.lockSha256}\nWorkspace ${bindings.workspaceSha256}\n`,
   };
@@ -134,7 +135,11 @@ describe("source-owned Core intake verification", () => {
     );
   });
   it("verifies the actual pnpm Core0.13.4 to0.13.5 candidate independently of shared rendering", () => {
-    expect(verifyDocsCanonicalIntake(input()).version).toBe("0.13.5");
+    const data = input();
+    expect(verifyDocsCanonicalIntake(data).version).toBe("0.13.5");
+    expect(data.documents["spec/src/spec-governance.md"]).toContain(
+      "Public Core 0.13.4 remains supported.",
+    );
   });
   for (const [name, mutate, message] of [
     [
