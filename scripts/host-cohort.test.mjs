@@ -16,7 +16,7 @@ const workflow = YAML.parse(read(".github/workflows/ci.yml"));
 test("the public host cohort admits the supported registry graph and excludes incompatible legacy peers", () => {
   for (const [name, supported, legacy] of [
     ["@lapis-notes/api", "0.6.6", "0.2.8"],
-    ["@lapismd/design-core", "0.13.6", "0.12.1"],
+    ["@lapismd/design-core", "0.13.7", "0.12.1"],
     ["@lapismd/mira", "0.2.0", "0.1.4"],
     ["@lapismd/mira-editor", "0.0.5", "0.0.4"],
   ]) {

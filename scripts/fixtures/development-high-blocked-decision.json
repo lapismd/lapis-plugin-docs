@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "sourceSha": "b9d3dace06f6eab9e72ac265c2b926f9cad9a2cc",
-  "manifestSha256": "a54a2cacdd8da4a95ce86ec101bbf82edd7296f4d8391bbf79f999369f5ac709",
-  "lockSha256": "1737e2929483a84ed25b47227e7eb4519ac8c8f4e2b0765c87a593e6035d10a0",
+  "manifestSha256": "8ad3ac03857d58e2a8e7e0dfceb30e440be88fb813f257dab0449ce75c03f65c",
+  "lockSha256": "a019cce6da1e76375faf9569d38bd2ef17585bab12d453626a9974e027702df9",
   "checkedAt": "2026-11-18T00:39:33.499Z",
   "rawVulnerabilities": {
     "info": 0,

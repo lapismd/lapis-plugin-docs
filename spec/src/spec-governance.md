@@ -155,7 +155,7 @@ receipt remains historical until the changed closure has actual hosted proof.
 | LPD-SPEC-020 | Compatible Core development intake MUST retain public peer contracts and registry coordinates, verify source-owned policy and exact current catalog facts in two managed chapters, and run the independent offline guard in ordinary quality/check lanes outside specification exemptions. Only a forward0.13 patch may change the development pin, matching override and mechanical lock closure. Named audit evidence, the exact public-host tuple and the mapped `Core<version>, runtime versions` token MAY receive only guard-derived graph-hash or Core-version substitutions; public compatibility evidence, source identity, authority, approval, expiry and all other bytes MUST remain unchanged. Unrelated source/catalog changes MUST fail. |
 | LPD-SPEC-021 | Successful existing CI/npm and Pages workflows MAY send a completion hint only through the reviewed immutable coordinator implementation and its matching source policy. Verification MUST precede App minting and final dispatch; candidate code/artifacts/caches, callback self-triggers and inherited secrets MUST remain excluded. Source activation and every audit, functional, publication and ownership gate remain separate. |
 
-Core0.13.6, runtime versions and public peers remain unchanged; version guarding
+Core0.13.7, runtime versions and public peers remain unchanged; version guarding
 retains the reviewed development-coordinate workspace digest.
 HIGH admission MUST remain disabled until exact user approval; it ends
 November19 at00:00UTC or a fix, whichever comes first.
@@ -177,13 +177,13 @@ contracts and every normal validation and publication gate remain independent.
   "schemaVersion": 1,
   "kind": "development-dependency-intake",
   "dependency": "@lapismd/design-core",
-  "version": "0.13.6",
+  "version": "0.13.7",
   "peer": "^0.13.4",
-  "integrity": "sha512-YSXDpWXFMCI+gEdRGSJ10Ts9ryfRpoCBh08coo8LABouERbQLuv+RKbH+/hW7Bv2Q+IMgzcclDVxh5S/98ETfA==",
+  "integrity": "sha512-oJXRalyUybTYYK1wJG++zaEQk2GoRgt4GubMKXmQaSSBTH5senGHxT3dBlvMnKAH0MzpMhlRcDMhCtTGvjPZ0w==",
   "importers": {
     ".": {
-      "specifier": "0.13.6",
-      "version": "0.13.6(svelte@5.56.10)(tailwindcss@4.1.12)"
+      "specifier": "0.13.7",
+      "version": "0.13.7(svelte@5.56.10)(tailwindcss@4.1.12)"
     }
   },
   "policySha256": "a2723a9eb60f2e64b845adbfece1d5fba7bab4117d4ec4fa3e8c5b016cae9052"
