@@ -177,13 +177,13 @@ contracts and every normal validation and publication gate remain independent.
   "schemaVersion": 1,
   "kind": "development-dependency-intake",
   "dependency": "@lapismd/design-core",
-  "version": "0.13.6",
+  "version": "0.13.7",
   "peer": "^0.13.4",
-  "integrity": "sha512-YSXDpWXFMCI+gEdRGSJ10Ts9ryfRpoCBh08coo8LABouERbQLuv+RKbH+/hW7Bv2Q+IMgzcclDVxh5S/98ETfA==",
+  "integrity": "sha512-oJXRalyUybTYYK1wJG++zaEQk2GoRgt4GubMKXmQaSSBTH5senGHxT3dBlvMnKAH0MzpMhlRcDMhCtTGvjPZ0w==",
   "importers": {
     ".": {
-      "specifier": "0.13.6",
-      "version": "0.13.6(svelte@5.56.10)(tailwindcss@4.1.12)"
+      "specifier": "0.13.7",
+      "version": "0.13.7(svelte@5.56.10)(tailwindcss@4.1.12)"
     }
   },
   "policySha256": "a2723a9eb60f2e64b845adbfece1d5fba7bab4117d4ec4fa3e8c5b016cae9052"
